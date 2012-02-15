@@ -103,7 +103,7 @@ sub edbi_get_select_mdata {
     }
 
     my $sql = "select $cols_sql_str $sql_base";
-    return ( $sql, $name_to_pos, $pos_to_name ); 
+    return ( $sql, $name_to_pos, $pos_to_name );
 }
 
 
@@ -119,7 +119,7 @@ sub edbi_run_dbh_do {
     my $sql = undef;
     my $name_to_pos = [];
     my $pos_to_name = [];
-    
+
     my $prepare_cols = ( defined $cols );
 
     if ( $prepare_cols ) {
@@ -133,14 +133,14 @@ sub edbi_run_dbh_do {
 
     #my $data = $schema->storage->dbh->selectall_arrayref( $sql, {}, @$ba );
     my $schema = $c->model('WebDB')->schema;
-    
+
     if ( $schema->storage->debug ) {
         print STDERR $sql;
         print STDERR "\n" if $sql !~ m{\n\s*$}s;
         print STDERR 'me: ' . Data::Dumper::Dumper( $ba );
         print STDERR "\n";
     }
-    
+
     my $data = undef;
     if ( $method_name eq 'selectall_hashref' ) {
         unless ( $conf->{key_field} ) {
@@ -152,7 +152,7 @@ sub edbi_run_dbh_do {
             sub { return $_[1]->$method_name( $_[2], $conf->{key_field}, {}, @{$_[3]} ); },
             $sql, $ba
         );
-    
+
     } elsif ( $method_name eq 'selectall_arrayref' && $conf->{slice} )  {
         $data = $schema->storage->dbh_do(
             sub { return $_[1]->$method_name( $_[2], { Slice => {} }, @{$_[3]} ); },
@@ -172,7 +172,7 @@ sub edbi_run_dbh_do {
             print STDERR $str;
         }
     }
-    
+
     my $rh = {};
     if ( $prepare_cols ) {
         $rh = {
@@ -218,7 +218,7 @@ Run eDBI edbi_selectall_arrayref with { Slice => 1 }.
 
 sub edbi_selectall_arrayref_slice {
     my ( $self, $c, $cols, $sql_base, $ba, $conf ) = @_;
-    
+
     $conf = {} unless defined $conf;
     $conf->{slice} = 1;
     my $do_data = $self->edbi_run_dbh_do( $c, 'selectall_arrayref', $cols, $sql_base, $ba, $conf );
@@ -295,6 +295,22 @@ sub get_projname_params {
     $self->dumper( $c, { is_index => $is_index, project_name => $project_name, params => $params, } );
 
     return ( $is_index, $project_name, $params );
+}
+
+
+sub process_projec_ref_url {
+    my ( $self, $c, $p_project_name, $p_ref_name ) = @_;
+
+    my $project_name = $p_project_name;
+    $c->stash->{project_name} = $project_name;
+
+    my $ref_name = $p_ref_name;
+    # Replace -- to /. Allow / in url path.
+    $ref_name =~ s{--}{\/}g; # ToDo
+    $c->stash->{ref_name} = $ref_name;
+
+    $self->dumper( $c, { project_name => $project_name, ref_name => $ref_name } );
+    return ( $project_name, $ref_name );
 }
 
 
