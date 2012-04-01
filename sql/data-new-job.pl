@@ -50,8 +50,8 @@ return sub {
     my $job_rs = $schema->resultset('job')->create({
         'client_min_ver' => 257,
         'priority' => $job_priority,
-        'name' => 'Parrot (optimized)',
-        'descr' => 'Optimized build - perl Configuer.pl --optimize.',
+        'name' => 'Parrot trun',
+        'descr' => 'Parrot make test (upload Test::Harness::Archive).',
     });
     my $job_id = $job_rs->id;
     print "job_id $job_id\n";
@@ -78,8 +78,9 @@ return sub {
 
         [  $jobp_id, 1, 1, undef ],
         [  $jobp_id, 2, 2, undef ],
-        [  $jobp_id, 3, 4, '--optimize' ],
+        [  $jobp_id, 3, 4, undef ],
         [  $jobp_id, 4, 5, undef ],
+        [  $jobp_id, 5, 6, undef ], # trun
     ]);
 
     return 1;
