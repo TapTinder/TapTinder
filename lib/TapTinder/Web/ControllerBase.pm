@@ -305,12 +305,19 @@ sub process_projec_ref_url {
     $c->stash->{project_name} = $project_name;
 
     my $ref_name = $p_ref_name;
-    # Replace -- to /. Allow / in url path.
+    # Replace '--' to '/' to "allow" '/' in url path.
     $ref_name =~ s{--}{\/}g; # ToDo
     $c->stash->{ref_name} = $ref_name;
 
     $self->dumper( $c, { project_name => $project_name, ref_name => $ref_name } );
     return ( $project_name, $ref_name );
+}
+
+
+sub process_project_ref_args {
+    my ( $self, $c, $p_project_name, $p_ref_name ) = @_;
+    my ( $project_name, $ref_name ) = $self->process_projec_ref_url( $c, $p_project_name, $p_ref_name );
+    $c->stash->{prref_info} = TapTinder::Web::Project::get_project_ref_info( $self, $c, $project_name, $ref_name );
 }
 
 

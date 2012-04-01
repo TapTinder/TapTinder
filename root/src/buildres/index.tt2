@@ -41,7 +41,7 @@
     [% END %]
 
     [% IF res.status_name %]
-    <a href="[% c.uri_for( '/cmdinfo/' _ res.msjobp_cmd_id ) %]">[% res.status_name %]</a>
+    <a href="[% c.uri_for( '/cr/' _ res.msjobp_cmd_id ) %]">[% res.status_name %]</a>
     [% ELSE %]
     -
     [% END %]

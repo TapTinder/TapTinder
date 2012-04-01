@@ -32,7 +32,7 @@
 
     <td>[% st.machine_name %]</td>
 
-    <td><a href="[% c.uri_for( '/cmdinfo/' _ st.last_finished_msjobp_cmd_id ) %]">[% st.last_cmd_name %]</a> [% st.last_cmd_project_name %] [% st.last_cmd_rcommit_sha.substr(0,8) %]</td>
+    <td><a href="[% c.uri_for( '/cr/' _ st.last_finished_msjobp_cmd_id ) %]">[% st.last_cmd_name %]</a> [% st.last_cmd_project_name %] [% st.last_cmd_rcommit_sha.substr(0,8) %]</td>
     <td>[% st.last_cmd_end_time %]</td>
 
     <td>[% st.msproc_status_name %]</td>

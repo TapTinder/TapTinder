@@ -1,6 +1,6 @@
-package TapTinder::Web::Controller::BuildStatus;
+package TapTinder::Web::Controller::BuildRes;
 
-# ABSTRACT: TapTinder::Web buildstat controller.
+# ABSTRACT: TapTinder::Web build results controller.
 
 use base 'TapTinder::Web::ControllerBase';
 use strict;
@@ -10,7 +10,7 @@ use TapTinder::Web::Project;
 
 =head1 DESCRIPTION
 
-Catalyst controller for TapTinder. Shows build status.
+Catalyst controller for TapTinder::Web to show build results.
 
 =method index
 
@@ -18,12 +18,14 @@ Base index method.
 
 =cut
 
-sub index : Path  {
-    my ( $self, $c, $p_project_name, $p_ref_name, $p_jobp_id, @args  ) = @_;
+sub index_setup :  PathPart('br') Chained('/') CaptureArgs(2) {
+	shift->process_project_ref_args( @_ );
+}
 
-    my ( $project_name, $ref_name ) = $self->process_projec_ref_url( $c, $p_project_name, $p_ref_name );
-    my $prref_info = TapTinder::Web::Project::get_project_ref_info( $self, $c, $project_name, $ref_name );
-    my $rref_id = $prref_info->{rref_id};
+
+sub index : PathPart('') Chained('index_setup') {
+    my ( $self, $c, $p_jobp_id, @args  ) = @_;
+    my $prref_info = $c->stash->{prref_info};
 
     my $jobp_id = $p_jobp_id;
     unless ( $jobp_id ) {
@@ -41,7 +43,7 @@ sub index : Path  {
         ( $cmd_id ) = $args[0] =~ /^c\-(\d+)$/;
     }
 
-    my @rcommits = TapTinder::Web::Project::get_rcommits( $self, $c, $rref_id );
+    my @rcommits = TapTinder::Web::Project::get_rcommits( $self, $c, $prref_info->{rref_id} );
     return 1 unless scalar @rcommits;
 
 
@@ -94,7 +96,7 @@ sub index : Path  {
 
     $self->dadd( $c, "jobp_id: $jobp_id\n" );
     my $ba = [
-        $rref_id,
+        $prref_info->{rref_id},
         $commit_time_from,
         $commit_time_to,
         $jobp_id, # jp.jobp_id
