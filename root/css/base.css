@@ -89,8 +89,12 @@ table th,
 table td {
     padding:            0.1em 0.5em 0.1em 0.5em;
     margin:             0.1em;
-    vertical-align:     top;
+    vertical-align:     middle;
     white-space: 		nowrap;
+}
+
+table th {
+    vertical-align:     top;
 }
 
 .red {
@@ -147,7 +151,6 @@ table td.ok a {
 .err_bg,
 table td.err,
 table td.err a {
-    font-family: "Courier New", Courier, monospace;
     color: red;
     font-weight: bold;
 }
@@ -255,7 +258,7 @@ ul.menu li {
 }
 
 #footer {
-    border-top: 1px solid #d3dce3; 
+    border-top: 1px solid #d3dce3;
 	border-bottom: 1px solid #d3dce3; 
 	margin: 1.5em 0px 1em 0px;
 	padding: 0.3em 1em 0.25em 1em;
