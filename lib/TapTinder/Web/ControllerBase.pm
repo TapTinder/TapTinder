@@ -2,13 +2,23 @@ package TapTinder::Web::ControllerBase;
 
 # ABSTRACT: TapTinder::Web base class for controllers.
 
-use base 'Catalyst::Controller';
 use strict;
 use warnings;
+
+use Moose;
+use namespace::autoclean;
+
+BEGIN { extends 'Catalyst::Controller' }
 
 use Data::Page::HTML qw();
 use DBIx::Dumper qw();
 use Data::Dumper qw();
+
+#
+# Sets the actions in this controller to be registered with no prefix
+# so they function identically to actions created in MyApp.pm
+#
+__PACKAGE__->config(namespace => '');
 
 =head1 DESCRIPTION
 
@@ -376,12 +386,12 @@ sub get_fspath_select_row {
     return $row_data;
 }
 
-
 =head1 SEE ALSO
 
 L<TapTinder::Web>, L<Catalyst::Controller>
 
 =cut
 
+__PACKAGE__->meta->make_immutable;
 
 1;

@@ -1,15 +1,29 @@
 package TapTinder::Web;
+use Moose;
+use namespace::autoclean;
 
 # ABSTRACT: Web user interface for TapTinder Server.
 
 use strict;
 use warnings;
-
 use Data::Dumper;
 
-use Catalyst::Runtime '5.70';
+use Catalyst::Runtime 5.80;
+
+# Set flags and add plugins for the application.
+#
+# Note that ORDERING IS IMPORTANT here as plugins are initialized in order,
+# therefore you almost certainly want to keep ConfigLoader at the head of the
+# list if you're using it.
+#
+#         -Debug: activates the debug mode for very useful log messages
+#   ConfigLoader: will load the configuration from a Config::General file in the
+#                 application's home directory
+# Static::Simple: will serve static files from the application's root
+#                 directory
 
 use Catalyst qw/
+    -Debug
     StackTrace
 
     Config::Multi
@@ -20,9 +34,11 @@ use Catalyst qw/
     Session
     Session::Store::FastMmap
     Session::State::Cookie
-
 /;
 
+extends 'Catalyst';
+
+our $VERSION = '0.60';
 
 # Note that settings in web_*.yml take precedence over this.
 # Thus configuration details given here can function as a default
@@ -30,6 +46,8 @@ use Catalyst qw/
 # as an override for local deployment.
 
 TapTinder::Web->config(
+    # Disable deprecated behavior needed by old applications
+    #disable_component_resolution_regex_fallback => 1,
     'namespace' => '',
     'default_view' => 'TT',
     'Plugin::Config::Multi' => {
