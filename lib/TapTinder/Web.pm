@@ -56,7 +56,7 @@ TapTinder::Web->config(
         app_name => 'web',
         extension => 'yml',
     },
-    'static' => {
+    'Plugin::Static::Simple' => {
         #logging => 1,
         #debug => 1,
         mime_types => {
