@@ -47,11 +47,15 @@ TT_DB_PASSWD=$(cat /dev/urandom | tr -dc 'a-zA-Z0-9' | fold -w 16 | head -n 1)
 ROOT_DB_PASSWD=$(cat $ROOT_PASSWD_FPATH)
 
 USER_EXISTS=$(/usr/bin/mysql -uroot -p"$ROOT_DB_PASSWD" -N -s -r -e $"SELECT 1 FROM mysql.user WHERE user='${TT_DB_USER}'")
-if [ "$USER_EXISTS" = "" ]; then
-	/usr/bin/mysql -uroot -p"$ROOT_DB_PASSWD" -e $"CREATE USER '${TT_DB_USER}'@'localhost' IDENTIFIED BY '${TT_DB_PASSWD}'";
+if [ "$USER_EXISTS" ]; then
+	echo "User '$TT_DB_USER' already exists."
+	/usr/bin/mysql -uroot -p"$ROOT_DB_PASSWD" -e "UPDATE mysql.user SET Password=PASSWORD('$TT_DB_PASSWD') WHERE User='$TT_DB_USER';"
+else
+	/usr/bin/mysql -uroot -p"$ROOT_DB_PASSWD" -e "CREATE USER '${TT_DB_USER}'@'localhost' IDENTIFIED BY '${TT_DB_PASSWD}'";
 fi
-/usr/bin/mysql -uroot -p"$ROOT_DB_PASSWD" -e $"CREATE DATABASE IF NOT EXISTS ${TT_DB_NAME};"
-/usr/bin/mysql -uroot -p"$ROOT_DB_PASSWD" -e $"GRANT ALL ON ${TT_DB_NAME}.* to '${TT_DB_NAME}'@'localhost'"
+/usr/bin/mysql -uroot -p"$ROOT_DB_PASSWD" -e "CREATE DATABASE IF NOT EXISTS ${TT_DB_NAME};"
+/usr/bin/mysql -uroot -p"$ROOT_DB_PASSWD" -e "GRANT ALL ON ${TT_DB_NAME}.* to '${TT_DB_USER}'@'localhost'"
+/usr/bin/mysql -uroot -p"$ROOT_DB_PASSWD" -e "FLUSH PRIVILEGES;"
 
 CONF_FPATH='conf/web_db.yml'
 echo $"---
@@ -62,5 +66,6 @@ db:
     pass: '${TT_DB_PASSWD}'
 " > $CONF_FPATH
 chmod og-rwx $CONF_FPATH
+echo "Configuration file '$CONF_FPATH' was recreated."
 
-echo "TapTinder '${TT_ENV} setup finished ok."
+echo "TapTinder '${TT_ENV}' setup finished ok."
