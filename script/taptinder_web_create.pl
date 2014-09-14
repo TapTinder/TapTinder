@@ -23,7 +23,7 @@ taptinder_web_create.pl [options] model|view|controller name [helper] [options]
 
  Examples:
    taptinder_web_create.pl controller My::Controller
-   taptinder_web_create.pl -mechanize controller My::Controller
+   taptinder_web_create.pl --mechanize controller My::Controller
    taptinder_web_create.pl view My::View
    taptinder_web_create.pl view HTML TT
    taptinder_web_create.pl model My::Model

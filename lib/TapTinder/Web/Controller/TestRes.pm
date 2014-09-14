@@ -1,14 +1,16 @@
-package TapTinder::Web::Controller::Report;
+package TapTinder::Web::Controller::TestRes;
 
-# ABSTRACT: TapTinder::Web report controller.
+# ABSTRACT: TapTinder::Web test results controller.
 
 use base 'TapTinder::Web::ControllerBase';
 use strict;
 use warnings;
 
+use TapTinder::Web::Project;
+
 =head1 DESCRIPTION
 
-Catalyst controller for TapTinder web reports. The actions for reports browsing.
+Catalyst controller for TapTinder::Web to show test results and to allow comparing them.
 
 =cut
 
@@ -55,7 +57,7 @@ sub get_trun_infos {
             },
             '+select' => [qw/
                 rev_id.rev_id rev_id.rev_num rev_id.date rev_id.msg
-                author_id.rep_login
+                author_id.rlogin
                 status_id.name status_id.desc
                 cmd_id.name jobp_id.name job_id.name
                 machine_id.machine_id machine_id.name machine_id.osname machine_id.cpuarch
@@ -64,7 +66,7 @@ sub get_trun_infos {
             /],
             '+as' => [qw/
                 rev_id rev_num rev_date rev_msg
-                rev_author_rep_login
+                rev_author_rlogin
                 mjpc_status mjpc_status_desc
                 jobp_cmd_name jobp_name job_name
                 machine_id machine_name machine_osname machine_cpuarch
@@ -93,29 +95,29 @@ sub get_ttest_rs {
         },
         {
             join => [
-                { rep_test_id => 'rep_file_id', },
+                { rtest_id => 'rfile_id', },
             ],
             '+select' => [qw/
-                rep_test_id.rep_file_id
-                rep_test_id.number
-                rep_test_id.name
+                rtest_id.rfile_id
+                rtest_id.number
+                rtest_id.name
 
-                rep_file_id.rep_path_id
-                rep_file_id.sub_path
-                rep_file_id.rev_num_from
-                rep_file_id.rev_num_to
+                rfile_id.rpath_id
+                rfile_id.sub_path
+                rfile_id.rev_num_from
+                rfile_id.rev_num_to
             /],
             '+as' => [qw/
-                rep_file_id
+                rfile_id
                 test_number
                 test_name
 
-                rep_path_id
+                rpath_id
                 sub_path
                 rev_num_from
                 rev_num_to
             /],
-            order_by => [ 'rep_file_id.sub_path', 'me.rep_test_id' ],
+            order_by => [ 'rfile_id.sub_path', 'me.rtest_id' ],
         }
     );
     return $rs;
@@ -173,7 +175,7 @@ sub action_do_one {
     my %trest_infos = $self->get_trest_infos( $c ) ;
     $c->stash->{trest_infos} = \%trest_infos;
 
-    $c->stash->{template} = 'report/diff.tt2';
+    $c->stash->{template} = 'testres/diff.tt2';
     return;
 }
 
@@ -184,7 +186,7 @@ sub action_do_many {
     my @trun_infos = $self->get_trun_infos( $c, $ra_selected_trun_ids ) ;
     $c->stash->{trun_infos} = \@trun_infos;
 
-    # Get all ttest and related rep_test and rep_file info from database.
+    # Get all ttest and related rtest and rfile info from database.
     # Ok results aren't saved.
     my $rs = $self->get_ttest_rs( $c, $ra_selected_trun_ids ) ;
 
@@ -195,8 +197,8 @@ sub action_do_many {
     my $num_of_res = scalar @$ra_selected_trun_ids;
     my %row;
     my %prev_row = ();
-    my $same_rep_path_id = 1;
-    # $rs is ordered by ttest.rep_test_id
+    my $same_rpath_id = 1;
+    # $rs is ordered by ttest.rtest_id
 
 
     # We need $prev_row, $row and info if next row will be defined.
@@ -217,12 +219,12 @@ sub action_do_many {
 
         if ( defined $res ) {
             %row = ( $res->get_columns() );
-            $same_rep_path_id = 0 if %prev_row && $row{rep_path_id} != $prev_row{rep_path_id};
+            $same_rpath_id = 0 if %prev_row && $row{rpath_id} != $prev_row{rpath_id};
         }
 
 
-        # Another one rep_test. Find if results for truns are same.
-        if ( (not defined $res) || $prev_rt_id != $row{rep_test_id} ) {
+        # Another one rtest. Find if results for truns are same.
+        if ( (not defined $res) || $prev_rt_id != $row{rtest_id} ) {
             my $are_same = 1;
             if ( $prev_rt_id ) {
                 $are_same = 0 if scalar( keys %res_ids_sum ) > 1;
@@ -277,7 +279,7 @@ sub action_do_many {
             last TTEST_NEXT unless defined $res;
 
             %prev_row = %row;
-            $prev_rt_id = $row{rep_test_id};
+            $prev_rt_id = $row{rtest_id};
             %res_cache = ();
             %res_ids_sum = ();
         }
@@ -292,7 +294,7 @@ sub action_do_many {
 
     $self->dumper( $c, \@trun_infos );
     $self->dumper( $c, \@ress );
-    $c->stash->{same_rep_path_id} = $same_rep_path_id;
+    $c->stash->{same_rpath_id} = $same_rpath_id;
     $c->stash->{ress} = \@ress;
 
     my %trest_infos = $self->get_trest_infos( $c ) ;
@@ -304,192 +306,43 @@ sub action_do_many {
 
 =head2 index
 
+
+
 =cut
 
-sub index : Path  {
-    my ( $self, $c, $p_project, $par1, $par2, @args ) = @_;
 
-    my ( $is_index, $project_name, $params ) = $self->get_projname_params( $c, $p_project, $par1, $par2 );
-    my $pr = $self->get_page_params( $params );
+sub compare :  PathPart('tr/compare') Chained('/') Args(0) {
+    my ( $self, $c, @args ) = @_;
 
-    # ToDo - port to Git
-    return 1;
+	die 'do';
     
-    #$c->model('WebDB')->storage->debug(1);
+}
 
-    if ( $is_index ) {
-        my $search = { active => 1, };
-        $search->{'project_id.name'} = $project_name if $project_name;
-        my $rs = $c->model('WebDB::rep')->search( $search,
-            {
-                join => [qw/ project_id /],
-                'select' => [qw/ rep_id project_id.name project_id.url /],
-                'as' => [qw/ rep_id name url /],
-            }
-        );
 
-        my @projects = ();
-        my %rep_paths = ();
+sub list_pr_setup :  PathPart('tr/list') Chained('/') CaptureArgs(2) {
+	shift->process_project_ref_args( @_ );
+}
 
-        while (my $row = $rs->next) {
-            my $project_data = { $row->get_columns };
 
-            my $plus_rows = [ qw/ max_rev_num rev_id author_id date rep_login /];
+sub list_pr :  PathPart('') Chained('list_pr_setup') Args(0) {
+    my ( $self, $c ) = @_;
 
-            my $search_conf = {
-                '+select' => $plus_rows,
-                '+as' => $plus_rows,
-                bind  => [ $project_data->{rep_id} ],
-                rows  => $pr->{rows} || 15,
-            };
-            if ( $project_name ) {
-                $search_conf->{page} = $pr->{page};
-            }
-            my $rs_rp = $c->model('WebDB')->schema->resultset( 'ActiveRepPathList' )->search( {}, $search_conf );
+    my $rref_id = $c->stash->{prref_info}{rref_id};
 
-            if ( $project_name ) {
-                my $base_uri = '/' . $c->action->namespace . '/pr-' . $project_name . '/page-';
-                my $page_uri_prefix = $c->uri_for( $base_uri )->as_string;
-                $c->stash->{pager_html} = $self->get_pager_html( $rs_rp->pager, $page_uri_prefix );
-            }
+    $c->stash->{template} = 'testres/index.tt2';
 
-            my $row_project_name = $project_data->{name};
-            $rep_paths{ $row_project_name } = [];
+    my @rcommits = TapTinder::Web::Project::get_rcommits( $self, $c, $rref_id, {rows=>10} );
+    return 1 unless scalar @rcommits;
 
-            while (my $row_rp = $rs_rp->next) {
-                my $row_rp_data = { $row_rp->get_columns };
-                my $path = $row_rp_data->{path};
-                $path =~ s{\/$}{};
-                my ( $path_nice, $path_report_uri, $path_type );
-                my $path_report_uri_base = $c->uri_for( '/' . $c->action->namespace, 'pr-' . $row_project_name, 'rp-' )->as_string;
-
-                # branches, tags
-                if ( my ( $bt, $name ) = $path =~ m{^(branches|tags)\/(.*)$} ) {
-                    if ( $bt eq 'branches' ) {
-                        $path_type = 'branch';
-                    } elsif ( $bt eq 'tags' ) {
-                        $path_type = 'tag';
-                    }
-                    $path_nice = $name;
-
-                    $path_report_uri = $path;
-                    $path_report_uri =~ s{\/}{-};
-                    $path_report_uri = $path_report_uri_base . $path_report_uri;
-                # trunk
-                } else {
-                    $path_type = '';
-                    $path_nice = $path;
-                    $path_report_uri = $path_report_uri_base . $path;
-                }
-                $row_rp_data->{path_type} = $path_type;
-                $row_rp_data->{path_nice} = $path_nice;
-                $row_rp_data->{path_report_uri} = $path_report_uri;
-                push @{ $rep_paths{ $row_project_name } }, $row_rp_data;
-            }
-
-            push @projects, $project_data;
-        }
-        $c->stash->{projects} = \@projects;
-        $c->stash->{rep_paths} = \%rep_paths;
-        $c->stash->{template} = 'report/index.tt2';
-
-        return;
-    }
-
-    if ( $par1 =~ /^do/ ) {
-        return $self->action_do( $c );
-    }
-
-    # project path selected
-    my $p_rep_path = $par1;
-    my $rep_path_simple = $p_rep_path;
-    $rep_path_simple =~ s{^rp-}{};
-    my $rep_path_db = $rep_path_simple;
-    $rep_path_db =~ s{-}{\/}g;
-    $rep_path_db .= '/';
-
-    $c->stash->{rep_path_param} = $p_rep_path;
-    $c->stash->{template} = 'report/report.tt2';
-
-    my $rs = $c->model('WebDB::rep_path')->find(
-        {
-            path => $rep_path_db,
-            'project_id.name' => $project_name
-        },
-        {
-            join => { rep_id => 'project_id', },
-            '+select' => [qw/ project_id.project_id /],
-            '+as'     => [qw/ project_id /],
-        }
-    );
-    unless ( $rs ) {
-        $c->stash->{error} = "Rep_path '$rep_path_db' for project '$project_name' not found.";
-        return;
-    }
-    my $rep_path_id = $rs->rep_path_id ;
-    my $project_id = $rs->get_columns('project_id') ;
-
-    my ( $path_nice, $path_type );
-    # branches, tags
-    if ( my ( $bt, $name ) = $rep_path_simple =~ m{^(branches|tags)\-(.*)$} ) {
-        if ( $bt eq 'branches' ) {
-            $path_type = 'branch ';
-        } elsif ( $bt eq 'tags' ) {
-            $path_type = 'tag ';
-        }
-        $path_nice = $name;
-
-    # trunk
-    } else {
-        $path_type = '';
-        $path_nice = $rep_path_simple;
-    }
-
-    #$self->dadd( $c, "rep_path_id: $rep_path_id\n\n" );
-    my $rev_search_conf = {
-        'get_rev_rep_path.rep_path_id' => $rep_path_id,
-    };
-    my $rev_search_attrs = {
-        join => [
-            'get_rev_rep_path',
-            'author_id',
-        ],
-        'select' => [qw/
-            get_rev_rep_path.rep_path_id
-            me.rev_id
-            me.rev_num
-            me.date
-            me.author_id
-            author_id.rep_login
-            me.msg
-         /],
-        'as' => [qw/
-            rep_path_id
-            rev_id
-            rev_num
-            date
-            author_id
-            rep_login
-            msg
-        /],
-        order_by => 'me.rev_num DESC',
-        page => $pr->{page},
-        rows => $pr->{rows} || 5,
-        #offset => $pr->{offset} || 0,
-    };
-    #$self->dumper( $c, $rev_search_conf );
-    #$self->dumper( $c, $rev_search_attrs );
-
-    $rs = $c->model('WebDB::rev')->search( $rev_search_conf, $rev_search_attrs );
+    $self->dumper( $c, \@rcommits );
+    $c->stash->{rcommits} = \@rcommits;
 
     my $trun_search = {
         join => [
             { msjobp_cmd_id => [
                 { msjobp_id => [
-                    'jobp_id', { msjob_id => { msession_id => 'machine_id', } },
+                    'jobp_id', { msjob_id => { msproc_id => { msession_id => 'machine_id', } } },
                 ] },
-                { output_id => 'fspath_id', },
-                { outdata_id => 'fspath_id', },
             ], },
         ],
         'select' => [qw/
@@ -508,11 +361,8 @@ sub index : Path  {
             me.skip
             me.bonus
             me.ok
-
-            output_id.name
-            fspath_id.web_path
-            outdata_id.name
-            fspath_id_2.web_path
+            
+            msjobp_id.rcommit_id
         /],
         'as' => [qw/
             machine_id
@@ -530,60 +380,44 @@ sub index : Path  {
             skip
             bonus
             ok
-
-            output_fname
-            output_web_path
-            outdata_fname
-            outdata_web_path
+            
+            rcommit_id
         /],
         order_by => 'machine_id',
 
     };
 
-    my @revs = ();
+    my $trun_rs = $c->model('WebDB::trun')->search(
+        {
+            'me.trun_status_id' => 2, # ok - archive parsed and loaded to DB
+            'msjobp_id.rcommit_id' => [ map { $_->{rcommit_id} } @rcommits ],
+        },
+        $trun_search
+    );
+    
     my $builds = {};
-    while (my $rev = $rs->next) {
-        my %rev_rows = ( $rev->get_columns() );
-
-        my $rs_build = $c->model('WebDB::trun')->search(
-            {
-                'me.trun_status_id' => 2, # ok
-                'jobp_id.rep_path_id' => $rev_rows{rep_path_id},
-                'msjobp_id.rev_id' => $rev_rows{rev_id},
-            },
-            $trun_search
-        );
-        push @revs, \%rev_rows;
-
-        while (my $build = $rs_build->next) {
-            my %build_rows = ( $build->get_columns() );
-            $self->dumper( $c, \%build_rows );
-            push @{$builds->{ $rev_rows{rev_id} }->{ $rev_rows{rep_path_id} }}, \%build_rows;
-        }
+    while (my $trun = $trun_rs->next) {
+        my %trun_rows = ( $trun->get_columns() );    
+        #$self->dumper( $c, \%trun_rows );
+        push @{$builds->{ $trun_rows{rcommit_id} }}, \%trun_rows;
     }
-    #$c->stash->{dump} = sub { return Dumper( \@_ ); };
-    #$self->dumper( $c, $builds );
-    $c->stash->{revs} = \@revs;
+
+    $self->dumper( $c, $builds );
     $c->stash->{builds} = $builds;
-
-    $c->stash->{project_id} = $project_id;
-    $c->stash->{rep_path_id} = $rep_path_id;
-
-    $c->stash->{rep_path_nice} = $path_nice;
-    $c->stash->{rep_path_type} = $path_type;
-    my $path_full = $path_nice;
-    $path_full = $path_type . ' ' . $path_full if $path_type;
-    $c->stash->{rep_path_full} = $path_full;
-
-    my $base_uri = '/' . $c->action->namespace . '/' . $p_project . '/' . $p_rep_path . '/page-';
-    my $page_uri_prefix = $c->uri_for( $base_uri )->as_string;
-    $c->stash->{pager_html} = $self->get_pager_html( $rs->pager, $page_uri_prefix );
 }
 
 
 =head1 SEE ALSO
 
 L<TapTinder::Web>, L<Catalyst::Controller>
+
+=head1 AUTHOR
+
+Michal Jurosz <mj@mj41.cz>
+
+=head1 LICENSE
+
+This file is part of TapTinder. See L<TapTinder> license.
 
 =cut
 

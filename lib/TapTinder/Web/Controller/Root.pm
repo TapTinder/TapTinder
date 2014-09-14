@@ -53,6 +53,11 @@ sub homepage :Path :Args(0) {
     $c->stash->{template} =  'index.tt2';
 }
 
+
+sub default : Path {
+	die 'No valid url.';
+}
+
 =method end
 
 Attempt to render a view, if needed.

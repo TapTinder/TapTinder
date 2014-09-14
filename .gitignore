@@ -9,3 +9,9 @@
 /root/dbdoc
 /root/lib/config/main
 /root/file
+/blib/*
+/inc/*
+META.yml
+MYMETA.json
+MYMETA.yml
+Makefile

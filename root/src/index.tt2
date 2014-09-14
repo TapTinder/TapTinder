@@ -7,7 +7,7 @@
   <div class="mcell_content">
   [% FOREACH rr IN rref -%]
     [% IF rr.project_id == pr.project_id %]
-      <a href="[% c.uri_for( '/buildstatus/' _ pr.name _ '/' _ rr.rref_name.replace('/','--') ) %]">[% rr.rref_name %]</a>
+      <a href="[% c.uri_for( '/br/' _ pr.name _ '/' _ rr.rref_name.replace('/','--') ) %]">[% rr.rref_name %]</a>
       <br>
     [% END %]
   [% END %]

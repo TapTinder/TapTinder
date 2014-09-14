@@ -1,6 +1,6 @@
-package TapTinder::Web::Controller::CmdInfo;
+package TapTinder::Web::Controller::CmdRes;
 
-# ABSTRACT: TapTinder::Web cmdinfo controller.
+# ABSTRACT: TapTinder::Web cr controller.
 
 use strict;
 use warnings;
@@ -20,7 +20,7 @@ Base index method.
 
 =cut
 
-sub index : Path  {
+sub index : PathPart('cr') Chained('/') Args(1) {
     my ( $self, $c, $msjobp_cmd_id ) = @_;
 
     # Info about this msjobp_cmd_id
