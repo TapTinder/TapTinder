@@ -1435,7 +1435,7 @@ ot - output type, allowed 'html' and 'json', default 'json'
 =cut
 
 
-sub index : Path Args(0) {
+sub index : Path {
     my ( $self, $c, $action, @args ) = @_;
 
     $self->process_action( $c, $action );
