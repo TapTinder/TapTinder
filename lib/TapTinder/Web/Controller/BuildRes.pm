@@ -18,7 +18,7 @@ Base index method.
 
 =cut
 
-sub index_setup :  PathPart('br') Chained('/') CaptureArgs(2) {
+sub index_setup : PathPart('br') Chained('/') CaptureArgs(2) {
 	shift->process_project_ref_args( @_ );
 }
 

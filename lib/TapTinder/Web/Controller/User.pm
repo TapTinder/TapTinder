@@ -12,7 +12,7 @@ Catalyst controller for TapTinder web user.
 
 =cut
 
-sub index :Path :Args(0) {
+sub index : Path Args(0) {
     my ( $self, $c ) = @_;
 
     unless ( $c->user_exists() ) {
@@ -25,7 +25,7 @@ sub index :Path :Args(0) {
 }
 
 
-sub home :Private {
+sub home : Private {
     my ( $self, $c ) = @_;
 
     $c->stash->{login} = $c->user->get('login');
@@ -37,7 +37,7 @@ sub home :Private {
 }
 
 
-sub login :Local :Args(0) {
+sub login : Local Args(0) {
     my ( $self, $c ) = @_;
 
     $c->stash->{'template'} = 'user/login.tt2';
@@ -72,7 +72,7 @@ sub login :Local :Args(0) {
 
 
 
-sub logout :Local :Args(0) {
+sub logout : Local Args(0) {
     my ( $self, $c ) = @_;
 
     $c->stash->{'template'} = 'user/logout.tt2';

@@ -311,20 +311,19 @@ sub action_do_many {
 =cut
 
 
-sub compare :  PathPart('tr/compare') Chained('/') Args(0) {
+sub compare : PathPart('tr/compare') Chained('/') Args(0) {
     my ( $self, $c, @args ) = @_;
 
-	die 'do';
-    
+	die 'todo';
 }
 
 
-sub list_pr_setup :  PathPart('tr/list') Chained('/') CaptureArgs(2) {
+sub list_pr_setup : PathPart('tr/list') Chained('/') CaptureArgs(2) {
 	shift->process_project_ref_args( @_ );
 }
 
 
-sub list_pr :  PathPart('') Chained('list_pr_setup') Args(0) {
+sub list_pr : PathPart('') Chained('list_pr_setup') Args(0) {
     my ( $self, $c ) = @_;
 
     my $rref_id = $c->stash->{prref_info}{rref_id};

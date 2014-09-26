@@ -34,7 +34,7 @@ Base index method.
 
 =cut
 
-sub index : Path  {
+sub index : Path {
     my $self = shift;
     return $self->base_index( @_ );
 }
