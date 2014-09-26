@@ -55,7 +55,9 @@ sub homepage :Path :Args(0) {
 
 
 sub default : Path {
-	die 'No valid url.';
+	my ( $self, $context ) = @_;
+	$context->response->status(404);
+	$context->response->body('404 not found');
 }
 
 =method end
