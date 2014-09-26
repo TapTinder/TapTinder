@@ -16,7 +16,7 @@ Base index method.
 
 =cut
 
-sub index : Args(0)  {
+sub index : Path Args(0) {
     my ( $self, $c ) = @_;
 
     my @items = $c->model('DBDoc')->list( mode => 'both' );
