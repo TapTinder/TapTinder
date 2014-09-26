@@ -23,7 +23,7 @@ sub index_setup : PathPart('br') Chained('/') CaptureArgs(2) {
 }
 
 
-sub index : PathPart('') Chained('index_setup') {
+sub index : PathPart('') Chained('index_setup') Args(0) {
     my ( $self, $c, $p_jobp_id, @args  ) = @_;
     my $prref_info = $c->stash->{prref_info};
 

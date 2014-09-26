@@ -17,7 +17,7 @@ Base index method.
 
 =cut
 
-sub index : Path  {
+sub index : Path Args(0) {
     my ( $self, $c, $params, @args ) = @_;
 
     my $pr = $self->get_page_params( $params );
