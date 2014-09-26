@@ -10,7 +10,7 @@ use base 'TapTinder::Web::ControllerBase';
 # Sets the actions in this controller to be registered with no prefix
 # so they function identically to actions created in Web.pm
 
-__PACKAGE__->config->{namespace} = '';
+__PACKAGE__->config( namespace => '' );
 
 
 =head1 DESCRIPTION

@@ -14,12 +14,6 @@ use Data::Page::HTML qw();
 use DBIx::Dumper qw();
 use Data::Dumper qw();
 
-#
-# Sets the actions in this controller to be registered with no prefix
-# so they function identically to actions created in MyApp.pm
-#
-__PACKAGE__->config(namespace => '');
-
 =head1 DESCRIPTION
 
 Base class for some TapTinder::Web::Controller::*.
