@@ -27,9 +27,21 @@ else
 	exit 1
 fi
 
-# Root passwd file path
+# DB hostname
 if [ "$2" ]; then
-	ROOT_PASSWD_FPATH="$2"
+	DBHOST="$2"
+else
+	DBHOST='localhost'
+fi
+if [ "$DBHOST" == 'localhost' ]; then
+	DBHOST_ACCESS='localhost'
+else
+	DBHOST_ACCESS='%'
+fi
+
+# Root passwd file path
+if [ "$3" ]; then
+	ROOT_PASSWD_FPATH="$3"
 else
 	ROOT_PASSWD_FPATH='conf/db.root-pass.conf'
 fi
@@ -46,22 +58,22 @@ TT_DB_PASSWD=$(cat /dev/urandom | tr -dc 'a-zA-Z0-9' | fold -w 16 | head -n 1)
 
 ROOT_DB_PASSWD=$(cat $ROOT_PASSWD_FPATH)
 
-USER_EXISTS=$(/usr/bin/mysql -uroot -p"$ROOT_DB_PASSWD" -N -s -r -e $"SELECT 1 FROM mysql.user WHERE user='${TT_DB_USER}'")
+USER_EXISTS=$(/usr/bin/mysql -h"$DBHOST" -uroot -p"$ROOT_DB_PASSWD" -N -s -r -e $"SELECT 1 FROM mysql.user WHERE user='${TT_DB_USER}'")
 if [ "$USER_EXISTS" ]; then
 	echo "User '$TT_DB_USER' already exists."
-	/usr/bin/mysql -uroot -p"$ROOT_DB_PASSWD" -e "UPDATE mysql.user SET Password=PASSWORD('$TT_DB_PASSWD') WHERE User='$TT_DB_USER';"
+	/usr/bin/mysql -h"$DBHOST" -uroot -p"$ROOT_DB_PASSWD" -e "UPDATE mysql.user SET Password=PASSWORD('$TT_DB_PASSWD') WHERE User='$TT_DB_USER';"
 else
-	/usr/bin/mysql -uroot -p"$ROOT_DB_PASSWD" -e "CREATE USER '${TT_DB_USER}'@'localhost' IDENTIFIED BY '${TT_DB_PASSWD}'";
+	/usr/bin/mysql -h"$DBHOST" -uroot -p"$ROOT_DB_PASSWD" -e "CREATE USER '${TT_DB_USER}'@'${DBHOST_ACCESS}' IDENTIFIED BY '${TT_DB_PASSWD}'";
 fi
-/usr/bin/mysql -uroot -p"$ROOT_DB_PASSWD" -e "CREATE DATABASE IF NOT EXISTS ${TT_DB_NAME};"
-/usr/bin/mysql -uroot -p"$ROOT_DB_PASSWD" -e "GRANT ALL ON ${TT_DB_NAME}.* to '${TT_DB_USER}'@'localhost'"
-/usr/bin/mysql -uroot -p"$ROOT_DB_PASSWD" -e "FLUSH PRIVILEGES;"
+/usr/bin/mysql -h"$DBHOST" -uroot -p"$ROOT_DB_PASSWD" -e "CREATE DATABASE IF NOT EXISTS ${TT_DB_NAME};"
+/usr/bin/mysql -h"$DBHOST" -uroot -p"$ROOT_DB_PASSWD" -e "GRANT ALL ON ${TT_DB_NAME}.* to '${TT_DB_USER}'@'${DBHOST_ACCESS}'"
+/usr/bin/mysql -h"$DBHOST" -uroot -p"$ROOT_DB_PASSWD" -e "FLUSH PRIVILEGES;"
 
 CONF_FPATH='conf/web_db.yml'
 echo $"---
 db:
     name : 'TapTinder (${TT_DB_NAME})'
-    dbi_dsn: 'dbi:mysql:database=${TT_DB_NAME};host=localhost'
+    dbi_dsn: 'dbi:mysql:database=${TT_DB_NAME};host=${DBHOST}'
     user: '${TT_DB_USER}'
     pass: '${TT_DB_PASSWD}'
 " > $CONF_FPATH
