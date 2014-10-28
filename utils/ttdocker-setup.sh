@@ -3,10 +3,15 @@
 set -e
 set -x
 
+if [ "$1" ]; then
+	FAST=1
+fi
+
 echo -n "Working dir:"
 pwd
 
 TTCONF_DIR='/home/taptinder/tt-server/conf'
+TTROOT_DIR='/home/taptinder/tt-server/root'
 
 mkdir -p -m 0700 $TTCONF_DIR
 chown taptinder:taptinder $TTCONF_DIR
@@ -19,11 +24,16 @@ utils/setup-mariadb.sh docker db $TTCONF_DIR/db.root-pass.conf $TTCONF_DIR/web_d
 
 mkdir -p temp
 mkdir -p temp/dbdoc
-ln -s -T ../temp/dbdoc root/dbdoc
+if [ ! -s $TTROOT_DIR/dbdoc ]; then
+	ln -s -T ../temp/dbdoc $TTROOT_DIR/dbdoc
+fi
 
 echo "Running utils/all-sql.sh"
-utils/all-sql.sh schema-images $TTCONF_DIR
-#utils/all-sql.sh base $TTCONF_DIR
+if [ "$FAST" ]; then
+	utils/all-sql.sh base $TTCONF_DIR
+else
+	utils/all-sql.sh schema-images $TTCONF_DIR
+fi
 echo ""
 
 echo "Executing utils/deploy.pl --drop --deploy --data=prod"
@@ -38,22 +48,24 @@ echo "Executing utils/db-fill-sqldata.pl sql/data-prod-jobs.pl"
 perl utils/db-fill-sqldata.pl sql/data-prod-jobs.pl $TTCONF_DIR
 echo ""
 
+mkdir -p $TTROOT_DIR/file
+mkdir -p /opt/taptinder/server/cmdout
+mkdir -p /opt/taptinder/server/archive
+if [ ! -s $TTROOT_DIR/file/cmdout ]; then
+	ln -s -T /opt/taptinder/server/cmdout $TTROOT_DIR/file/cmdout
+fi
+if [ ! -s $TTROOT_DIR/file/archive ]; then
+	ln -s -T /opt/taptinder/server/archive $TTROOT_DIR/file/archive
+fi
+
 # Config file 'conf/web_db.yml' createad by setup-mariadb.sh above.
 cp conf/web_project.yml.example conf/web_project.yml
 cp conf/web.yml.example conf/web.yml
-cp root/lib/config/main.example root/lib/config/main
+cp $TTROOT_DIR/lib/config/main.example $TTROOT_DIR/lib/config/main
 mkdir -p /tmp/taptinder /tmp/taptinder/uploads
-chown -R taptinder:taptinder conf/ root/ /tmp/taptinder /tmp/taptinder/uploads
-chmod -R a-rwx,u+r conf/
-chmod u+rx,o-rwx conf/
-chmod u+rwx,o-rwx /tmp/taptinder /tmp/taptinder/uploads
-
-mkdir /opt/taptinder/server/cmdout
-mkdir /opt/taptinder/server/archive
-mkdir -p root/file
-ln -s -T /opt/taptinder/server/cmdout root/file/cmdout
-ln -s -T /opt/taptinder/server/archive root/file/archive
+chown -R taptinder:taptinder /tmp/taptinder /tmp/taptinder/uploads
+chmod a-rwx,u+rwx /tmp/taptinder /tmp/taptinder/uploads
+chmod -R a-rwx,u+r $TTCONF_DIR/*
+chmod a-rwx,u+rwx $TTCONF_DIR
 
 perl -Ilib t/01app.t
-
-chown -R taptinder:taptinder /var/log/mariadb
