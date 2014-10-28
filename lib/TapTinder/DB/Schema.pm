@@ -14,7 +14,7 @@ __PACKAGE__->add_columns(
       'is_foreign_key' => 1,
       'name' => 'rref_id',
       'is_nullable' => 0,
-      'size' => '11'
+      'size' => '10'
     },
     'rcommit_id' => {
       'data_type' => 'int',
@@ -23,7 +23,7 @@ __PACKAGE__->add_columns(
       'is_foreign_key' => 1,
       'name' => 'rcommit_id',
       'is_nullable' => 0,
-      'size' => '11'
+      'size' => '10'
     },
 );
 
@@ -42,7 +42,7 @@ __PACKAGE__->add_columns(
       'is_foreign_key' => 0,
       'name' => 'msproc_abort_reason_id',
       'is_nullable' => 0,
-      'size' => '11'
+      'size' => '10'
     },
     'name' => {
       'data_type' => 'VARCHAR',
@@ -80,7 +80,7 @@ __PACKAGE__->add_columns(
       'is_foreign_key' => 0,
       'name' => 'wui_test_id',
       'is_nullable' => 0,
-      'size' => '11'
+      'size' => '10'
     },
     'project_id' => {
       'data_type' => 'int',
@@ -89,7 +89,7 @@ __PACKAGE__->add_columns(
       'is_foreign_key' => 1,
       'name' => 'project_id',
       'is_nullable' => 0,
-      'size' => '11'
+      'size' => '10'
     },
     'jobp_id' => {
       'data_type' => 'int',
@@ -98,7 +98,7 @@ __PACKAGE__->add_columns(
       'is_foreign_key' => 1,
       'name' => 'jobp_id',
       'is_nullable' => 0,
-      'size' => '11'
+      'size' => '10'
     },
 );
 __PACKAGE__->set_primary_key('wui_test_id');
@@ -118,7 +118,7 @@ __PACKAGE__->add_columns(
       'is_foreign_key' => 0,
       'name' => 'wui_build_id',
       'is_nullable' => 0,
-      'size' => '11'
+      'size' => '10'
     },
     'project_id' => {
       'data_type' => 'int',
@@ -127,7 +127,7 @@ __PACKAGE__->add_columns(
       'is_foreign_key' => 1,
       'name' => 'project_id',
       'is_nullable' => 0,
-      'size' => '11'
+      'size' => '10'
     },
     'jobp_id' => {
       'data_type' => 'int',
@@ -136,7 +136,7 @@ __PACKAGE__->add_columns(
       'is_foreign_key' => 1,
       'name' => 'jobp_id',
       'is_nullable' => 0,
-      'size' => '11'
+      'size' => '10'
     },
 );
 __PACKAGE__->set_primary_key('wui_build_id');
@@ -156,7 +156,7 @@ __PACKAGE__->add_columns(
       'is_foreign_key' => 0,
       'name' => 'rcparent_id',
       'is_nullable' => 0,
-      'size' => '11'
+      'size' => '10'
     },
     'child_id' => {
       'data_type' => 'int',
@@ -165,7 +165,7 @@ __PACKAGE__->add_columns(
       'is_foreign_key' => 1,
       'name' => 'child_id',
       'is_nullable' => 0,
-      'size' => '11'
+      'size' => '10'
     },
     'parent_id' => {
       'data_type' => 'int',
@@ -174,7 +174,7 @@ __PACKAGE__->add_columns(
       'is_foreign_key' => 1,
       'name' => 'parent_id',
       'is_nullable' => 0,
-      'size' => '11'
+      'size' => '10'
     },
     'num' => {
       'data_type' => 'int',
@@ -183,7 +183,7 @@ __PACKAGE__->add_columns(
       'is_foreign_key' => 0,
       'name' => 'num',
       'is_nullable' => 0,
-      'size' => '11'
+      'size' => '10'
     },
 );
 __PACKAGE__->set_primary_key('rcparent_id');
@@ -203,7 +203,7 @@ __PACKAGE__->add_columns(
       'is_foreign_key' => 0,
       'name' => 'rfile_id',
       'is_nullable' => 0,
-      'size' => '11'
+      'size' => '10'
     },
     'rcommit_id' => {
       'data_type' => 'int',
@@ -212,7 +212,7 @@ __PACKAGE__->add_columns(
       'is_foreign_key' => 1,
       'name' => 'rcommit_id',
       'is_nullable' => 0,
-      'size' => '11'
+      'size' => '10'
     },
     'rpath_id' => {
       'data_type' => 'int',
@@ -221,7 +221,7 @@ __PACKAGE__->add_columns(
       'is_foreign_key' => 1,
       'name' => 'rpath_id',
       'is_nullable' => 0,
-      'size' => '11'
+      'size' => '10'
     },
 );
 __PACKAGE__->set_primary_key('rfile_id');
@@ -241,7 +241,7 @@ __PACKAGE__->add_columns(
       'is_foreign_key' => 0,
       'name' => 'rauthor_id',
       'is_nullable' => 0,
-      'size' => '11'
+      'size' => '10'
     },
     'rep_id' => {
       'data_type' => 'int',
@@ -250,7 +250,7 @@ __PACKAGE__->add_columns(
       'is_foreign_key' => 1,
       'name' => 'rep_id',
       'is_nullable' => 0,
-      'size' => '11'
+      'size' => '10'
     },
     'rep_login' => {
       'data_type' => 'VARCHAR',
@@ -277,7 +277,7 @@ __PACKAGE__->add_columns(
       'is_foreign_key' => 1,
       'name' => 'user_id',
       'is_nullable' => 1,
-      'size' => '11'
+      'size' => '10'
     },
 );
 __PACKAGE__->set_primary_key('rauthor_id');
@@ -297,7 +297,7 @@ __PACKAGE__->add_columns(
       'is_foreign_key' => 0,
       'name' => 'jobp_cmd_id',
       'is_nullable' => 0,
-      'size' => '11'
+      'size' => '10'
     },
     'jobp_id' => {
       'data_type' => 'int',
@@ -306,7 +306,7 @@ __PACKAGE__->add_columns(
       'is_foreign_key' => 1,
       'name' => 'jobp_id',
       'is_nullable' => 0,
-      'size' => '11'
+      'size' => '10'
     },
     'rorder' => {
       'data_type' => 'int',
@@ -315,7 +315,7 @@ __PACKAGE__->add_columns(
       'is_foreign_key' => 0,
       'name' => 'rorder',
       'is_nullable' => 0,
-      'size' => '11'
+      'size' => '10'
     },
     'cmd_id' => {
       'data_type' => 'int',
@@ -324,7 +324,7 @@ __PACKAGE__->add_columns(
       'is_foreign_key' => 1,
       'name' => 'cmd_id',
       'is_nullable' => 0,
-      'size' => '11'
+      'size' => '10'
     },
     'params' => {
       'data_type' => 'TEXT',
@@ -353,7 +353,7 @@ __PACKAGE__->add_columns(
       'is_foreign_key' => 0,
       'name' => 'rref_id',
       'is_nullable' => 0,
-      'size' => '11'
+      'size' => '10'
     },
     'name' => {
       'data_type' => 'VARCHAR',
@@ -380,7 +380,7 @@ __PACKAGE__->add_columns(
       'is_foreign_key' => 1,
       'name' => 'rcommit_id',
       'is_nullable' => 0,
-      'size' => '11'
+      'size' => '10'
     },
     'active' => {
       'data_type' => 'BOOLEAN',
@@ -389,7 +389,7 @@ __PACKAGE__->add_columns(
       'is_foreign_key' => 0,
       'name' => 'active',
       'is_nullable' => 0,
-      'size' => 0
+      'size' => '0'
     },
 );
 __PACKAGE__->set_primary_key('rref_id');
@@ -409,7 +409,7 @@ __PACKAGE__->add_columns(
       'is_foreign_key' => 0,
       'name' => 'rcommit_id',
       'is_nullable' => 0,
-      'size' => '11'
+      'size' => '10'
     },
     'rep_id' => {
       'data_type' => 'int',
@@ -418,7 +418,7 @@ __PACKAGE__->add_columns(
       'is_foreign_key' => 1,
       'name' => 'rep_id',
       'is_nullable' => 0,
-      'size' => '11'
+      'size' => '10'
     },
     'sha_id' => {
       'data_type' => 'int',
@@ -427,7 +427,7 @@ __PACKAGE__->add_columns(
       'is_foreign_key' => 1,
       'name' => 'sha_id',
       'is_nullable' => 0,
-      'size' => '11'
+      'size' => '10'
     },
     'tree_id' => {
       'data_type' => 'int',
@@ -436,7 +436,7 @@ __PACKAGE__->add_columns(
       'is_foreign_key' => 1,
       'name' => 'tree_id',
       'is_nullable' => 0,
-      'size' => '11'
+      'size' => '10'
     },
     'parents_num' => {
       'data_type' => 'int',
@@ -445,7 +445,7 @@ __PACKAGE__->add_columns(
       'is_foreign_key' => 0,
       'name' => 'parents_num',
       'is_nullable' => 0,
-      'size' => '11'
+      'size' => '10'
     },
     'parent_id' => {
       'data_type' => 'int',
@@ -454,7 +454,7 @@ __PACKAGE__->add_columns(
       'is_foreign_key' => 1,
       'name' => 'parent_id',
       'is_nullable' => 1,
-      'size' => '11'
+      'size' => '10'
     },
     'author_id' => {
       'data_type' => 'int',
@@ -463,7 +463,7 @@ __PACKAGE__->add_columns(
       'is_foreign_key' => 1,
       'name' => 'author_id',
       'is_nullable' => 0,
-      'size' => '11'
+      'size' => '10'
     },
     'author_time' => {
       'data_type' => 'DATETIME',
@@ -472,7 +472,7 @@ __PACKAGE__->add_columns(
       'is_foreign_key' => 0,
       'name' => 'author_time',
       'is_nullable' => 0,
-      'size' => 0
+      'size' => '0'
     },
     'committer_id' => {
       'data_type' => 'int',
@@ -481,7 +481,7 @@ __PACKAGE__->add_columns(
       'is_foreign_key' => 1,
       'name' => 'committer_id',
       'is_nullable' => 0,
-      'size' => '11'
+      'size' => '10'
     },
     'committer_time' => {
       'data_type' => 'DATETIME',
@@ -490,7 +490,7 @@ __PACKAGE__->add_columns(
       'is_foreign_key' => 0,
       'name' => 'committer_time',
       'is_nullable' => 0,
-      'size' => 0
+      'size' => '0'
     },
     'msg' => {
       'data_type' => 'TEXT',
@@ -519,7 +519,7 @@ __PACKAGE__->add_columns(
       'is_foreign_key' => 0,
       'name' => 'user_id',
       'is_nullable' => 0,
-      'size' => '11'
+      'size' => '10'
     },
     'login' => {
       'data_type' => 'VARCHAR',
@@ -573,7 +573,7 @@ __PACKAGE__->add_columns(
       'is_foreign_key' => 0,
       'name' => 'active',
       'is_nullable' => 0,
-      'size' => 0
+      'size' => '0'
     },
     'created' => {
       'data_type' => 'DATETIME',
@@ -582,7 +582,7 @@ __PACKAGE__->add_columns(
       'is_foreign_key' => 0,
       'name' => 'created',
       'is_nullable' => 0,
-      'size' => 0
+      'size' => '0'
     },
     'last_login' => {
       'data_type' => 'DATETIME',
@@ -591,7 +591,7 @@ __PACKAGE__->add_columns(
       'is_foreign_key' => 0,
       'name' => 'last_login',
       'is_nullable' => 1,
-      'size' => 0
+      'size' => '0'
     },
 );
 __PACKAGE__->set_primary_key('user_id');
@@ -611,7 +611,7 @@ __PACKAGE__->add_columns(
       'is_foreign_key' => 0,
       'name' => 'msproc_log_id',
       'is_nullable' => 0,
-      'size' => '11'
+      'size' => '10'
     },
     'msproc_id' => {
       'data_type' => 'int',
@@ -620,7 +620,7 @@ __PACKAGE__->add_columns(
       'is_foreign_key' => 1,
       'name' => 'msproc_id',
       'is_nullable' => 0,
-      'size' => '11'
+      'size' => '10'
     },
     'msproc_status_id' => {
       'data_type' => 'int',
@@ -629,7 +629,7 @@ __PACKAGE__->add_columns(
       'is_foreign_key' => 1,
       'name' => 'msproc_status_id',
       'is_nullable' => 0,
-      'size' => '11'
+      'size' => '10'
     },
     'attempt_number' => {
       'data_type' => 'int',
@@ -638,7 +638,7 @@ __PACKAGE__->add_columns(
       'is_foreign_key' => 0,
       'name' => 'attempt_number',
       'is_nullable' => 1,
-      'size' => '11'
+      'size' => '10'
     },
     'change_time' => {
       'data_type' => 'DATETIME',
@@ -647,7 +647,7 @@ __PACKAGE__->add_columns(
       'is_foreign_key' => 0,
       'name' => 'change_time',
       'is_nullable' => 0,
-      'size' => 0
+      'size' => '0'
     },
     'estimated_finish_time' => {
       'data_type' => 'DATETIME',
@@ -656,7 +656,7 @@ __PACKAGE__->add_columns(
       'is_foreign_key' => 0,
       'name' => 'estimated_finish_time',
       'is_nullable' => 1,
-      'size' => 0
+      'size' => '0'
     },
 );
 __PACKAGE__->set_primary_key('msproc_log_id');
@@ -676,7 +676,7 @@ __PACKAGE__->add_columns(
       'is_foreign_key' => 0,
       'name' => 'ichannel_id',
       'is_nullable' => 0,
-      'size' => '11'
+      'size' => '10'
     },
     'name' => {
       'data_type' => 'VARCHAR',
@@ -705,7 +705,7 @@ __PACKAGE__->add_columns(
       'is_foreign_key' => 0,
       'name' => 'param_id',
       'is_nullable' => 0,
-      'size' => '11'
+      'size' => '10'
     },
     'param_type_id' => {
       'data_type' => 'int',
@@ -714,7 +714,7 @@ __PACKAGE__->add_columns(
       'is_foreign_key' => 1,
       'name' => 'param_type_id',
       'is_nullable' => 0,
-      'size' => '11'
+      'size' => '10'
     },
     'value' => {
       'data_type' => 'VARCHAR',
@@ -743,7 +743,7 @@ __PACKAGE__->add_columns(
       'is_foreign_key' => 0,
       'name' => 'msession_id',
       'is_nullable' => 0,
-      'size' => '11'
+      'size' => '10'
     },
     'machine_id' => {
       'data_type' => 'int',
@@ -752,7 +752,7 @@ __PACKAGE__->add_columns(
       'is_foreign_key' => 1,
       'name' => 'machine_id',
       'is_nullable' => 0,
-      'size' => '11'
+      'size' => '10'
     },
     'client_rev' => {
       'data_type' => 'VARCHAR',
@@ -770,7 +770,7 @@ __PACKAGE__->add_columns(
       'is_foreign_key' => 0,
       'name' => 'pid',
       'is_nullable' => 1,
-      'size' => '11'
+      'size' => '10'
     },
     'watchdog_pid' => {
       'data_type' => 'int',
@@ -779,7 +779,7 @@ __PACKAGE__->add_columns(
       'is_foreign_key' => 0,
       'name' => 'watchdog_pid',
       'is_nullable' => 1,
-      'size' => '11'
+      'size' => '10'
     },
     'start_time' => {
       'data_type' => 'DATETIME',
@@ -788,7 +788,7 @@ __PACKAGE__->add_columns(
       'is_foreign_key' => 0,
       'name' => 'start_time',
       'is_nullable' => 0,
-      'size' => 0
+      'size' => '0'
     },
     'end_time' => {
       'data_type' => 'DATETIME',
@@ -797,7 +797,7 @@ __PACKAGE__->add_columns(
       'is_foreign_key' => 0,
       'name' => 'end_time',
       'is_nullable' => 1,
-      'size' => 0
+      'size' => '0'
     },
     'abort_reason_id' => {
       'data_type' => 'int',
@@ -806,7 +806,7 @@ __PACKAGE__->add_columns(
       'is_foreign_key' => 1,
       'name' => 'abort_reason_id',
       'is_nullable' => 1,
-      'size' => '11'
+      'size' => '10'
     },
 );
 __PACKAGE__->set_primary_key('msession_id');
@@ -826,7 +826,7 @@ __PACKAGE__->add_columns(
       'is_foreign_key' => 0,
       'name' => 'wconf_rref_id',
       'is_nullable' => 0,
-      'size' => '11'
+      'size' => '10'
     },
     'rref_id' => {
       'data_type' => 'int',
@@ -835,7 +835,7 @@ __PACKAGE__->add_columns(
       'is_foreign_key' => 1,
       'name' => 'rref_id',
       'is_nullable' => 0,
-      'size' => '11'
+      'size' => '10'
     },
     'priority' => {
       'data_type' => 'int',
@@ -844,7 +844,7 @@ __PACKAGE__->add_columns(
       'is_foreign_key' => 0,
       'name' => 'priority',
       'is_nullable' => 0,
-      'size' => '11'
+      'size' => '10'
     },
 );
 __PACKAGE__->set_primary_key('wconf_rref_id');
@@ -864,7 +864,7 @@ __PACKAGE__->add_columns(
       'is_foreign_key' => 0,
       'name' => 'msabort_reason_id',
       'is_nullable' => 0,
-      'size' => '11'
+      'size' => '10'
     },
     'name' => {
       'data_type' => 'VARCHAR',
@@ -902,7 +902,7 @@ __PACKAGE__->add_columns(
       'is_foreign_key' => 0,
       'name' => 'msjob_id',
       'is_nullable' => 0,
-      'size' => '11'
+      'size' => '10'
     },
     'msproc_id' => {
       'data_type' => 'int',
@@ -911,7 +911,7 @@ __PACKAGE__->add_columns(
       'is_foreign_key' => 1,
       'name' => 'msproc_id',
       'is_nullable' => 0,
-      'size' => '11'
+      'size' => '10'
     },
     'job_id' => {
       'data_type' => 'int',
@@ -920,7 +920,7 @@ __PACKAGE__->add_columns(
       'is_foreign_key' => 1,
       'name' => 'job_id',
       'is_nullable' => 0,
-      'size' => '11'
+      'size' => '10'
     },
     'start_time' => {
       'data_type' => 'DATETIME',
@@ -929,7 +929,7 @@ __PACKAGE__->add_columns(
       'is_foreign_key' => 0,
       'name' => 'start_time',
       'is_nullable' => 0,
-      'size' => 0
+      'size' => '0'
     },
     'end_time' => {
       'data_type' => 'DATETIME',
@@ -938,7 +938,7 @@ __PACKAGE__->add_columns(
       'is_foreign_key' => 0,
       'name' => 'end_time',
       'is_nullable' => 1,
-      'size' => 0
+      'size' => '0'
     },
     'pid' => {
       'data_type' => 'int',
@@ -947,7 +947,7 @@ __PACKAGE__->add_columns(
       'is_foreign_key' => 0,
       'name' => 'pid',
       'is_nullable' => 1,
-      'size' => '11'
+      'size' => '10'
     },
 );
 __PACKAGE__->set_primary_key('msjob_id');
@@ -967,7 +967,7 @@ __PACKAGE__->add_columns(
       'is_foreign_key' => 0,
       'name' => 'fsfile_type_id',
       'is_nullable' => 0,
-      'size' => '11'
+      'size' => '10'
     },
     'name' => {
       'data_type' => 'VARCHAR',
@@ -1005,7 +1005,7 @@ __PACKAGE__->add_columns(
       'is_foreign_key' => 0,
       'name' => 'cmd_id',
       'is_nullable' => 0,
-      'size' => '11'
+      'size' => '10'
     },
     'name' => {
       'data_type' => 'VARCHAR',
@@ -1043,7 +1043,7 @@ __PACKAGE__->add_columns(
       'is_foreign_key' => 0,
       'name' => 'trun_status_id',
       'is_nullable' => 0,
-      'size' => '11'
+      'size' => '10'
     },
     'name' => {
       'data_type' => 'VARCHAR',
@@ -1081,7 +1081,7 @@ __PACKAGE__->add_columns(
       'is_foreign_key' => 0,
       'name' => 'sha_id',
       'is_nullable' => 0,
-      'size' => '11'
+      'size' => '10'
     },
     'sha' => {
       'data_type' => 'VARCHAR',
@@ -1110,7 +1110,7 @@ __PACKAGE__->add_columns(
       'is_foreign_key' => 0,
       'name' => 'fsfile_ext_id',
       'is_nullable' => 0,
-      'size' => '11'
+      'size' => '10'
     },
     'archive_id' => {
       'data_type' => 'int',
@@ -1119,7 +1119,7 @@ __PACKAGE__->add_columns(
       'is_foreign_key' => 1,
       'name' => 'archive_id',
       'is_nullable' => 0,
-      'size' => '11'
+      'size' => '10'
     },
     'org_name' => {
       'data_type' => 'VARCHAR',
@@ -1137,7 +1137,7 @@ __PACKAGE__->add_columns(
       'is_foreign_key' => 1,
       'name' => 'fsfile_id',
       'is_nullable' => 0,
-      'size' => '11'
+      'size' => '10'
     },
 );
 __PACKAGE__->set_primary_key('fsfile_ext_id');
@@ -1157,7 +1157,7 @@ __PACKAGE__->add_columns(
       'is_foreign_key' => 0,
       'name' => 'rpath_id',
       'is_nullable' => 0,
-      'size' => '11'
+      'size' => '10'
     },
     'path' => {
       'data_type' => 'VARCHAR',
@@ -1186,7 +1186,7 @@ __PACKAGE__->add_columns(
       'is_foreign_key' => 0,
       'name' => 'bfile_id',
       'is_nullable' => 0,
-      'size' => '11'
+      'size' => '10'
     },
     'brun_id' => {
       'data_type' => 'int',
@@ -1195,7 +1195,7 @@ __PACKAGE__->add_columns(
       'is_foreign_key' => 1,
       'name' => 'brun_id',
       'is_nullable' => 0,
-      'size' => '11'
+      'size' => '10'
     },
     'rfile_id' => {
       'data_type' => 'int',
@@ -1204,7 +1204,7 @@ __PACKAGE__->add_columns(
       'is_foreign_key' => 1,
       'name' => 'rfile_id',
       'is_nullable' => 0,
-      'size' => '11'
+      'size' => '10'
     },
     'run_time' => {
       'data_type' => 'int',
@@ -1213,7 +1213,7 @@ __PACKAGE__->add_columns(
       'is_foreign_key' => 0,
       'name' => 'run_time',
       'is_nullable' => 1,
-      'size' => '11'
+      'size' => '10'
     },
     'hang' => {
       'data_type' => 'BOOLEAN',
@@ -1222,7 +1222,7 @@ __PACKAGE__->add_columns(
       'is_foreign_key' => 0,
       'name' => 'hang',
       'is_nullable' => 1,
-      'size' => 0
+      'size' => '0'
     },
 );
 __PACKAGE__->set_primary_key('bfile_id');
@@ -1242,7 +1242,7 @@ __PACKAGE__->add_columns(
       'is_foreign_key' => 0,
       'name' => 'rtest_id',
       'is_nullable' => 0,
-      'size' => '11'
+      'size' => '10'
     },
     'rfile_id' => {
       'data_type' => 'int',
@@ -1251,7 +1251,7 @@ __PACKAGE__->add_columns(
       'is_foreign_key' => 1,
       'name' => 'rfile_id',
       'is_nullable' => 0,
-      'size' => '11'
+      'size' => '10'
     },
     'number' => {
       'data_type' => 'int',
@@ -1260,7 +1260,7 @@ __PACKAGE__->add_columns(
       'is_foreign_key' => 0,
       'name' => 'number',
       'is_nullable' => 0,
-      'size' => '11'
+      'size' => '10'
     },
     'name' => {
       'data_type' => 'VARCHAR',
@@ -1278,7 +1278,7 @@ __PACKAGE__->add_columns(
       'is_foreign_key' => 0,
       'name' => 'has_another_name',
       'is_nullable' => 0,
-      'size' => 0
+      'size' => '0'
     },
 );
 __PACKAGE__->set_primary_key('rtest_id');
@@ -1298,7 +1298,7 @@ __PACKAGE__->add_columns(
       'is_foreign_key' => 0,
       'name' => 'wconf_session_id',
       'is_nullable' => 0,
-      'size' => '11'
+      'size' => '10'
     },
     'machine_id' => {
       'data_type' => 'int',
@@ -1307,7 +1307,7 @@ __PACKAGE__->add_columns(
       'is_foreign_key' => 1,
       'name' => 'machine_id',
       'is_nullable' => 0,
-      'size' => '11'
+      'size' => '10'
     },
     'processes_num' => {
       'data_type' => 'int',
@@ -1316,7 +1316,7 @@ __PACKAGE__->add_columns(
       'is_foreign_key' => 0,
       'name' => 'processes_num',
       'is_nullable' => 0,
-      'size' => '11'
+      'size' => '10'
     },
 );
 __PACKAGE__->set_primary_key('wconf_session_id');
@@ -1336,7 +1336,7 @@ __PACKAGE__->add_columns(
       'is_foreign_key' => 0,
       'name' => 'cmd_status_id',
       'is_nullable' => 0,
-      'size' => '11'
+      'size' => '10'
     },
     'name' => {
       'data_type' => 'VARCHAR',
@@ -1374,7 +1374,7 @@ __PACKAGE__->add_columns(
       'is_foreign_key' => 0,
       'name' => 'farm_id',
       'is_nullable' => 0,
-      'size' => '11'
+      'size' => '10'
     },
     'name' => {
       'data_type' => 'VARCHAR',
@@ -1392,7 +1392,7 @@ __PACKAGE__->add_columns(
       'is_foreign_key' => 0,
       'name' => 'has_same_hw',
       'is_nullable' => 0,
-      'size' => 0
+      'size' => '0'
     },
     'has_same_sw' => {
       'data_type' => 'BOOLEAN',
@@ -1401,7 +1401,7 @@ __PACKAGE__->add_columns(
       'is_foreign_key' => 0,
       'name' => 'has_same_sw',
       'is_nullable' => 0,
-      'size' => 0
+      'size' => '0'
     },
     'descr' => {
       'data_type' => 'TEXT',
@@ -1430,7 +1430,7 @@ __PACKAGE__->add_columns(
       'is_foreign_key' => 0,
       'name' => 'ireport_type_id',
       'is_nullable' => 0,
-      'size' => '11'
+      'size' => '10'
     },
     'name' => {
       'data_type' => 'VARCHAR',
@@ -1468,7 +1468,7 @@ __PACKAGE__->add_columns(
       'is_foreign_key' => 0,
       'name' => 'trest_id',
       'is_nullable' => 0,
-      'size' => '11'
+      'size' => '10'
     },
     'name' => {
       'data_type' => 'VARCHAR',
@@ -1506,7 +1506,7 @@ __PACKAGE__->add_columns(
       'is_foreign_key' => 0,
       'name' => 'jobp_id',
       'is_nullable' => 0,
-      'size' => '11'
+      'size' => '10'
     },
     'job_id' => {
       'data_type' => 'int',
@@ -1515,7 +1515,7 @@ __PACKAGE__->add_columns(
       'is_foreign_key' => 1,
       'name' => 'job_id',
       'is_nullable' => 0,
-      'size' => '11'
+      'size' => '10'
     },
     'project_id' => {
       'data_type' => 'int',
@@ -1524,7 +1524,7 @@ __PACKAGE__->add_columns(
       'is_foreign_key' => 1,
       'name' => 'project_id',
       'is_nullable' => 1,
-      'size' => '11'
+      'size' => '10'
     },
     'rorder' => {
       'data_type' => 'int',
@@ -1533,7 +1533,7 @@ __PACKAGE__->add_columns(
       'is_foreign_key' => 0,
       'name' => 'rorder',
       'is_nullable' => 0,
-      'size' => '11'
+      'size' => '10'
     },
     'name' => {
       'data_type' => 'VARCHAR',
@@ -1560,7 +1560,7 @@ __PACKAGE__->add_columns(
       'is_foreign_key' => 0,
       'name' => 'max_age',
       'is_nullable' => 1,
-      'size' => '11'
+      'size' => '10'
     },
     'depends_on_id' => {
       'data_type' => 'int',
@@ -1569,7 +1569,7 @@ __PACKAGE__->add_columns(
       'is_foreign_key' => 1,
       'name' => 'depends_on_id',
       'is_nullable' => 1,
-      'size' => '11'
+      'size' => '10'
     },
     'extends' => {
       'data_type' => 'BOOLEAN',
@@ -1578,7 +1578,7 @@ __PACKAGE__->add_columns(
       'is_foreign_key' => 0,
       'name' => 'extends',
       'is_nullable' => 0,
-      'size' => 0
+      'size' => '0'
     },
 );
 __PACKAGE__->set_primary_key('jobp_id');
@@ -1598,7 +1598,7 @@ __PACKAGE__->add_columns(
       'is_foreign_key' => 0,
       'name' => 'fspath_id',
       'is_nullable' => 0,
-      'size' => '11'
+      'size' => '10'
     },
     'path' => {
       'data_type' => 'VARCHAR',
@@ -1625,7 +1625,7 @@ __PACKAGE__->add_columns(
       'is_foreign_key' => 0,
       'name' => 'public',
       'is_nullable' => 1,
-      'size' => 0
+      'size' => '0'
     },
     'created' => {
       'data_type' => 'DATETIME',
@@ -1634,7 +1634,7 @@ __PACKAGE__->add_columns(
       'is_foreign_key' => 0,
       'name' => 'created',
       'is_nullable' => 0,
-      'size' => 0
+      'size' => '0'
     },
     'deleted' => {
       'data_type' => 'DATETIME',
@@ -1643,7 +1643,7 @@ __PACKAGE__->add_columns(
       'is_foreign_key' => 0,
       'name' => 'deleted',
       'is_nullable' => 1,
-      'size' => 0
+      'size' => '0'
     },
     'name' => {
       'data_type' => 'VARCHAR',
@@ -1681,7 +1681,7 @@ __PACKAGE__->add_columns(
       'is_foreign_key' => 0,
       'name' => 'mslog_id',
       'is_nullable' => 0,
-      'size' => '11'
+      'size' => '10'
     },
     'msession_id' => {
       'data_type' => 'int',
@@ -1690,7 +1690,7 @@ __PACKAGE__->add_columns(
       'is_foreign_key' => 1,
       'name' => 'msession_id',
       'is_nullable' => 0,
-      'size' => '11'
+      'size' => '10'
     },
     'msstatus_id' => {
       'data_type' => 'int',
@@ -1699,7 +1699,7 @@ __PACKAGE__->add_columns(
       'is_foreign_key' => 1,
       'name' => 'msstatus_id',
       'is_nullable' => 0,
-      'size' => '11'
+      'size' => '10'
     },
     'attempt_number' => {
       'data_type' => 'int',
@@ -1708,7 +1708,7 @@ __PACKAGE__->add_columns(
       'is_foreign_key' => 0,
       'name' => 'attempt_number',
       'is_nullable' => 1,
-      'size' => '11'
+      'size' => '10'
     },
     'change_time' => {
       'data_type' => 'DATETIME',
@@ -1717,7 +1717,7 @@ __PACKAGE__->add_columns(
       'is_foreign_key' => 0,
       'name' => 'change_time',
       'is_nullable' => 0,
-      'size' => 0
+      'size' => '0'
     },
     'estimated_finish_time' => {
       'data_type' => 'DATETIME',
@@ -1726,7 +1726,7 @@ __PACKAGE__->add_columns(
       'is_foreign_key' => 0,
       'name' => 'estimated_finish_time',
       'is_nullable' => 1,
-      'size' => 0
+      'size' => '0'
     },
 );
 __PACKAGE__->set_primary_key('mslog_id');
@@ -1746,7 +1746,7 @@ __PACKAGE__->add_columns(
       'is_foreign_key' => 0,
       'name' => 'msproc_status_id',
       'is_nullable' => 0,
-      'size' => '11'
+      'size' => '10'
     },
     'name' => {
       'data_type' => 'VARCHAR',
@@ -1784,7 +1784,7 @@ __PACKAGE__->add_columns(
       'is_foreign_key' => 0,
       'name' => 'role_id',
       'is_nullable' => 0,
-      'size' => '11'
+      'size' => '10'
     },
     'role' => {
       'data_type' => 'VARCHAR',
@@ -1822,7 +1822,7 @@ __PACKAGE__->add_columns(
       'is_foreign_key' => 0,
       'name' => 'msproc_id',
       'is_nullable' => 0,
-      'size' => '11'
+      'size' => '10'
     },
     'msession_id' => {
       'data_type' => 'int',
@@ -1831,7 +1831,7 @@ __PACKAGE__->add_columns(
       'is_foreign_key' => 1,
       'name' => 'msession_id',
       'is_nullable' => 0,
-      'size' => '11'
+      'size' => '10'
     },
     'start_time' => {
       'data_type' => 'DATETIME',
@@ -1840,7 +1840,7 @@ __PACKAGE__->add_columns(
       'is_foreign_key' => 0,
       'name' => 'start_time',
       'is_nullable' => 0,
-      'size' => 0
+      'size' => '0'
     },
     'end_time' => {
       'data_type' => 'DATETIME',
@@ -1849,7 +1849,7 @@ __PACKAGE__->add_columns(
       'is_foreign_key' => 0,
       'name' => 'end_time',
       'is_nullable' => 1,
-      'size' => 0
+      'size' => '0'
     },
     'pid' => {
       'data_type' => 'int',
@@ -1858,7 +1858,7 @@ __PACKAGE__->add_columns(
       'is_foreign_key' => 0,
       'name' => 'pid',
       'is_nullable' => 1,
-      'size' => '11'
+      'size' => '10'
     },
     'abort_reason_id' => {
       'data_type' => 'int',
@@ -1867,7 +1867,7 @@ __PACKAGE__->add_columns(
       'is_foreign_key' => 1,
       'name' => 'abort_reason_id',
       'is_nullable' => 1,
-      'size' => '11'
+      'size' => '10'
     },
 );
 __PACKAGE__->set_primary_key('msproc_id');
@@ -1887,7 +1887,7 @@ __PACKAGE__->add_columns(
       'is_foreign_key' => 0,
       'name' => 'fsfile_id',
       'is_nullable' => 0,
-      'size' => '11'
+      'size' => '10'
     },
     'fspath_id' => {
       'data_type' => 'int',
@@ -1896,7 +1896,7 @@ __PACKAGE__->add_columns(
       'is_foreign_key' => 1,
       'name' => 'fspath_id',
       'is_nullable' => 0,
-      'size' => '11'
+      'size' => '10'
     },
     'name' => {
       'data_type' => 'VARCHAR',
@@ -1914,7 +1914,7 @@ __PACKAGE__->add_columns(
       'is_foreign_key' => 0,
       'name' => 'size',
       'is_nullable' => 0,
-      'size' => '11'
+      'size' => '10'
     },
     'created' => {
       'data_type' => 'DATETIME',
@@ -1923,7 +1923,7 @@ __PACKAGE__->add_columns(
       'is_foreign_key' => 0,
       'name' => 'created',
       'is_nullable' => 0,
-      'size' => 0
+      'size' => '0'
     },
     'deleted' => {
       'data_type' => 'DATETIME',
@@ -1932,7 +1932,7 @@ __PACKAGE__->add_columns(
       'is_foreign_key' => 0,
       'name' => 'deleted',
       'is_nullable' => 1,
-      'size' => 0
+      'size' => '0'
     },
 );
 __PACKAGE__->set_primary_key('fsfile_id');
@@ -1952,7 +1952,7 @@ __PACKAGE__->add_columns(
       'is_foreign_key' => 0,
       'name' => 'param_type_id',
       'is_nullable' => 0,
-      'size' => '11'
+      'size' => '10'
     },
     'name' => {
       'data_type' => 'VARCHAR',
@@ -1990,7 +1990,7 @@ __PACKAGE__->add_columns(
       'is_foreign_key' => 0,
       'name' => 'project_id',
       'is_nullable' => 0,
-      'size' => '11'
+      'size' => '10'
     },
     'name' => {
       'data_type' => 'VARCHAR',
@@ -2037,7 +2037,7 @@ __PACKAGE__->add_columns(
       'is_foreign_key' => 0,
       'name' => 'msjobp_id',
       'is_nullable' => 0,
-      'size' => '11'
+      'size' => '10'
     },
     'msjob_id' => {
       'data_type' => 'int',
@@ -2046,7 +2046,7 @@ __PACKAGE__->add_columns(
       'is_foreign_key' => 1,
       'name' => 'msjob_id',
       'is_nullable' => 0,
-      'size' => '11'
+      'size' => '10'
     },
     'jobp_id' => {
       'data_type' => 'int',
@@ -2055,7 +2055,7 @@ __PACKAGE__->add_columns(
       'is_foreign_key' => 1,
       'name' => 'jobp_id',
       'is_nullable' => 0,
-      'size' => '11'
+      'size' => '10'
     },
     'rcommit_id' => {
       'data_type' => 'int',
@@ -2064,7 +2064,7 @@ __PACKAGE__->add_columns(
       'is_foreign_key' => 1,
       'name' => 'rcommit_id',
       'is_nullable' => 0,
-      'size' => '11'
+      'size' => '10'
     },
     'start_time' => {
       'data_type' => 'DATETIME',
@@ -2073,7 +2073,7 @@ __PACKAGE__->add_columns(
       'is_foreign_key' => 0,
       'name' => 'start_time',
       'is_nullable' => 0,
-      'size' => 0
+      'size' => '0'
     },
     'end_time' => {
       'data_type' => 'DATETIME',
@@ -2082,7 +2082,7 @@ __PACKAGE__->add_columns(
       'is_foreign_key' => 0,
       'name' => 'end_time',
       'is_nullable' => 1,
-      'size' => 0
+      'size' => '0'
     },
 );
 __PACKAGE__->set_primary_key('msjobp_id');
@@ -2102,7 +2102,7 @@ __PACKAGE__->add_columns(
       'is_foreign_key' => 0,
       'name' => 'wconf_job_id',
       'is_nullable' => 0,
-      'size' => '11'
+      'size' => '10'
     },
     'wconf_session_id' => {
       'data_type' => 'int',
@@ -2111,7 +2111,7 @@ __PACKAGE__->add_columns(
       'is_foreign_key' => 1,
       'name' => 'wconf_session_id',
       'is_nullable' => 0,
-      'size' => '11'
+      'size' => '10'
     },
     'rep_id' => {
       'data_type' => 'int',
@@ -2120,7 +2120,7 @@ __PACKAGE__->add_columns(
       'is_foreign_key' => 1,
       'name' => 'rep_id',
       'is_nullable' => 0,
-      'size' => '11'
+      'size' => '10'
     },
     'rref_id' => {
       'data_type' => 'int',
@@ -2129,7 +2129,7 @@ __PACKAGE__->add_columns(
       'is_foreign_key' => 1,
       'name' => 'rref_id',
       'is_nullable' => 1,
-      'size' => '11'
+      'size' => '10'
     },
     'job_id' => {
       'data_type' => 'int',
@@ -2138,7 +2138,7 @@ __PACKAGE__->add_columns(
       'is_foreign_key' => 1,
       'name' => 'job_id',
       'is_nullable' => 1,
-      'size' => '11'
+      'size' => '10'
     },
     'priority' => {
       'data_type' => 'int',
@@ -2147,7 +2147,7 @@ __PACKAGE__->add_columns(
       'is_foreign_key' => 0,
       'name' => 'priority',
       'is_nullable' => 0,
-      'size' => '11'
+      'size' => '10'
     },
 );
 __PACKAGE__->set_primary_key('wconf_job_id');
@@ -2167,7 +2167,7 @@ __PACKAGE__->add_columns(
       'is_foreign_key' => 0,
       'name' => 'msstatus_id',
       'is_nullable' => 0,
-      'size' => '11'
+      'size' => '10'
     },
     'name' => {
       'data_type' => 'VARCHAR',
@@ -2205,7 +2205,7 @@ __PACKAGE__->add_columns(
       'is_foreign_key' => 0,
       'name' => 'tskipall_msg_id',
       'is_nullable' => 0,
-      'size' => '11'
+      'size' => '10'
     },
     'msg' => {
       'data_type' => 'TEXT',
@@ -2243,7 +2243,7 @@ __PACKAGE__->add_columns(
       'is_foreign_key' => 0,
       'name' => 'brun_id',
       'is_nullable' => 0,
-      'size' => '11'
+      'size' => '10'
     },
     'msjobp_cmd_id' => {
       'data_type' => 'int',
@@ -2252,7 +2252,7 @@ __PACKAGE__->add_columns(
       'is_foreign_key' => 1,
       'name' => 'msjobp_cmd_id',
       'is_nullable' => 0,
-      'size' => '11'
+      'size' => '10'
     },
     'conf_id' => {
       'data_type' => 'int',
@@ -2261,7 +2261,7 @@ __PACKAGE__->add_columns(
       'is_foreign_key' => 1,
       'name' => 'conf_id',
       'is_nullable' => 0,
-      'size' => '11'
+      'size' => '10'
     },
 );
 __PACKAGE__->set_primary_key('brun_id');
@@ -2281,7 +2281,7 @@ __PACKAGE__->add_columns(
       'is_foreign_key' => 0,
       'name' => 'ibot_log_id',
       'is_nullable' => 0,
-      'size' => '11'
+      'size' => '10'
     },
     'ibot_id' => {
       'data_type' => 'int',
@@ -2290,7 +2290,7 @@ __PACKAGE__->add_columns(
       'is_foreign_key' => 1,
       'name' => 'ibot_id',
       'is_nullable' => 0,
-      'size' => '11'
+      'size' => '10'
     },
     'ichannel_conf_id' => {
       'data_type' => 'int',
@@ -2299,7 +2299,7 @@ __PACKAGE__->add_columns(
       'is_foreign_key' => 1,
       'name' => 'ichannel_conf_id',
       'is_nullable' => 0,
-      'size' => '11'
+      'size' => '10'
     },
     'rcommit_id' => {
       'data_type' => 'int',
@@ -2308,7 +2308,7 @@ __PACKAGE__->add_columns(
       'is_foreign_key' => 1,
       'name' => 'rcommit_id',
       'is_nullable' => 0,
-      'size' => '11'
+      'size' => '10'
     },
 );
 __PACKAGE__->set_primary_key('ibot_log_id');
@@ -2328,7 +2328,7 @@ __PACKAGE__->add_columns(
       'is_foreign_key' => 0,
       'name' => 'msjobp_cmd_id',
       'is_nullable' => 0,
-      'size' => '11'
+      'size' => '10'
     },
     'msjobp_id' => {
       'data_type' => 'int',
@@ -2337,7 +2337,7 @@ __PACKAGE__->add_columns(
       'is_foreign_key' => 1,
       'name' => 'msjobp_id',
       'is_nullable' => 0,
-      'size' => '11'
+      'size' => '10'
     },
     'jobp_cmd_id' => {
       'data_type' => 'int',
@@ -2346,7 +2346,7 @@ __PACKAGE__->add_columns(
       'is_foreign_key' => 1,
       'name' => 'jobp_cmd_id',
       'is_nullable' => 0,
-      'size' => '11'
+      'size' => '10'
     },
     'status_id' => {
       'data_type' => 'int',
@@ -2355,7 +2355,7 @@ __PACKAGE__->add_columns(
       'is_foreign_key' => 1,
       'name' => 'status_id',
       'is_nullable' => 0,
-      'size' => '11'
+      'size' => '10'
     },
     'pid' => {
       'data_type' => 'int',
@@ -2364,7 +2364,7 @@ __PACKAGE__->add_columns(
       'is_foreign_key' => 0,
       'name' => 'pid',
       'is_nullable' => 1,
-      'size' => '11'
+      'size' => '10'
     },
     'start_time' => {
       'data_type' => 'DATETIME',
@@ -2373,7 +2373,7 @@ __PACKAGE__->add_columns(
       'is_foreign_key' => 0,
       'name' => 'start_time',
       'is_nullable' => 0,
-      'size' => 0
+      'size' => '0'
     },
     'end_time' => {
       'data_type' => 'DATETIME',
@@ -2382,7 +2382,7 @@ __PACKAGE__->add_columns(
       'is_foreign_key' => 0,
       'name' => 'end_time',
       'is_nullable' => 1,
-      'size' => 0
+      'size' => '0'
     },
     'output_id' => {
       'data_type' => 'int',
@@ -2391,7 +2391,7 @@ __PACKAGE__->add_columns(
       'is_foreign_key' => 1,
       'name' => 'output_id',
       'is_nullable' => 1,
-      'size' => '11'
+      'size' => '10'
     },
     'outdata_id' => {
       'data_type' => 'int',
@@ -2400,7 +2400,7 @@ __PACKAGE__->add_columns(
       'is_foreign_key' => 1,
       'name' => 'outdata_id',
       'is_nullable' => 1,
-      'size' => '11'
+      'size' => '10'
     },
 );
 __PACKAGE__->set_primary_key('msjobp_cmd_id');
@@ -2420,7 +2420,7 @@ __PACKAGE__->add_columns(
       'is_foreign_key' => 0,
       'name' => 'machine_id',
       'is_nullable' => 0,
-      'size' => '11'
+      'size' => '10'
     },
     'user_id' => {
       'data_type' => 'int',
@@ -2429,7 +2429,7 @@ __PACKAGE__->add_columns(
       'is_foreign_key' => 1,
       'name' => 'user_id',
       'is_nullable' => 0,
-      'size' => '11'
+      'size' => '10'
     },
     'name' => {
       'data_type' => 'VARCHAR',
@@ -2501,7 +2501,7 @@ __PACKAGE__->add_columns(
       'is_foreign_key' => 0,
       'name' => 'disabled',
       'is_nullable' => 0,
-      'size' => 0
+      'size' => '0'
     },
     'created' => {
       'data_type' => 'DATETIME',
@@ -2510,7 +2510,7 @@ __PACKAGE__->add_columns(
       'is_foreign_key' => 0,
       'name' => 'created',
       'is_nullable' => 0,
-      'size' => 0
+      'size' => '0'
     },
     'prev_machine_id' => {
       'data_type' => 'int',
@@ -2519,7 +2519,7 @@ __PACKAGE__->add_columns(
       'is_foreign_key' => 1,
       'name' => 'prev_machine_id',
       'is_nullable' => 1,
-      'size' => '11'
+      'size' => '10'
     },
     'farm_id' => {
       'data_type' => 'int',
@@ -2528,7 +2528,7 @@ __PACKAGE__->add_columns(
       'is_foreign_key' => 1,
       'name' => 'farm_id',
       'is_nullable' => 1,
-      'size' => '11'
+      'size' => '10'
     },
 );
 __PACKAGE__->set_primary_key('machine_id');
@@ -2548,7 +2548,7 @@ __PACKAGE__->add_columns(
       'is_foreign_key' => 0,
       'name' => 'ttest_id',
       'is_nullable' => 0,
-      'size' => '11'
+      'size' => '10'
     },
     'trun_id' => {
       'data_type' => 'int',
@@ -2557,7 +2557,7 @@ __PACKAGE__->add_columns(
       'is_foreign_key' => 1,
       'name' => 'trun_id',
       'is_nullable' => 0,
-      'size' => '11'
+      'size' => '10'
     },
     'rtest_id' => {
       'data_type' => 'int',
@@ -2566,7 +2566,7 @@ __PACKAGE__->add_columns(
       'is_foreign_key' => 1,
       'name' => 'rtest_id',
       'is_nullable' => 0,
-      'size' => '11'
+      'size' => '10'
     },
     'trest_id' => {
       'data_type' => 'int',
@@ -2575,7 +2575,7 @@ __PACKAGE__->add_columns(
       'is_foreign_key' => 1,
       'name' => 'trest_id',
       'is_nullable' => 0,
-      'size' => '11'
+      'size' => '10'
     },
 );
 __PACKAGE__->set_primary_key('ttest_id');
@@ -2595,7 +2595,7 @@ __PACKAGE__->add_columns(
       'is_foreign_key' => 0,
       'name' => 'tdiag_msg_id',
       'is_nullable' => 0,
-      'size' => '11'
+      'size' => '10'
     },
     'ttest_id' => {
       'data_type' => 'int',
@@ -2604,7 +2604,7 @@ __PACKAGE__->add_columns(
       'is_foreign_key' => 1,
       'name' => 'ttest_id',
       'is_nullable' => 0,
-      'size' => '11'
+      'size' => '10'
     },
     'msg' => {
       'data_type' => 'TEXT',
@@ -2642,7 +2642,7 @@ __PACKAGE__->add_columns(
       'is_foreign_key' => 0,
       'name' => 'wui_project_id',
       'is_nullable' => 0,
-      'size' => '11'
+      'size' => '10'
     },
     'project_id' => {
       'data_type' => 'int',
@@ -2651,7 +2651,7 @@ __PACKAGE__->add_columns(
       'is_foreign_key' => 1,
       'name' => 'project_id',
       'is_nullable' => 0,
-      'size' => '11'
+      'size' => '10'
     },
     'wui_order' => {
       'data_type' => 'int',
@@ -2660,7 +2660,7 @@ __PACKAGE__->add_columns(
       'is_foreign_key' => 0,
       'name' => 'wui_order',
       'is_nullable' => 0,
-      'size' => '11'
+      'size' => '10'
     },
 );
 __PACKAGE__->set_primary_key('wui_project_id');
@@ -2680,7 +2680,7 @@ __PACKAGE__->add_columns(
       'is_foreign_key' => 0,
       'name' => 'brun_conf_id',
       'is_nullable' => 0,
-      'size' => '11'
+      'size' => '10'
     },
     'hash' => {
       'data_type' => 'CHAR',
@@ -2707,7 +2707,7 @@ __PACKAGE__->add_columns(
       'is_foreign_key' => 1,
       'name' => 'alias_conf_id',
       'is_nullable' => 1,
-      'size' => '11'
+      'size' => '10'
     },
 );
 __PACKAGE__->set_primary_key('brun_conf_id');
@@ -2727,7 +2727,7 @@ __PACKAGE__->add_columns(
       'is_foreign_key' => 1,
       'name' => 'user_id',
       'is_nullable' => 0,
-      'size' => '11'
+      'size' => '10'
     },
     'role_id' => {
       'data_type' => 'int',
@@ -2736,7 +2736,7 @@ __PACKAGE__->add_columns(
       'is_foreign_key' => 1,
       'name' => 'role_id',
       'is_nullable' => 0,
-      'size' => '11'
+      'size' => '10'
     },
 );
 __PACKAGE__->set_primary_key('user_id', 'role_id');
@@ -2756,7 +2756,7 @@ __PACKAGE__->add_columns(
       'is_foreign_key' => 0,
       'name' => 'mswatch_log_id',
       'is_nullable' => 0,
-      'size' => '11'
+      'size' => '10'
     },
     'msession_id' => {
       'data_type' => 'int',
@@ -2765,7 +2765,7 @@ __PACKAGE__->add_columns(
       'is_foreign_key' => 1,
       'name' => 'msession_id',
       'is_nullable' => 0,
-      'size' => '11'
+      'size' => '10'
     },
     'pid' => {
       'data_type' => 'int',
@@ -2774,7 +2774,7 @@ __PACKAGE__->add_columns(
       'is_foreign_key' => 0,
       'name' => 'pid',
       'is_nullable' => 0,
-      'size' => '11'
+      'size' => '10'
     },
     'last_activity_time' => {
       'data_type' => 'DATETIME',
@@ -2783,7 +2783,7 @@ __PACKAGE__->add_columns(
       'is_foreign_key' => 0,
       'name' => 'last_activity_time',
       'is_nullable' => 0,
-      'size' => 0
+      'size' => '0'
     },
     'kill_time' => {
       'data_type' => 'DATETIME',
@@ -2792,7 +2792,7 @@ __PACKAGE__->add_columns(
       'is_foreign_key' => 0,
       'name' => 'kill_time',
       'is_nullable' => 0,
-      'size' => 0
+      'size' => '0'
     },
 );
 __PACKAGE__->set_primary_key('mswatch_log_id');
@@ -2812,7 +2812,7 @@ __PACKAGE__->add_columns(
       'is_foreign_key' => 0,
       'name' => 'job_id',
       'is_nullable' => 0,
-      'size' => '11'
+      'size' => '10'
     },
     'client_min_ver' => {
       'data_type' => 'VARCHAR',
@@ -2830,7 +2830,7 @@ __PACKAGE__->add_columns(
       'is_foreign_key' => 0,
       'name' => 'priority',
       'is_nullable' => 0,
-      'size' => '11'
+      'size' => '10'
     },
     'name' => {
       'data_type' => 'VARCHAR',
@@ -2868,7 +2868,7 @@ __PACKAGE__->add_columns(
       'is_foreign_key' => 0,
       'name' => 'wui_rref_id',
       'is_nullable' => 0,
-      'size' => '11'
+      'size' => '10'
     },
     'rref_id' => {
       'data_type' => 'int',
@@ -2877,7 +2877,7 @@ __PACKAGE__->add_columns(
       'is_foreign_key' => 1,
       'name' => 'rref_id',
       'is_nullable' => 0,
-      'size' => '11'
+      'size' => '10'
     },
     'wui_order' => {
       'data_type' => 'int',
@@ -2886,7 +2886,7 @@ __PACKAGE__->add_columns(
       'is_foreign_key' => 0,
       'name' => 'wui_order',
       'is_nullable' => 0,
-      'size' => '11'
+      'size' => '10'
     },
 );
 __PACKAGE__->set_primary_key('wui_rref_id');
@@ -2906,7 +2906,7 @@ __PACKAGE__->add_columns(
       'is_foreign_key' => 0,
       'name' => 'trun_id',
       'is_nullable' => 0,
-      'size' => '11'
+      'size' => '10'
     },
     'msjobp_cmd_id' => {
       'data_type' => 'int',
@@ -2915,7 +2915,7 @@ __PACKAGE__->add_columns(
       'is_foreign_key' => 1,
       'name' => 'msjobp_cmd_id',
       'is_nullable' => 0,
-      'size' => '11'
+      'size' => '10'
     },
     'trun_status_id' => {
       'data_type' => 'int',
@@ -2924,7 +2924,7 @@ __PACKAGE__->add_columns(
       'is_foreign_key' => 1,
       'name' => 'trun_status_id',
       'is_nullable' => 0,
-      'size' => '11'
+      'size' => '10'
     },
     'parse_errors' => {
       'data_type' => 'int',
@@ -2933,7 +2933,7 @@ __PACKAGE__->add_columns(
       'is_foreign_key' => 0,
       'name' => 'parse_errors',
       'is_nullable' => 0,
-      'size' => '11'
+      'size' => '10'
     },
     'not_seen' => {
       'data_type' => 'int',
@@ -2942,7 +2942,7 @@ __PACKAGE__->add_columns(
       'is_foreign_key' => 0,
       'name' => 'not_seen',
       'is_nullable' => 0,
-      'size' => '11'
+      'size' => '10'
     },
     'failed' => {
       'data_type' => 'int',
@@ -2951,7 +2951,7 @@ __PACKAGE__->add_columns(
       'is_foreign_key' => 0,
       'name' => 'failed',
       'is_nullable' => 0,
-      'size' => '11'
+      'size' => '10'
     },
     'todo' => {
       'data_type' => 'int',
@@ -2960,7 +2960,7 @@ __PACKAGE__->add_columns(
       'is_foreign_key' => 0,
       'name' => 'todo',
       'is_nullable' => 0,
-      'size' => '11'
+      'size' => '10'
     },
     'skip' => {
       'data_type' => 'int',
@@ -2969,7 +2969,7 @@ __PACKAGE__->add_columns(
       'is_foreign_key' => 0,
       'name' => 'skip',
       'is_nullable' => 0,
-      'size' => '11'
+      'size' => '10'
     },
     'bonus' => {
       'data_type' => 'int',
@@ -2978,7 +2978,7 @@ __PACKAGE__->add_columns(
       'is_foreign_key' => 0,
       'name' => 'bonus',
       'is_nullable' => 0,
-      'size' => '11'
+      'size' => '10'
     },
     'ok' => {
       'data_type' => 'int',
@@ -2987,7 +2987,7 @@ __PACKAGE__->add_columns(
       'is_foreign_key' => 0,
       'name' => 'ok',
       'is_nullable' => 0,
-      'size' => '11'
+      'size' => '10'
     },
 );
 __PACKAGE__->set_primary_key('trun_id');
@@ -3007,7 +3007,7 @@ __PACKAGE__->add_columns(
       'is_foreign_key' => 0,
       'name' => 'ichannel_conf_id',
       'is_nullable' => 0,
-      'size' => '11'
+      'size' => '10'
     },
     'ibot_id' => {
       'data_type' => 'int',
@@ -3016,7 +3016,7 @@ __PACKAGE__->add_columns(
       'is_foreign_key' => 1,
       'name' => 'ibot_id',
       'is_nullable' => 0,
-      'size' => '11'
+      'size' => '10'
     },
     'ichannel_id' => {
       'data_type' => 'int',
@@ -3025,7 +3025,7 @@ __PACKAGE__->add_columns(
       'is_foreign_key' => 1,
       'name' => 'ichannel_id',
       'is_nullable' => 0,
-      'size' => '11'
+      'size' => '10'
     },
     'ireport_type_id' => {
       'data_type' => 'int',
@@ -3034,7 +3034,7 @@ __PACKAGE__->add_columns(
       'is_foreign_key' => 1,
       'name' => 'ireport_type_id',
       'is_nullable' => 0,
-      'size' => '11'
+      'size' => '10'
     },
     'errors_only' => {
       'data_type' => 'BOOLEAN',
@@ -3043,7 +3043,7 @@ __PACKAGE__->add_columns(
       'is_foreign_key' => 0,
       'name' => 'errors_only',
       'is_nullable' => 0,
-      'size' => 0
+      'size' => '0'
     },
     'jobp_cmd_id' => {
       'data_type' => 'int',
@@ -3052,7 +3052,7 @@ __PACKAGE__->add_columns(
       'is_foreign_key' => 1,
       'name' => 'jobp_cmd_id',
       'is_nullable' => 1,
-      'size' => '11'
+      'size' => '10'
     },
     'max_age' => {
       'data_type' => 'int',
@@ -3061,7 +3061,7 @@ __PACKAGE__->add_columns(
       'is_foreign_key' => 0,
       'name' => 'max_age',
       'is_nullable' => 1,
-      'size' => '11'
+      'size' => '10'
     },
 );
 __PACKAGE__->set_primary_key('ichannel_conf_id');
@@ -3081,7 +3081,7 @@ __PACKAGE__->add_columns(
       'is_foreign_key' => 0,
       'name' => 'fspath_select_id',
       'is_nullable' => 0,
-      'size' => '11'
+      'size' => '10'
     },
     'fsfile_type_id' => {
       'data_type' => 'int',
@@ -3090,7 +3090,7 @@ __PACKAGE__->add_columns(
       'is_foreign_key' => 1,
       'name' => 'fsfile_type_id',
       'is_nullable' => 0,
-      'size' => '11'
+      'size' => '10'
     },
     'rep_id' => {
       'data_type' => 'int',
@@ -3099,7 +3099,7 @@ __PACKAGE__->add_columns(
       'is_foreign_key' => 1,
       'name' => 'rep_id',
       'is_nullable' => 1,
-      'size' => '11'
+      'size' => '10'
     },
     'fspath_id' => {
       'data_type' => 'int',
@@ -3108,7 +3108,7 @@ __PACKAGE__->add_columns(
       'is_foreign_key' => 1,
       'name' => 'fspath_id',
       'is_nullable' => 0,
-      'size' => '11'
+      'size' => '10'
     },
 );
 __PACKAGE__->set_primary_key('fspath_select_id');
@@ -3128,7 +3128,7 @@ __PACKAGE__->add_columns(
       'is_foreign_key' => 0,
       'name' => 'ibot_id',
       'is_nullable' => 0,
-      'size' => '11'
+      'size' => '10'
     },
     'nick' => {
       'data_type' => 'VARCHAR',
@@ -3164,7 +3164,7 @@ __PACKAGE__->add_columns(
       'is_foreign_key' => 0,
       'name' => 'port',
       'is_nullable' => 0,
-      'size' => '11'
+      'size' => '10'
     },
     'operator_id' => {
       'data_type' => 'int',
@@ -3173,7 +3173,7 @@ __PACKAGE__->add_columns(
       'is_foreign_key' => 1,
       'name' => 'operator_id',
       'is_nullable' => 0,
-      'size' => '11'
+      'size' => '10'
     },
 );
 __PACKAGE__->set_primary_key('ibot_id');
@@ -3193,7 +3193,7 @@ __PACKAGE__->add_columns(
       'is_foreign_key' => 0,
       'name' => 'tfile_id',
       'is_nullable' => 0,
-      'size' => '11'
+      'size' => '10'
     },
     'trun_id' => {
       'data_type' => 'int',
@@ -3202,7 +3202,7 @@ __PACKAGE__->add_columns(
       'is_foreign_key' => 1,
       'name' => 'trun_id',
       'is_nullable' => 0,
-      'size' => '11'
+      'size' => '10'
     },
     'rfile_id' => {
       'data_type' => 'int',
@@ -3211,7 +3211,7 @@ __PACKAGE__->add_columns(
       'is_foreign_key' => 1,
       'name' => 'rfile_id',
       'is_nullable' => 0,
-      'size' => '11'
+      'size' => '10'
     },
     'all_passed' => {
       'data_type' => 'BOOLEAN',
@@ -3220,7 +3220,7 @@ __PACKAGE__->add_columns(
       'is_foreign_key' => 0,
       'name' => 'all_passed',
       'is_nullable' => 0,
-      'size' => 0
+      'size' => '0'
     },
     'tskipall_msg_id' => {
       'data_type' => 'int',
@@ -3229,7 +3229,7 @@ __PACKAGE__->add_columns(
       'is_foreign_key' => 1,
       'name' => 'tskipall_msg_id',
       'is_nullable' => 1,
-      'size' => '11'
+      'size' => '10'
     },
     'hang' => {
       'data_type' => 'BOOLEAN',
@@ -3238,7 +3238,7 @@ __PACKAGE__->add_columns(
       'is_foreign_key' => 0,
       'name' => 'hang',
       'is_nullable' => 1,
-      'size' => 0
+      'size' => '0'
     },
 );
 __PACKAGE__->set_primary_key('tfile_id');
@@ -3258,7 +3258,7 @@ __PACKAGE__->add_columns(
       'is_foreign_key' => 0,
       'name' => 'rep_id',
       'is_nullable' => 0,
-      'size' => '11'
+      'size' => '10'
     },
     'project_id' => {
       'data_type' => 'int',
@@ -3267,7 +3267,7 @@ __PACKAGE__->add_columns(
       'is_foreign_key' => 1,
       'name' => 'project_id',
       'is_nullable' => 0,
-      'size' => '11'
+      'size' => '10'
     },
     'name' => {
       'data_type' => 'VARCHAR',
@@ -3312,7 +3312,7 @@ __PACKAGE__->add_columns(
       'is_foreign_key' => 0,
       'name' => 'active',
       'is_nullable' => 0,
-      'size' => 0
+      'size' => '0'
     },
 );
 __PACKAGE__->set_primary_key('rep_id');
@@ -3386,13 +3386,6 @@ __PACKAGE__->has_many('get_wconf_job', 'TapTinder::DB::Schema::wconf_job', 'rref
 __PACKAGE__->has_many('get_wconf_rref', 'TapTinder::DB::Schema::wconf_rref', 'rref_id');
 __PACKAGE__->has_many('get_wui_rref', 'TapTinder::DB::Schema::wui_rref', 'rref_id');
 
-package TapTinder::DB::Schema::user;
-
-__PACKAGE__->has_many('get_user_roles', 'TapTinder::DB::Schema::user_roles', 'user_id');
-__PACKAGE__->has_many('get_machine', 'TapTinder::DB::Schema::machine', 'user_id');
-__PACKAGE__->has_many('get_rauthor', 'TapTinder::DB::Schema::rauthor', 'user_id');
-__PACKAGE__->has_many('get_ibot', 'TapTinder::DB::Schema::ibot', 'operator_id');
-
 package TapTinder::DB::Schema::rcommit;
 
 __PACKAGE__->belongs_to('rep_id','TapTinder::DB::Schema::rep','rep_id');
@@ -3415,6 +3408,13 @@ __PACKAGE__->has_many('get_rref_rcommit', 'TapTinder::DB::Schema::rref_rcommit',
 __PACKAGE__->has_many('get_rfile', 'TapTinder::DB::Schema::rfile', 'rcommit_id');
 __PACKAGE__->has_many('get_msjobp', 'TapTinder::DB::Schema::msjobp', 'rcommit_id');
 __PACKAGE__->has_many('get_ibot_log', 'TapTinder::DB::Schema::ibot_log', 'rcommit_id');
+
+package TapTinder::DB::Schema::user;
+
+__PACKAGE__->has_many('get_user_roles', 'TapTinder::DB::Schema::user_roles', 'user_id');
+__PACKAGE__->has_many('get_machine', 'TapTinder::DB::Schema::machine', 'user_id');
+__PACKAGE__->has_many('get_rauthor', 'TapTinder::DB::Schema::rauthor', 'user_id');
+__PACKAGE__->has_many('get_ibot', 'TapTinder::DB::Schema::ibot', 'operator_id');
 
 package TapTinder::DB::Schema::msproc_log;
 
