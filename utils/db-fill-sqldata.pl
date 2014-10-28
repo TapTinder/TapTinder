@@ -11,8 +11,10 @@ use TapTinder::Utils::Conf qw(load_conf_multi);
 use TapTinder::Utils::DB qw(get_connected_schema);
 
 my $ver = 3;
+my $req_fpath = $ARGV[0];
+my $conf_dir = $ARGV[1] || undef;
 
-my $conf = load_conf_multi( undef, 'db' );
+my $conf = load_conf_multi( $conf_dir, 'db' );
 croak "Configuration for database is empty.\n" unless $conf->{db};
 
 my $schema = get_connected_schema( $conf->{db} );
@@ -20,7 +22,6 @@ croak "Connection to DB failed." unless $schema;
 
 $schema->storage->txn_begin;
 
-my $req_fpath = $ARGV[0];
 croak "First parameter should be perl input file path.\n" unless $req_fpath;
 croak "Can't find input file '$req_fpath'.\n" unless -f $req_fpath;
 

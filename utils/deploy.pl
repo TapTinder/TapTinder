@@ -22,11 +22,13 @@ my $opt_save = 0;
 my $opt_drop = 0;
 my $opt_deploy = 0;
 my $opt_data = 0;
+my $conf_dir = undef;
 my $options_ok = GetOptions(
     'save' => \$opt_save,
     'drop' => \$opt_drop,
     'deploy' => \$opt_deploy,
     'data=s' => \$opt_data,
+    'conf_dir=s' => \$conf_dir,
     'help|h|?' => \$help,
     'ver|v=i' => \$ver,
 );
@@ -34,7 +36,7 @@ my $options_ok = GetOptions(
 my $db_work = ( $opt_drop || $opt_deploy || $opt_data );
 pod2usage(1) if $help || !$options_ok || ( !$opt_save && !$db_work );
 
-my $conf = load_conf_multi( undef, 'db' );
+my $conf = load_conf_multi( $conf_dir, 'db' );
 croak "Configuration for database is empty.\n" unless $conf->{db};
 
 my $schema = get_connected_schema( $conf->{db} );
