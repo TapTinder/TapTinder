@@ -17,6 +17,7 @@ utils/mysql-secure.sh $TTCONF_DIR/db.root-pass.conf regen secure
 cd ../tt-server/
 utils/setup-mariadb.sh docker db $TTCONF_DIR/db.root-pass.conf $TTCONF_DIR/web_db.yml
 
+mkdir -p temp
 echo "Running utils/all-sql.sh"
 utils/all-sql.sh schema-images $TTCONF_DIR
 #utils/all-sql.sh base $TTCONF_DIR
