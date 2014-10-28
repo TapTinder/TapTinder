@@ -18,6 +18,9 @@ cd ../tt-server/
 utils/setup-mariadb.sh docker db $TTCONF_DIR/db.root-pass.conf $TTCONF_DIR/web_db.yml
 
 mkdir -p temp
+mkdir -p temp/dbdoc
+ln -s -T ../temp/dbdoc root/dbdoc
+
 echo "Running utils/all-sql.sh"
 utils/all-sql.sh schema-images $TTCONF_DIR
 #utils/all-sql.sh base $TTCONF_DIR
@@ -40,10 +43,16 @@ cp conf/web_project.yml.example conf/web_project.yml
 cp conf/web.yml.example conf/web.yml
 cp root/lib/config/main.example root/lib/config/main
 mkdir -p /tmp/taptinder /tmp/taptinder/uploads
-# chown -R taptinder:taptinder conf/ root/ /tmp/taptinder /tmp/taptinder/uploads
-# chmod -R a-rwx,u+r conf/
-# chmod u+rx,o-rwx conf/
-# chmod u+rwx,o-rwx /tmp/taptinder /tmp/taptinder/uploads
+chown -R taptinder:taptinder conf/ root/ /tmp/taptinder /tmp/taptinder/uploads
+chmod -R a-rwx,u+r conf/
+chmod u+rx,o-rwx conf/
+chmod u+rwx,o-rwx /tmp/taptinder /tmp/taptinder/uploads
+
+mkdir /opt/taptinder/server/cmdout
+mkdir /opt/taptinder/server/archive
+mkdir -p root/file
+ln -s -T /opt/taptinder/server/cmdout root/file/cmdout
+ln -s -T /opt/taptinder/server/archive root/file/archive
 
 perl -Ilib t/01app.t
 
