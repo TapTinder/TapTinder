@@ -1,11 +1,12 @@
 #!/bin/bash
 
 set -e
+set -x
 
 function echo_help {
 cat <<USAGE_END
 Usage:
-  utils/setup-mariadb.sh prod|stg|dev
+  utils/setup-mariadb.sh prod|stg|dev|docker
 
 USAGE_END
 }
@@ -22,6 +23,8 @@ elif [ "$1" = "stg" ]; then
 	TT_ENV='stg'
 elif [ "$1" = "dev" ]; then
 	TT_ENV='dev'
+elif [ "$1" = "docker" ]; then
+	TT_ENV='docker'
 else
 	echo_help
 	exit 1
@@ -51,6 +54,13 @@ if [ ! -e "$ROOT_PASSWD_FPATH" ]; then
 fi
 ROOT_DB_PASSWD=$(cat $ROOT_PASSWD_FPATH)
 
+if [ "$4" ]; then
+	CONF_FPATH="$4"
+else
+	CONF_FPATH='conf/web_db.yml'
+fi
+
+
 
 TT_DB_NAME="tt${TT_ENV}"
 TT_DB_USER="tt${TT_ENV}"
@@ -66,10 +76,9 @@ else
 	/usr/bin/mysql -h"$DBHOST" -uroot -p"$ROOT_DB_PASSWD" -e "CREATE USER '${TT_DB_USER}'@'${DBHOST_ACCESS}' IDENTIFIED BY '${TT_DB_PASSWD}'";
 fi
 /usr/bin/mysql -h"$DBHOST" -uroot -p"$ROOT_DB_PASSWD" -e "CREATE DATABASE IF NOT EXISTS ${TT_DB_NAME};"
-/usr/bin/mysql -h"$DBHOST" -uroot -p"$ROOT_DB_PASSWD" -e "GRANT ALL ON ${TT_DB_NAME}.* to '${TT_DB_USER}'@'${DBHOST_ACCESS}'"
+/usr/bin/mysql -h"$DBHOST" -uroot -p"$ROOT_DB_PASSWD" -e "GRANT ALL ON ${TT_DB_NAME}.* TO '${TT_DB_USER}'@'${DBHOST_ACCESS}'"
 /usr/bin/mysql -h"$DBHOST" -uroot -p"$ROOT_DB_PASSWD" -e "FLUSH PRIVILEGES;"
 
-CONF_FPATH='conf/web_db.yml'
 echo $"---
 db:
     name : 'TapTinder (${TT_DB_NAME})'
