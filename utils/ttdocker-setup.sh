@@ -3,15 +3,20 @@
 set -e
 set -x
 
+TTCONF_DIR='/home/taptinder/tt-server/conf'
+TTROOT_DIR='/home/taptinder/tt-server/root'
+
+if [ -e "$TTCONF_DIR/db.root-pass.conf" ]; then
+	echo "Setup already done."
+	exit
+fi
+
 if [ "$1" ]; then
 	FAST=1
 fi
 
 echo -n "Working dir:"
 pwd
-
-TTCONF_DIR='/home/taptinder/tt-server/conf'
-TTROOT_DIR='/home/taptinder/tt-server/root'
 
 mkdir -p -m 0700 $TTCONF_DIR
 chown taptinder:taptinder $TTCONF_DIR
