@@ -49,9 +49,10 @@ echo "Executing utils/deploy.pl --drop --deploy --data=dev ..."
 perl utils/deploy.pl --drop --deploy --data=dev --conf_dir $TTCONF_DIR --ddl_dir $TTDATA_DIR/deploy-ddl
 echo ""
 
-echo "Executing utils/db-fill-sqldata.pl sql/data-dev-jobs.pl"
-perl utils/db-fill-sqldata.pl sql/data-dev-jobs.pl $TTCONF_DIR
-echo ""
+# References (rref table) not loaded yet.
+#echo "Executing utils/db-fill-sqldata.pl sql/data-dev-jobs.pl"
+#perl utils/db-fill-sqldata.pl sql/data-dev-jobs.pl $TTCONF_DIR
+#echo ""
 
 mkdir -p $TTROOT_DIR/file
 mkdir -p /opt/taptinder/server/cmdout
