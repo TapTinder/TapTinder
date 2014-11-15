@@ -16,7 +16,6 @@ return sub {
         $schema->resultset('msession')->delete_all();
     }
 
-
     my $master_tr1_rref_id = $schema->resultset('rref')->find(
         {
             'me.name' => 'master',

@@ -121,7 +121,7 @@ sub run_perl_sql_file_trans {
     my $rc = TapTinder::Utils::DB::run_perl_sql_file(
         $req_fpath,
         $schema,
-        @_  # all other params given        
+        @_  # all other params given
     );
 
     if ( $rc ) {
@@ -130,7 +130,7 @@ sub run_perl_sql_file_trans {
     } else {
         print "Error. Doing rollback.\n";
         $schema->storage->txn_rollback;
-    }    
+    }
 }
 
 
