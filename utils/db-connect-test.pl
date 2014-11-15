@@ -35,7 +35,7 @@ if ( $sql_fpath ) {
 
 } else {
     $sql_cmd = "
-        SELECT machine_id, user_id, name, `desc`, ip,
+        SELECT machine_id, user_id, name, descr, ip,
                cpuarch, osname, archname, disabled, created,
                prev_machine_id
           FROM machine
