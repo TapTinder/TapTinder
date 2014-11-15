@@ -55,23 +55,27 @@ echo ""
 #echo ""
 
 mkdir -p $TTROOT_DIR/file
-mkdir -p /opt/taptinder/server/cmdout
-mkdir -p /opt/taptinder/server/archive
+mkdir -p /opt/taptinder/server/data/cmdout
+mkdir -p /opt/taptinder/server/data/archive
 if [ ! -s $TTROOT_DIR/file/cmdout ]; then
-	ln -s -T /opt/taptinder/server/cmdout $TTROOT_DIR/file/cmdout
+	ln -s -T /opt/taptinder/server/data/cmdout $TTROOT_DIR/file/cmdout
 fi
 if [ ! -s $TTROOT_DIR/file/archive ]; then
-	ln -s -T /opt/taptinder/server/archive $TTROOT_DIR/file/archive
+	ln -s -T /opt/taptinder/server/data/archive $TTROOT_DIR/file/archive
 fi
 
 # Config file 'conf/web_db.yml' createad by setup-mariadb.sh above.
-cp conf/web_project.yml.example conf/web_project.yml
-cp conf/web.yml.example conf/web.yml
+if [ ! -f "$TTCONF_DIR/web_project.yml" ]; then
+	cp conf/web_project.yml.example $TTCONF_DIR/web_project.yml
+	cp conf/web.yml.example $TTCONF_DIR/web.yml
+	chmod -R a-rwx,u+r $TTCONF_DIR/*
+	chmod a-rwx,u+rwx $TTCONF_DIR
+fi
+
 cp $TTROOT_DIR/lib/config/main.example $TTROOT_DIR/lib/config/main
+
 mkdir -p /tmp/taptinder /tmp/taptinder/uploads
 chown -R ttus:ttus /tmp/taptinder /tmp/taptinder/uploads
 chmod a-rwx,u+rwx /tmp/taptinder /tmp/taptinder/uploads
-chmod -R a-rwx,u+r $TTCONF_DIR/*
-chmod a-rwx,u+rwx $TTCONF_DIR
 
-perl -Ilib t/01app.t
+TAPTINDER_SERVER_CONF_DIR=$TTCONF_DIR perl -Ilib t/01app.t

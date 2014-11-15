@@ -51,7 +51,7 @@ TapTinder::Web->config(
     'namespace' => '',
     'default_view' => 'TT',
     'Plugin::Config::Multi' => {
-        dir => TapTinder::Web->path_to('./conf'),
+        dir => $ENV{'TAPTINDER_SERVER_CONF_DIR'} || TapTinder::Web->path_to('./conf'),
         prefix => '',
         app_name => 'web',
         extension => 'yml',
