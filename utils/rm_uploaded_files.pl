@@ -14,7 +14,8 @@ use DBI;
 
 my $help = 0;
 my $remove = 0;
-my $server_conf_fpath = catfile( $RealBin, '..', 'conf', 'web_db.yml' );
+my $conf_dir = $ENV{'TAPTINDER_SERVER_CONF_DIR'} || catdir( $RealBin, '..', 'conf');
+my $server_conf_fpath = catfile($conf_dir, 'web_db.yml');
 my $fspath_ids = undef;
 
 my $options_ok = GetOptions(

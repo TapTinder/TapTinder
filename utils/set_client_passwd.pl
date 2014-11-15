@@ -14,7 +14,8 @@ use DBI;
 use Digest::MD5 qw(md5);
 
 my $help = 0;
-my $server_conf_fpath = catfile( $RealBin, '..', 'conf', 'web_db.yml' );
+my $conf_dir = $ENV{'TAPTINDER_SERVER_CONF_DIR'} || catdir( $RealBin, '..', 'conf');
+my $server_conf_fpath = catfile($conf_dir, 'web_db.yml');
 
 # part A) new passwd
 my $machine_id = undef;

@@ -9,7 +9,8 @@ use YAML;
 
 my $sql_fpath = $ARGV[0] || undef;
 
-my $conf_fpath = catfile( $RealBin, '..', 'conf', 'web_db.yml' );
+my $conf_dir = $ENV{'TAPTINDER_SERVER_CONF_DIR'} || catdir( $RealBin, '..', 'conf');
+my $conf_fpath = catfile($conf_dir, 'web_db.yml');
 my ( $conf ) = YAML::LoadFile( $conf_fpath );
 croak "Configuration for database loaded from '$conf_fpath' is empty.\n" unless $conf->{db};
 
