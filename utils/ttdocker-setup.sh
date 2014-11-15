@@ -7,13 +7,20 @@ TTCONF_DIR='/opt/taptinder/server/conf'
 TTDATA_DIR='/opt/taptinder/server/data';
 TTROOT_DIR='/home/ttus/tt-server/root'
 
-if [ -e "$TTCONF_DIR/db.root-pass.conf" ]; then
-	echo "Setup already done."
-	#exit
+if [ "$1" = "force-setup" ]; then
+	FORCE_SETUP=1
+fi
+if [ "$2" ]; then
+	ALL_SQL_TYPE="$2"
+else
+	ALL_SQL_TYPE="images"
 fi
 
-if [ "$1" ]; then
-	FAST=1
+if [ -e "$TTCONF_DIR/db.root-pass.conf" ]; then
+	echo "Setup already done."
+	if [ ! "$FORCE_SETUP" ]; then
+		exit
+	fi
 fi
 
 echo -n "Working dir:"
@@ -37,11 +44,7 @@ fi
 mkdir -p $TTDATA_DIR/deploy-ddl
 
 echo "Running utils/all-sql.sh"
-if [ "$FAST" ]; then
-	utils/all-sql.sh base $TTCONF_DIR $TTDATA_DIR/deploy-ddl $TTDATA_DIR/dbdoc
-else
-	utils/all-sql.sh images $TTCONF_DIR $TTDATA_DIR/deploy-ddl $TTDATA_DIR/dbdoc
-fi
+utils/all-sql.sh $ALL_SQL_TYPE $TTCONF_DIR $TTDATA_DIR/deploy-ddl $TTDATA_DIR/dbdoc
 echo ""
 
 echo "Executing utils/deploy.pl --drop --deploy --data=dev ..."
