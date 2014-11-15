@@ -6,7 +6,3 @@ project:
    repository: 'git://github.com/mj41/tt-tr2.git'
   tt-tr3:
    repository: 'git://github.com/mj41/tt-tr3.git'
-  rakudo:
-   repository: 'git://github.com/rakudo/rakudo.git'
-  parrot:
-   repository: 'git://github.com/parrot/parrot.git'
