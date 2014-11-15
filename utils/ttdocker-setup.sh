@@ -24,9 +24,8 @@ chown ttus:ttus $TTCONF_DIR
 touch $TTCONF_DIR/db.root-pass.conf
 chown ttus $TTCONF_DIR/db.root-pass.conf
 
-if [ ! -e "$TTCONF_DIR/db.root-pass.conf" ]; then
+if [ ! -e "$TTCONF_DIR/web_db.yml" ]; then
 	utils/mysql-secure.sh $TTCONF_DIR/db.root-pass.conf regen secure
-	cd ../tt-server/
 	utils/setup-mariadb.sh docker db $TTCONF_DIR/db.root-pass.conf $TTCONF_DIR/web_db.yml
 fi
 
@@ -65,7 +64,7 @@ if [ ! -s $TTROOT_DIR/file/archive ]; then
 fi
 
 # Config file 'conf/web_db.yml' createad by setup-mariadb.sh above.
-if [ ! -f "$TTCONF_DIR/web_project.yml" ]; then
+if [ ! -e "$TTCONF_DIR/web_project.yml" ]; then
 	cp conf/web_project.yml.example $TTCONF_DIR/web_project.yml
 	cp conf/web.yml.example $TTCONF_DIR/web.yml
 	chmod -R a-rwx,u+r $TTCONF_DIR/*
