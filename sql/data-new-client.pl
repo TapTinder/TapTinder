@@ -12,14 +12,14 @@ return sub {
     # table: user
     $schema->resultset('user')->populate([
         [ qw/ user_id login passwd first_name last_name irc_nick active created last_login / ],
-        [ 2, 'coke', \'substring(MD5(RAND()), -8)', 'Will', 'Coleda', 'Coke', 1, \'NOW()', undef ],
+        [ 2, 'coke', \'substring(unhex(MD5(RAND())), -8)', 'Will', 'Coleda', 'Coke', 1, \'NOW()', undef ],
     ]);
 
 
     # table: machine
     $schema->resultset('machine')->populate([
         [ qw/ machine_id name user_id passwd descr created ip cpuarch osname archname disabled prev_machine_id farm_id / ],
-        [ 10, 'coke-darwin',  2, \'substring(MD5(RAND()), -8)', undef, \'NOW()', '',  'x86_64', 'darwin',  'i386-linux-thread-multi',  0, undef, undef   ],
+        [ 10, 'coke-darwin',  2, \'substring(unhex(MD5(RAND())), -8)', undef, \'NOW()', '',  'x86_64', 'darwin',  'i386-linux-thread-multi',  0, undef, undef   ],
     ]);
 
     # Parrot, Rakudo

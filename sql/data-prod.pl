@@ -25,7 +25,7 @@ return sub {
     $schema->resultset('user')->delete_all() if $delete_all;
     $schema->resultset('user')->populate([
         [ qw/ user_id login passwd first_name last_name irc_nick active created last_login / ],
-        [ 1, 'mj41', \'substring(MD5(RAND()), -8)', 'Michal', 'Jurosz', 'mj41', 1, \'NOW()', undef ],
+        [ 1, 'mj41', \'substring(unhex(MD5(RAND())), -8)', 'Michal', 'Jurosz', 'mj41', 1, \'NOW()', undef ],
     ]);
 
 
@@ -41,15 +41,15 @@ return sub {
     $schema->resultset('machine')->delete_all() if $delete_all;
     $schema->resultset('machine')->populate([
         [ qw/ machine_id name user_id passwd descr created ip cpuarch osname archname disabled prev_machine_id farm_id / ],
-        [ 1, 'tapir1',        1, \'substring(MD5(RAND()), -8)', undef, \'NOW()', '147.229.191.11', 'x86_64', 'linux',       'i386-linux-thread-multi',     0, undef, 1       ],
-        [ 2, 'tapir2',        1, \'substring(MD5(RAND()), -8)', undef, \'NOW()', '147.229.191.12', 'x86_64', 'linux',       'i386-linux-thread-multi',     0, undef, 1       ],
-        [ 3, 'pc-jurosz2',    1, \'substring(MD5(RAND()), -8)', undef, \'NOW()', '147.229.5.124',  'i386',   'MSWin32',     'MSWin32-x86-multi-thread',    0, undef, undef   ],
-        [ 4, 'ttcl-rh5-32',   1, \'substring(MD5(RAND()), -8)', undef, \'NOW()', '147.229.2.73',   'x86_64', 'linux',       'i386-linux-thread-multi',     0, undef, undef   ],
-        [ 5, 'ttcl-fbsd-32',  1, \'substring(MD5(RAND()), -8)', undef, \'NOW()', '147.229.2.193',  'x86_64', 'FreeBSD',     'i386-freebsd-64int',          0, undef, undef   ],
-        [ 6, 'ttcl-macos-32', 1, \'substring(MD5(RAND()), -8)', undef, \'NOW()', '147.229.2.183',  'x86_64', 'MacOS 10.5',  'darwin-thread-multi-2level',  0, undef, undef   ],
-        [ 7, 'ttcl-win-32',   1, \'substring(MD5(RAND()), -8)', undef, \'NOW()', '147.229.2.152',  'x86_64', 'cygwin',      'cygwin-thread-multi-64int',   0, undef, undef   ],
-        [ 8, 'ttcl-win2-32',  1, \'substring(MD5(RAND()), -8)', undef, \'NOW()', '147.229.2.160',  'x86_64', 'MSWin32',     'MSWin32-x86-multi-thread',    0, undef, undef   ],
-        [ 9, 'ttcl-osol-64',  1, \'substring(MD5(RAND()), -8)', undef, \'NOW()', '147.229.2.153',  'x86_64', 'OpenSolaris', 'i86pc-solaris-64int',         0, undef, undef   ],
+        [ 1, 'tapir1',        1, \'substring(unhex(MD5(RAND())), -8)', undef, \'NOW()', '147.229.191.11', 'x86_64', 'linux',       'i386-linux-thread-multi',     0, undef, 1       ],
+        [ 2, 'tapir2',        1, \'substring(unhex(MD5(RAND())), -8)', undef, \'NOW()', '147.229.191.12', 'x86_64', 'linux',       'i386-linux-thread-multi',     0, undef, 1       ],
+        [ 3, 'pc-jurosz2',    1, \'substring(unhex(MD5(RAND())), -8)', undef, \'NOW()', '147.229.5.124',  'i386',   'MSWin32',     'MSWin32-x86-multi-thread',    0, undef, undef   ],
+        [ 4, 'ttcl-rh5-32',   1, \'substring(unhex(MD5(RAND())), -8)', undef, \'NOW()', '147.229.2.73',   'x86_64', 'linux',       'i386-linux-thread-multi',     0, undef, undef   ],
+        [ 5, 'ttcl-fbsd-32',  1, \'substring(unhex(MD5(RAND())), -8)', undef, \'NOW()', '147.229.2.193',  'x86_64', 'FreeBSD',     'i386-freebsd-64int',          0, undef, undef   ],
+        [ 6, 'ttcl-macos-32', 1, \'substring(unhex(MD5(RAND())), -8)', undef, \'NOW()', '147.229.2.183',  'x86_64', 'MacOS 10.5',  'darwin-thread-multi-2level',  0, undef, undef   ],
+        [ 7, 'ttcl-win-32',   1, \'substring(unhex(MD5(RAND())), -8)', undef, \'NOW()', '147.229.2.152',  'x86_64', 'cygwin',      'cygwin-thread-multi-64int',   0, undef, undef   ],
+        [ 8, 'ttcl-win2-32',  1, \'substring(unhex(MD5(RAND())), -8)', undef, \'NOW()', '147.229.2.160',  'x86_64', 'MSWin32',     'MSWin32-x86-multi-thread',    0, undef, undef   ],
+        [ 9, 'ttcl-osol-64',  1, \'substring(unhex(MD5(RAND())), -8)', undef, \'NOW()', '147.229.2.153',  'x86_64', 'OpenSolaris', 'i86pc-solaris-64int',         0, undef, undef   ],
     ]);
 
     # table: project

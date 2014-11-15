@@ -53,7 +53,7 @@ return sub {
     $schema->resultset('machine')->delete_all() if $delete_all;
     $schema->resultset('machine')->populate([
         [ qw/ machine_id name user_id passwd descr created ip cpuarch osname archname disabled prev_machine_id farm_id / ],
-        [ 1, 'docker1',  1, \'substring(MD5("tt-docker-pswd765"), -8)', undef, \'NOW()', '127.0.0.1', 'x86_64', 'linux', 'i386-linux-thread-multi', 0, undef, 1 ],
+        [ 1, 'docker1',  1, \'substring(unhex(MD5("tt-docker-pswd765")), -8)', undef, \'NOW()', '127.0.0.1', 'x86_64', 'linux', 'i386-linux-thread-multi', 0, undef, 1 ],
     ]);
 
 
