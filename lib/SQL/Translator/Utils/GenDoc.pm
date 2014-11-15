@@ -9,7 +9,8 @@ use base qw(Exporter);
 
 
 sub produce_db_doc {
-    my ( $ver, $input_file, $table_name_url_prefix ) = @_;
+    my ( $ver, $input_file, $table_name_url_prefix, $out_dir ) = @_;
+	die "Directory '$out_dir' doesn't exist.\n" unless -d $out_dir;
 
     my $translator = SQL::Translator->new(
         parser    => 'MySQL',
@@ -88,10 +89,6 @@ sub produce_db_doc {
         };
         $tag_num++;
     }
-
-
-    my $out_dir = './temp/dbdoc';
-    mkdir( $out_dir ) unless -d $out_dir;
 
     my %out_files_map = (
         'as_png' => 'png',

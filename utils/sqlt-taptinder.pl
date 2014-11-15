@@ -19,7 +19,8 @@ sub mdump {
 
 my $to = $ARGV[0] || 'dbix';
 my $input_file = $ARGV[1] || './temp/schema-raw-create.sql';
-my $ver = $ARGV[2];
+my $dbdoc_out_dir = $ARGV[2];
+my $ver = $ARGV[3];
 $ver = 3 unless defined $ver;
 
 my $producer_prefix = 'TapTinder::DB::Schema';
@@ -61,7 +62,8 @@ if ( $to eq 'dbix' || $to eq 'ALL' ) {
     produce_db_doc(
         $ver,
         $input_file,
-        $table_name_url_prefix
+        $table_name_url_prefix,
+        $dbdoc_out_dir
     );
 
 # TODO - use AutoDia?

@@ -3,12 +3,13 @@
 set -e
 set -x
 
-TTCONF_DIR='/home/taptinder/tt-server/conf'
-TTROOT_DIR='/home/taptinder/tt-server/root'
+TTCONF_DIR='/opt/taptinder/server/conf'
+TTDATA_DIR='/opt/taptinder/server/data';
+TTROOT_DIR='/home/ttus/tt-server/root'
 
 if [ -e "$TTCONF_DIR/db.root-pass.conf" ]; then
 	echo "Setup already done."
-	exit
+	#exit
 fi
 
 if [ "$1" ]; then
@@ -19,38 +20,37 @@ echo -n "Working dir:"
 pwd
 
 mkdir -p -m 0700 $TTCONF_DIR
-chown taptinder:taptinder $TTCONF_DIR
+chown ttus:ttus $TTCONF_DIR
 touch $TTCONF_DIR/db.root-pass.conf
-chown taptinder $TTCONF_DIR/db.root-pass.conf
+chown ttus $TTCONF_DIR/db.root-pass.conf
 
-utils/mysql-secure.sh $TTCONF_DIR/db.root-pass.conf regen secure
-cd ../tt-server/
-utils/setup-mariadb.sh docker db $TTCONF_DIR/db.root-pass.conf $TTCONF_DIR/web_db.yml
-
-mkdir -p temp
-mkdir -p temp/dbdoc
-if [ ! -s $TTROOT_DIR/dbdoc ]; then
-	ln -s -T ../temp/dbdoc $TTROOT_DIR/dbdoc
+if [ ! -e "$TTCONF_DIR/db.root-pass.conf" ]; then
+	utils/mysql-secure.sh $TTCONF_DIR/db.root-pass.conf regen secure
+	cd ../tt-server/
+	utils/setup-mariadb.sh docker db $TTCONF_DIR/db.root-pass.conf $TTCONF_DIR/web_db.yml
 fi
+
+if [ ! -s "$TTROOT_DIR/dbdoc" ]; then
+	mkdir -p $TTDATA_DIR/dbdoc
+	ln -s -T $TTDATA_DIR/dbdoc $TTROOT_DIR/dbdoc
+fi
+
+mkdir -p $TTDATA_DIR/deploy-ddl
 
 echo "Running utils/all-sql.sh"
 if [ "$FAST" ]; then
-	utils/all-sql.sh base $TTCONF_DIR
+	utils/all-sql.sh base $TTCONF_DIR $TTDATA_DIR/deploy-ddl $TTDATA_DIR/dbdoc
 else
-	utils/all-sql.sh schema-images $TTCONF_DIR
+	utils/all-sql.sh images $TTCONF_DIR $TTDATA_DIR/deploy-ddl $TTDATA_DIR/dbdoc
 fi
 echo ""
 
-echo "Executing utils/deploy.pl --drop --deploy --data=prod"
-perl utils/deploy.pl --drop --deploy --data=prod --conf_dir $TTCONF_DIR
+echo "Executing utils/deploy.pl --drop --deploy --data=dev ..."
+perl utils/deploy.pl --drop --deploy --data=dev --conf_dir $TTCONF_DIR --ddl_dir $TTDATA_DIR/deploy-ddl
 echo ""
 
-echo "Copying temp/schema-raw-create.sql to temp/schema-raw-create-dump.sql"
-cp temp/schema-raw-create.sql temp/schema-raw-create-dump.sql
-echo ""
-
-echo "Executing utils/db-fill-sqldata.pl sql/data-prod-jobs.pl"
-perl utils/db-fill-sqldata.pl sql/data-prod-jobs.pl $TTCONF_DIR
+echo "Executing utils/db-fill-sqldata.pl sql/data-dev-jobs.pl"
+perl utils/db-fill-sqldata.pl sql/data-dev-jobs.pl $TTCONF_DIR
 echo ""
 
 mkdir -p $TTROOT_DIR/file
@@ -68,7 +68,7 @@ cp conf/web_project.yml.example conf/web_project.yml
 cp conf/web.yml.example conf/web.yml
 cp $TTROOT_DIR/lib/config/main.example $TTROOT_DIR/lib/config/main
 mkdir -p /tmp/taptinder /tmp/taptinder/uploads
-chown -R taptinder:taptinder /tmp/taptinder /tmp/taptinder/uploads
+chown -R ttus:ttus /tmp/taptinder /tmp/taptinder/uploads
 chmod a-rwx,u+rwx /tmp/taptinder /tmp/taptinder/uploads
 chmod -R a-rwx,u+r $TTCONF_DIR/*
 chmod a-rwx,u+rwx $TTCONF_DIR

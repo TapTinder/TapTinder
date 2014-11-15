@@ -23,12 +23,14 @@ my $opt_drop = 0;
 my $opt_deploy = 0;
 my $opt_data = 0;
 my $conf_dir = undef;
+my $ddl_dir = undef;
 my $options_ok = GetOptions(
     'save' => \$opt_save,
     'drop' => \$opt_drop,
     'deploy' => \$opt_deploy,
     'data=s' => \$opt_data,
     'conf_dir=s' => \$conf_dir,
+    'ddl_dir=s' => \$ddl_dir,
     'help|h|?' => \$help,
     'ver|v=i' => \$ver,
 );
@@ -43,7 +45,7 @@ my $schema = get_connected_schema( $conf->{db} );
 croak "Connection to DB failed." unless $schema;
 
 if ( $opt_save ) {
-    my $ddl_dir = catdir( $RealBin, '..', 'temp', 'deploy-ddl' );
+    $ddl_dir = catdir( $RealBin, '..', 'temp', 'deploy-ddl' ) unless $ddl_dir;
     unless ( -d $ddl_dir ) {
         mkdir $ddl_dir or croak $!;
     }
@@ -51,15 +53,13 @@ if ( $opt_save ) {
     my $drop_sql = TapTinder::Utils::DB::get_drop_all_existing_tables_sql( $schema );
     my $drop_sql_fpath = catfile( $ddl_dir, 'drop-all-tables.sql' );
     my $fh;
-    open( $fh, '>'.$drop_sql_fpath ) || croak $!;
+    open( $fh, '>'.$drop_sql_fpath ) || croak "Can't write to '$drop_sql_fpath': $!";
     print $fh $drop_sql;
     close $fh;
 
     $schema->create_ddl_dir('MySQL', undef, $ddl_dir);
-
     print "DDL files saved to $ddl_dir\n" if $ver >= 2;
 }
-
 
 if ( $db_work ) {
     $schema->storage->txn_begin;
@@ -73,9 +73,7 @@ if ( $opt_deploy ) {
     $schema->deploy();
 }
 
-
 if ( $opt_data ) {
-
     my $base_data = {};
     $base_data->{db_version} = '0.5';
     my $req_fname = 'data-base.pl';
@@ -96,7 +94,6 @@ if ( $opt_data ) {
         undef           # data
     );
 }
-
 
 if ( $db_work ) {
     $schema->storage->txn_commit;
