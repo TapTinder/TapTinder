@@ -53,8 +53,8 @@ sub option_fatal_err {
 
 option_fatal_err("Project name not found.") unless $project_name;
 
-my $cm_dir = catfile( $FindBin::Bin , '..', 'conf' );
-my $conf = load_conf_multi( $cm_dir, 'db', 'project' );
+my $conf_dir = $ENV{'TAPTINDER_SERVER_CONF_DIR'} || catdir( $RealBin, '..', 'conf');
+my $conf = load_conf_multi( $conf_dir, 'db', 'project' );
 
 croak "Configuration for database is empty.\n" unless $conf->{db};
 croak "Configuration for projects is empty.\n" unless $conf->{project};
@@ -86,10 +86,9 @@ print "Starting repository update for project '$project_name'.\n" if $ver >= 2;
 
 my $conf_rep = $conf->{project}->{$project_name};
 
-my $base_dir = catdir( $FindBin::RealBin, '..', '..' );
-my $work_tree = catdir( $base_dir, 'server-repos', $project_name );
-my $state_fn = catfile( $base_dir, 'server-repos', $project_name . '-state.pl' );
-
+my $base_repos_dir = $ENV{'TAPTINDER_REPOS_DIR'} || catdir( $FindBin::RealBin, '..', '..' );
+my $work_tree = catdir( $base_repos_dir, $project_name );
+my $state_fn = catfile( $base_repos_dir, $project_name . '-state.pl' );
 
 my $repo_url = $conf_rep->{repository};
 
@@ -136,9 +135,10 @@ my $repo = undef;
 unless ( -d $work_tree ) {
     print "Cloning '$repo_url' to '$work_tree'.\n" if $ver >= 3;
     mkdir( $work_tree) || croak "Can't create '$work_tree' direcotry: $!\n";
-    $repo = Git::Repository->create( 
+    Git::Repository->run(
         clone => '--mirror', $repo_url, $work_tree
     );
+    $repo = Git::Repository->new( work_tree => $work_tree );
 
 } else {
     print "Initializing from '$work_tree'.\n" if $ver >= 3;
