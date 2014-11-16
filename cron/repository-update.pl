@@ -6,7 +6,7 @@ ToDo
 * refactor to package/objects
 * add tests
 ** https://github.com/mj41/TapTinder/issues#issue/25
-* speed up 
+* speed up
 ** initil parrot to DB takes 15 minutes
 
 =cut
@@ -142,7 +142,7 @@ unless ( -d $work_tree ) {
 
 } else {
     print "Initializing from '$work_tree'.\n" if $ver >= 3;
-    $repo = Git::Repository->new( 
+    $repo = Git::Repository->new(
         git_dir => $work_tree,
     );
     if ( $steps->{pull} ) {
@@ -164,7 +164,7 @@ my $gitrepo_obj = Git::Repository::LogRaw->new( $repo, $ver );
 
 sub find_or_create_rep {
     my ( $schema, $project_name, $repo_url ) = @_;
-    
+
     my $rep_id = $schema->resultset('rep')->find(
         {
             repo_url => $repo_url,
@@ -173,13 +173,13 @@ sub find_or_create_rep {
             join => 'project_id',
         }
     );
-    
+
     return $rep_id if $rep_id;
-    
+
     my $project_id = $schema->resultset('project')->find_or_create({
         name   => $project_name,
     });
-    
+
     $rep_id = $schema->resultset('rep')->find_or_create({
         repo_url   => $repo_url,
         project_id => $project_id,
@@ -188,7 +188,7 @@ sub find_or_create_rep {
 
     return $rep_id;
 }
-  
+
 my $rep_id = find_or_create_rep( $schema, $project_name, $repo_url );
 print "Repository for '$project_name' and '$repo_url' has rep_id=$rep_id.\n" if $ver >= 3;
 
@@ -245,7 +245,7 @@ if ( $steps->{commits} ) {
     );
     print "Found " . (scalar @$log) . " new commit log items.\n" if $ver >= 3;
     #print Dumper( $log );
-    
+
     my $rcommit_rs = $schema->resultset('rcommit');
     my $sha_rs = $schema->resultset('sha');
     my $rauthor_rs = $schema->resultset('rauthor');
@@ -257,21 +257,21 @@ if ( $steps->{commits} ) {
 
         my $rcommit_sha = $log_commit->{commit};
         next if exists $rcommits_sha_list->{ $rcommit_sha };
-        
+
         print "Log msg '$log_commit->{msg}'\n" if $ver >= 5;
-        
+
         my $first_parent_sha = undef;
         my $first_parent_rcommit_id = undef;
         if ( defined $log_commit->{parents}->[0] ) {
            $first_parent_sha = $log_commit->{parents}->[0];
            unless ( exists $rcommits_sha_list->{$first_parent_sha} ) {
               push @$err, "First parent rcommit_id not found in sha_lit for sha '$first_parent_sha'.";
-              $all_ok = 0; 
+              $all_ok = 0;
               last LOG_COMMIT;
            }
            $first_parent_rcommit_id = $rcommits_sha_list->{ $first_parent_sha };
         }
-        
+
         my $rcommit_sha_id = $sha_rs->create({
             sha => $rcommit_sha,
         })->id;
@@ -303,12 +303,12 @@ if ( $steps->{commits} ) {
             parents_num => $num_of_parents,
             parent_id => $first_parent_rcommit_id,
             author_id => $author_id,
-            author_time => DateTime->from_epoch( 
+            author_time => DateTime->from_epoch(
                 epoch => $log_commit->{author}->{gmtime},
                 time_zone => 'GMT',
             ),
             committer_id => $committer_id,
-            committer_time => DateTime->from_epoch( 
+            committer_time => DateTime->from_epoch(
                 epoch => $log_commit->{committer}->{gmtime},
                 time_zone => 'GMT',
             ),
@@ -328,7 +328,7 @@ if ( $steps->{commits} ) {
                 my $parent_sha = $parents->[ $parent_num ];
                 unless ( exists $rcommits_sha_list->{ $parent_sha } ) {
                     push @$err, "Parent rcommit_id not found in sha_lit for sha '$parent_sha'.";
-                    $all_ok = 0; 
+                    $all_ok = 0;
                     last LOG_COMMIT;
                 }
                 my $parent_rcommit_id = $rcommits_sha_list->{ $parent_sha };
@@ -342,9 +342,9 @@ if ( $steps->{commits} ) {
                 $rcparents->{ $rcommit_id }->[ $parent_num ] = $parent_rcommit_id;
             }
         }
-        
+
         if ( $new_rcommits_num >= 1000 ) {
-            
+
             print "Commiting transaction.\n" if $ver >= 3;
             $schema->storage->txn_commit;
             print "Already added $commits_added_num commits.\n" if $ver >= 3;
@@ -355,7 +355,7 @@ if ( $steps->{commits} ) {
             $new_rcommits_num = 0;
         }
         $new_rcommits_num++;
-        
+
         $commits_added_num++;
     } # end foreach
 
@@ -367,7 +367,7 @@ print Dumper( $rcparents ) if $ver >= 6;
 
 sub get_db_refs {
     my ( $schema, $rep_id ) = @_;
-    
+
     my $all_rref_rs = $schema->resultset('rref')->search({
         'rcommit_id.rep_id' => $rep_id,
     }, {
@@ -387,15 +387,15 @@ sub get_db_refs {
 sub update_rref_rcommit {
     my ( $rref_rcommit_rs, $rcparents, $rcommits_time, $rep_id, $rref_id, $rref_rcommit_id ) = @_;
     print "Updating rref_rcommits for rref_id $rref_id (rcommit_id $rref_rcommit_id).\n"  if $ver >= 4;
-    
+
     my $num = 0;
     my $new_list = {};
     my $act_rcommit = $rref_rcommit_id;
     SEARCH_RREF: while (1) {
-       
+
         if ( ref $act_rcommit ) {
             #print "act_rcommit "; print Dumper( $act_rcommit );
-            
+
             # Find max committer_time.
             my $max_rcommit_id = undef;
             my $max_ts = 0;
@@ -415,24 +415,24 @@ sub update_rref_rcommit {
                     next if exists $act_rcommit->{ $tmp_rcommit_id };
                     $act_rcommit->{ $tmp_rcommit_id } = 1;
                 }
-            
+
             } else {
                 my $tmp_rcommit_id = $rcparents->{ $max_rcommit_id };
-                if (    (defined $tmp_rcommit_id) 
-                     && (not exists $new_list->{$tmp_rcommit_id}) 
-                     && (not exists $act_rcommit->{$tmp_rcommit_id}) 
-                   ) 
+                if (    (defined $tmp_rcommit_id)
+                     && (not exists $new_list->{$tmp_rcommit_id})
+                     && (not exists $act_rcommit->{$tmp_rcommit_id})
+                   )
                 {
                     $act_rcommit->{ $tmp_rcommit_id } = 1;
                 }
             }
-            
+
             last SEARCH_RREF unless scalar keys %$act_rcommit;
 
         } else {
             last SEARCH_RREF unless defined $act_rcommit;
             my $rcommit_id = $act_rcommit;
-            
+
             $new_list->{ $rcommit_id } = 1;
             if ( ref $rcparents->{ $rcommit_id } ) {
                 $act_rcommit = {};
@@ -445,10 +445,10 @@ sub update_rref_rcommit {
             }
         }
         $num++;
-        
+
         last if $num >= 100;
-        
-       
+
+
     }
     #print Dumper( $new_list );
 
@@ -460,7 +460,7 @@ sub update_rref_rcommit {
         'select' => [ 'me.rcommit_id', ],
         'as' => [ 'rcommit_id', ],
     });
-    
+
     my $act_data = {};
     while ( my $rref_rcommit_row = $this_rref_rcommits_rs->next ) {
         my $rcommit_id = $rref_rcommit_row->get_column('rcommit_id');
@@ -475,14 +475,14 @@ sub update_rref_rcommit {
         }
     }
     #print Dumper( $new_list );
-    
+
     foreach my $rcommit_id ( keys %$new_list ) {
         $rref_rcommit_rs->create({
             rref_id => $rref_id,
             rcommit_id => $rcommit_id,
         });
     }
-    
+
     return 1;
 }
 
@@ -506,17 +506,17 @@ if ( $all_ok && $steps->{refs} ) {
         my $ref_info = $repo_refs->{ $ref_key };
         my $ref_sha = $ref_info->{sha};
         my $ref_fullname = $ref_info->{fullname};
-        
+
         # rref with this name already exists
         if ( exists $db_refs->{$ref_key} ) {
             if ( $db_refs->{$ref_key} eq $ref_sha && $db_refs->{$ref_key}->{active} ) {
                 print "Ref '$ref_key' not changed.\n" if $ver >= 5;
-            
+
             } else {
                 my $rref_id = $db_refs->{$ref_key}->{rref_id};
                 unless ( exists $rcommits_sha_list->{ $ref_sha } ) {
                     push @$err, "Can't find rcommit_id for sha '$ref_sha' in sha_list.";
-                    $all_ok = 0; 
+                    $all_ok = 0;
                     last REF_LIST;
                 }
                 my $rcommit_id = $rcommits_sha_list->{ $ref_sha };
@@ -532,10 +532,10 @@ if ( $all_ok && $steps->{refs} ) {
             delete $db_refs->{$ref_key};
             next REF_LIST;
         }
-        
+
         unless ( exists $rcommits_sha_list->{ $ref_sha } ) {
             push @$err, "Can't find rcommit_id for sha '$ref_sha' in sha_list.";
-            $all_ok = 0; 
+            $all_ok = 0;
             last REF_LIST;
         }
         my $rcommit_id = $rcommits_sha_list->{ $ref_sha };
@@ -564,12 +564,12 @@ if ( $all_ok && $steps->{refs} ) {
         $rref_rcommit_rs->search({ rref_id => $rref_id })->delete;
         $rref_removed_num++;
     }
-    
+
     print "Deactivated $rref_removed_num refs.\n" if $ver >= 3;
- 
+
     $db_refs = get_db_refs( $schema, $rep_id );
     print Dumper( $db_refs ) if $ver >= 5;
-   
+
 } # end if
 
 
