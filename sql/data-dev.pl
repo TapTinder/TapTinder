@@ -9,7 +9,7 @@ use Cwd 'abs_path';
 return sub {
     my ( $schema, $delete_all, $data ) = @_;
 
-    my $server_data_dir = abs_path(
+    my $server_data_dir = $ENV{'TAPTINDER_SERVER_DATA_DIR'} || abs_path(
         File::Spec->catdir( $FindBin::Bin, '..', '..', 'server-data' )
     );
 
