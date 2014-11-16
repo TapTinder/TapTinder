@@ -20,7 +20,8 @@ my $noipc = $ARGV[1] || 0;
 croak "SQL file path not given" unless defined $sql_fpath;
 croak "SQL file '$sql_fpath' not found" unless -f $sql_fpath;
 
-my $conf_fpath = catfile( $RealBin, '..', 'conf', 'web_db.yml' );
+my $conf_dir = $ENV{'TAPTINDER_SERVER_CONF_DIR'} || catdir( $RealBin, '..', 'conf');
+my $conf_fpath = catfile($conf_dir, 'web_db.yml');
 my ( $conf ) = YAML::LoadFile( $conf_fpath );
 croak "Configuration for database loaded from '$conf_fpath' is empty.\n" unless $conf->{db};
 

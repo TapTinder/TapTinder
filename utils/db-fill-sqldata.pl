@@ -12,10 +12,8 @@ use TapTinder::Utils::DB qw(get_connected_schema);
 
 my $ver = 3;
 my $req_fpath = $ARGV[0];
-my $conf_dir = $ARGV[1] || undef;
-
+my $conf_dir = $ARGV[1] || $ENV{'TAPTINDER_SERVER_CONF_DIR'} || catdir( $RealBin, '..', 'conf');
 my $conf = load_conf_multi( $conf_dir, 'db' );
-croak "Configuration for database is empty.\n" unless $conf->{db};
 
 my $schema = get_connected_schema( $conf->{db} );
 croak "Connection to DB failed." unless $schema;
