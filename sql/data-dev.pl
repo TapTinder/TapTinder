@@ -8,11 +8,11 @@ use Cwd 'abs_path';
 
 return sub {
     my ( $schema, $delete_all, $data ) = @_;
-    
-    my $server_data_dir = abs_path( 
+
+    my $server_data_dir = abs_path(
         File::Spec->catdir( $FindBin::Bin, '..', '..', 'server-data' )
     );
-    
+
 
     # table: params
     $schema->resultset('param')->search({
@@ -22,8 +22,8 @@ return sub {
         [ qw/ param_type_id value / ],
         [ 2, 'ttdev' ],
     ]);
-    
-    
+
+
     # table: user
     $schema->resultset('user')->delete_all() if $delete_all;
     $schema->resultset('user')->populate([
@@ -66,7 +66,7 @@ return sub {
         [ 3, 'tt-tr3', 'http://dev.taptinder.org/wiki/TapTinder-tr3', 'TapTinder test repository 3' ],
     ]);
 
- 
+
     # table: rep
     $schema->resultset('rep')->delete_all() if $delete_all;
     $schema->resultset('rep')->populate([
@@ -85,7 +85,7 @@ return sub {
         [ 2, $server_data_dir.'/archive',  'file/patch',  1, \'NOW()', undef, 'dir-archive',  'dir for archives'         ],
     ]);
 
- 
+
     # table: fspath_select
     $schema->resultset('fspath_select')->delete_all() if $delete_all;
     $schema->resultset('fspath_select')->populate([
@@ -103,7 +103,7 @@ return sub {
         [                   13,              3,      3,         2,  ],
     ]);
 
- 
+
     # table: ibot
     $schema->resultset('ibot')->delete_all() if $delete_all;
     $schema->resultset('ibot')->populate([
