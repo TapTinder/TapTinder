@@ -1,8 +1,8 @@
 ---
 project:
   tt-tr1:
-   repository: 'git://github.com/mj41/tt-tr1.git'
+   repository: 'git://github.com/TapTinder/tt-tr1.git'
   tt-tr2:
-   repository: 'git://github.com/mj41/tt-tr2.git'
+   repository: 'git://github.com/TapTinder/tt-tr2.git'
   tt-tr3:
-   repository: 'git://github.com/mj41/tt-tr3.git'
+   repository: 'git://github.com/TapTinder/tt-tr3.git'
