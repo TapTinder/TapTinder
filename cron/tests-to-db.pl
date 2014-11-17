@@ -38,9 +38,8 @@ my $options_ok = GetOptions(
 );
 pod2usage(1) if $help || !$options_ok;
 
-my $conf = load_conf_multi( undef, 'db' );
-croak "Configuration for database is empty.\n" unless $conf->{db};
-
+my $conf_dir = $ENV{'TAPTINDER_SERVER_CONF_DIR'} || catdir( $RealBin, '..', 'conf');
+my $conf = load_conf_multi( $conf_dir, 'db' );
 my $schema = get_connected_schema( $conf->{db} );
 
 my $plus_rows = [ qw/ msjobp_cmd_id file_path file_name rcommit_id project_id /];

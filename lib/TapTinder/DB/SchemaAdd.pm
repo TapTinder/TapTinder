@@ -18,15 +18,14 @@ $new_source5->name(\<<'SQLEND');
 select mjpc.msjobp_cmd_id,
        fsp.path as file_path,
        fsf.name as file_name,
-       mjp.rev_id,
-       r.rev_num,
-       jp.rep_path_id
+       r.rcommit_id,
+       jp.project_id
  from msjobp_cmd mjpc,
       jobp_cmd jpc,
       fsfile fsf,
       fspath fsp,
       msjobp mjp,
-      rev r,
+      rcommit r,
       msjob mj,
       jobp jp
 where mjpc.outdata_id is not null
@@ -40,7 +39,7 @@ where mjpc.outdata_id is not null
   and fsf.fsfile_id = mjpc.outdata_id
   and fsp.fspath_id = fsf.fspath_id
   and mjp.msjobp_id = mjpc.msjobp_id
-  and r.rev_id = mjp.rev_id
+  and r.rcommit_id = mjp.rcommit_id
   and mj.msjob_id = mjp.msjob_id
   and jp.jobp_id = mjp.jobp_id
 order by mjpc.msjobp_cmd_id desc
