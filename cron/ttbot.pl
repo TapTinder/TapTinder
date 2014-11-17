@@ -37,8 +37,8 @@ unless ( defined $ibot_id ) {
     pod2usage(1);
 }
 
-my $conf = load_conf_multi( undef, 'db' );
-croak "Configuration for database is empty.\n" unless $conf->{db};
+my $conf_dir = $ENV{'TAPTINDER_SERVER_CONF_DIR'} || catdir( $RealBin, '..', 'conf');
+my $conf = load_conf_multi( $conf_dir, 'db' );
 
 my $schema = get_connected_schema( $conf->{db} );
 
@@ -65,8 +65,8 @@ my $ichannel_rs = $schema->resultset('ichannel_conf')->search(
 croak "Channel conf for bot_id = $ibot_id not found." unless $ichannel_rs;
 my $channel_names = {};
 while ( my $ichannel_row = $ichannel_rs->next ) {
-    my %conf = $ichannel_row->get_columns;
-    my $channel_name = $conf{channel_name};
+    my %ichannel = $ichannel_row->get_columns;
+    my $channel_name = $ichannel{channel_name};
     $channel_names->{ $channel_name } = 1;
 }
 
@@ -86,9 +86,8 @@ $bot->load("Auth");
 $bot->load("TapTinderBot");
 
 my $server_base_url = 'http://tt.taptinder.org/';
-$server_base_url = 'http://tapir1.ro.vutbr.cz:2000/' if $db_type eq 'dev';
-#$server_base_url = 'http://ttdev.taptinder.org/' if $db_type eq 'dev';
-$server_base_url = 'http://ttcopy.taptinder.org/' if $db_type eq 'copy';
+$server_base_url = 'http://ttdev.taptinder.org/' if $db_type eq 'dev';
+$server_base_url = 'http://localhost:2000/' if $db_type eq 'local';
 
 my $TapTinderBot_handler = $bot->handler("TapTinderBot");
 $TapTinderBot_handler->_my_init(
@@ -118,7 +117,7 @@ Example:
 
  Options:
    --help
-   --db_type .. Possibilities: 'prod', 'dev', 'copy'.
+   --db_type .. Possibilities: 'prod', 'dev', 'local'.
    --ibot_id .. ID to ibot table.
    --ver .. Verbosity level.
    --debug .. Debug.
