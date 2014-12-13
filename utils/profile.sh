@@ -1,3 +1,5 @@
+#!/bin/bash
+
 rm -rf ./nytprof/
 mkdir ./nytprof/
 

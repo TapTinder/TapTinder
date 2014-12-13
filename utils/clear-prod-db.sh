@@ -1,3 +1,5 @@
+#!/bin/bash
+
 clear
 
 echo "Going to change database to clear devel version. All data will be lost."
