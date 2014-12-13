@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/bin/sh
 
 for ((i=1;1;i++)); do
 	echo "Run number: " $i

@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/bin/sh
 
 rm -rf ./nytprof/
 mkdir ./nytprof/

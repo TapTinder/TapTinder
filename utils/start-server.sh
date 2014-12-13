@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/bin/sh
 
 function echo_help {
 cat <<USAGE_END
