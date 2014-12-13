@@ -1,4 +1,4 @@
-#! perl
+#!/usr/bin/env perl
 
 # server> perl utils/wiki_schema.pl sql/schema.wiki 1 1 > sql/schema.sql
 # server> perl utils/wiki_schema.pl sql/schema.wiki 0 1 trun > temp/table-trun.sql
