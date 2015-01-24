@@ -34,6 +34,7 @@ use Catalyst qw/
     Session
     Session::Store::FastMmap
     Session::State::Cookie
+    SmartURI
 /;
 
 extends 'Catalyst';
@@ -64,7 +65,9 @@ TapTinder::Web->config(
         },
     },
     'root' => TapTinder::Web->path_to('root'),
-
+    'Plugin::SmartURI' => {
+        disposition => 'hostless',
+    },
     'Plugin::Authentication' => {
         default => {
             credential => {
