@@ -11,6 +11,7 @@
 /root/file
 /blib/*
 /inc/*
+/local/*
 META.yml
 MYMETA.json
 MYMETA.yml
