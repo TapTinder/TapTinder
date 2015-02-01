@@ -45,17 +45,16 @@ return sub {
     $schema->resultset('farm')->delete_all() if $delete_all;
     $schema->resultset('farm')->populate([
         [ qw/ farm_id name has_same_hw has_same_sw descr / ],
-        [ 1, 'tapir cluster', 1, 0, 'Dedicated to TapTinder.' ],
+        [ 1, 'tapir test cluster', 1, 0, 'TapTinder test farm 1.' ],
     ]);
 
 
     # table: machine
     $schema->resultset('machine')->delete_all() if $delete_all;
     $schema->resultset('machine')->populate([
-        [ qw/ machine_id name user_id passwd descr created ip cpuarch osname archname disabled prev_machine_id farm_id / ],
-        [ 1, 'docker1',  1, \'substring(unhex(MD5("tt-docker-pswd765")), -8)', undef, \'NOW()', '127.0.0.1', 'x86_64', 'linux', 'i386-linux-thread-multi', 0, undef, 1 ],
+        [ qw/ machine_id name token descr user_id created ip cpuarch osname archname disabled prev_machine_id farm_id / ],
+        [ 1, 'docker1',  \'substring(unhex(MD5("tt-dockertoken16")), -8)', undef, 1, \'NOW()', '127.0.0.1', 'x86_64', 'linux', 'i386-linux-thread-multi', 0, undef, 1 ],
     ]);
-
 
     # table: project
     $schema->resultset('project')->delete_all() if $delete_all;

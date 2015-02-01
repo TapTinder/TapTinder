@@ -11,7 +11,8 @@ use DateTime;
 use File::Spec;
 use File::Copy;
 
-use constant SUPPORTED_REVISION => 331; # ToDo
+# ToDo - see TapTinder::Client::WebAgent
+use constant SUPPORTED_REVISION => 400;
 
 
 =head1 DESCRIPTION
@@ -103,29 +104,75 @@ sub release_lock_for_machine_action {
     return $ra_row->[0];
 }
 
-=method login_ok
+=method token2md5
 
-Check and log login params - machine_id and password.
+Return md5 for token provided.
 
 =cut
 
-sub login_ok {
-    my ( $self, $c, $data, $machine_id, $passwd ) = @_;
+sub token2md5 {
+	my ( $self, $token ) = @_;
+	return substr( md5($token), -8)
+}
 
-    my $passwd_md5 = substr( md5($passwd), -8); # TODO - refactor to own module
-    my $rs = $c->model('WebDB::machine')->search( {
-        machine_id => $machine_id,
-        passwd => $passwd_md5,
-    } );
-    my $row = $rs->next;
-    if ( !$row ) {
-        $data->{ag_err} = 1;
-        $data->{ag_err_msg} = "Error: Bad login or password.";
+=method use_reg_token
+
+Use reg_token to register machine.
+
+=cut
+
+sub use_reg_token {
+    my ( $self, $c, $data, $client_token, $reg_token ) = @_;
+
+	# ToDO - more configurations
+	# * disable open reg (reg_token)
+	# * custom reg_token
+	# * more than one reg_token
+	# * reg_token configurable per user_id (use to fill machine.user_id)
+	# * ...
+	if ( $reg_token ne 'openTTserver' ) {
+		$data->{ag_err} = 1;
+		$data->{ag_err_msg} = "Error: Provided reg_token is invalid.";
+		return 0;
+	}
+
+    my $machine_rs = $c->model('WebDB::machine')->create({
+        token => $self->token2md5( $client_token ),
+        created  => DateTime->now,
+    });
+    if ( ! $machine_rs ) {
+        $data->{err} = 1;
+        $data->{err_msg} = "Error: Failed to create new machine."; # TODO
         return 0;
     }
+    return $machine_rs->get_column('machine_id');
 
+
+}
+
+=method token2machine_id
+
+Check client_token and log login params - machine_id and password.
+
+=cut
+
+sub token2machine_id {
+    my ( $self, $c, $data, $client_token, $reg_token ) = @_;
+
+    my $rs = $c->model('WebDB::machine')->search( {
+        token => $self->token2md5( $client_token ),
+    } );
+    my $row = $rs->next;
     #$self->dumper( $c, { $row->get_columns() } );
-    return 1;
+    return $row->get_column('machine_id') if $row;
+
+	if ( ! $reg_token ) {
+		$data->{ag_err} = 1;
+		$data->{ag_err_msg} = "Error: Unknown client_token (and reg_token not provided).";
+		return 0;
+	}
+
+	return $self->use_reg_token( $c, $data, $client_token, $reg_token );
 }
 
 
@@ -181,38 +228,31 @@ Default method for all actions. Do base checks (L<login_ok|login_ok>, L<msession
 sub access_allowed {
     my ( $self, $c, $data, $params, $param_msid_checks ) = @_;
 
-    unless ( $params->{mid} ) {
+    unless ( $params->{ctok} ) {
         $data->{ag_err} = 1;
-        $data->{ag_err_msg} = "Error: Parameter mid (machine.machine_id) required.";
+        $data->{ag_err_msg} = "Error: Parameter ctok (client_token) required.";
         return 0;
     }
-    my $machine_id = $params->{mid};
+    my $client_token = $params->{ctok};
+    my $reg_token = $params->{rtok} || '';
 
-    unless ( $params->{pass} ) {
-        $data->{ag_err} = 1;
-        $data->{ag_err_msg} = "Error: Parameter pass (machine.passwd) required.";
-        return 0;
-    }
-    my $passwd = $params->{pass};
+    my $machine_id = $self->token2machine_id( $c, $data, $client_token, $reg_token );
+    return 0 unless $machine_id;
 
-    my $login_ok = $self->login_ok( $c, $data, $machine_id, $passwd );
-    return 0 unless $login_ok;
+    if ( $param_msid_checks ) {
+		if ( ! $params->{msid} ) {
+			$data->{ag_err} = 1;
+			$data->{ag_err_msg} = "Error: Parameter msid (msession.msession_id) required.";
+			return 0;
+		}
 
-
-    if ( $param_msid_checks && not $params->{msid} ) {
-        $data->{ag_err} = 1;
-        $data->{ag_err_msg} = "Error: Parameter msid (msession.msession_id) required.";
-        return 0;
-    }
-    my $msession_id = $params->{msid};
-
-    if ( $msession_id ) {
-        my $login_ok = $self->msession_ok( $c, $data, $machine_id, $msession_id );
-        return 0 unless $login_ok;
-    }
+		my $msession_id = $params->{msid};
+		my $login_ok = $self->msession_ok( $c, $data, $machine_id, $msession_id );
+		return 0 unless $login_ok;
+	}
 
     $data->{ag_err} = 0;
-    return 1;
+    return $machine_id;
 }
 
 
@@ -288,10 +328,7 @@ Create new machine session (msession).
 =cut
 
 sub cmd_mscreate {
-    my ( $self, $c, $data, $params ) = @_;
-
-    # $params->{mid} - already checked
-    my $machine_id = $params->{mid};
+    my ( $self, $c, $machine_id, $data, $params ) = @_;
 
     $self->check_param( $c, $data, $params, 'crev', 'client code revision' ) || return 0;
     my $client_rev = $params->{crev};
@@ -455,7 +492,7 @@ Return new job description for client.
 sub get_new_job {
     my ( $self, $c, $data, $machine_id, $msession_id ) = @_;
 
-    my $cols = [ qw/ 
+    my $cols = [ qw/
         wconf_job_id
         rep_id
         rref_id
@@ -519,7 +556,7 @@ sub get_new_job {
     my $ba = [ $machine_id, $machine_id ];
     my $sr_job_data = $self->edbi_selectall_arrayref_slice( $c, $cols, $sql, $ba );
     #print STDERR Data::Dumper::Dumper( $sr_job_data );
-    
+
     my $job_id = undef;
     my $rc_data = undef;
     my $rref_done_list = {};
@@ -531,17 +568,17 @@ sub get_new_job {
         my $rref_id = $row->{rref_id};
         my $rep_id = $row->{rep_id};
         $job_id = $row->{job_id};
-        
+
         my $done_key = $job_id . '-' . $rep_id;
-        
+
         if ( $rref_id ) {
             $done_key .= '-' . $rref_id;
 
             next if exists $rref_done_list->{ $done_key };
             $rref_done_list->{ $done_key } = 1;
-            
+
             $sql = "
-              from ( 
+              from (
                 select rc.rcommit_id
                   from rref_rcommit rrc
                   join rcommit rc
@@ -571,7 +608,7 @@ sub get_new_job {
             $ba = [ $row->{jobp_id}, $rref_id, $machine_id, $job_id ];
 
         } else {
-            # ToDo - Is this part usefull? 
+            # ToDo - Is this part usefull?
             next;
 
             # No rref_id given. Doing for all refs.
@@ -579,7 +616,7 @@ sub get_new_job {
             $rref_done_list->{ $done_key } = 1;
 
             $sql = "
-              from ( 
+              from (
                 select rc.rcommit_id
                   from rcommit rc
                   join jobp jp
@@ -845,7 +882,7 @@ sub get_jobp_master_ref_rcommit_id {
     my $job = $c->model('WebDB::jobp')->single( { jobp_id => $jobp_id, } );
     my $project_id = $job->get_column('project_id');
     my $rs = $c->model('WebDB::rref')->search(
-        { 
+        {
             'me.name' => 'master',
             'me.active' => 1,
             'rep_id.active' => 1,
@@ -875,10 +912,8 @@ row to msjob table if needed.
 =cut
 
 sub cmd_cget {
-    my ( $self, $c, $data, $params ) = @_;
+    my ( $self, $c, $machine_id, $data, $params ) = @_;
 
-    # $params->{mid} - already checked
-    my $machine_id = $params->{mid};
     # $params->{msid} - already checked
     my $msession_id = $params->{msid};
     # $params->{mspid} - already checked
@@ -913,7 +948,7 @@ sub cmd_cget {
                 # find new rcommit_id
                 my $rcommit_id = $self->get_jobp_master_ref_rcommit_id( $c, $data, $jobp_id );
                 return $self->txn_end( $c, $data, 0 ) unless $rcommit_id;
-                
+
                 # ToDo #issue/17 - get not tested rcommit_id
                 return $self->txn_end( $c, $data, 0 );
 
@@ -1157,8 +1192,6 @@ Set msjobp_cmd.status_id.
 sub cmd_sset {
     my ( $self, $c, $data, $params, $upload ) = @_;
 
-    # $params->{mid} - already checked
-    my $machine_id = $params->{mid};
     # $params->{mspid} - already checked
     my $msproc_id = $params->{mspid};
     # TODO - is_numeric?
@@ -1255,8 +1288,6 @@ Get info for rep_path_id an rev_id.
 sub cmd_rciget {
     my ( $self, $c, $data, $params, $upload ) = @_;
 
-    # $params->{mid} - already checked
-    my $machine_id = $params->{mid};
     # $params->{msid} - already checked
     my $msession_id = $params->{msid};
     # $params->{mspid} - already checked
@@ -1292,8 +1323,6 @@ Machine event occured.
 sub cmd_mevent {
     my ( $self, $c, $data, $params ) = @_;
 
-    # $params->{mid} - already checked
-    my $machine_id = $params->{mid};
     # $params->{msid} - already checked
     my $msession_id = $params->{msid};
     # $params->{mspid} - already checked
@@ -1392,12 +1421,12 @@ sub process_action {
         return 0;
     }
 
-    my $access_ok = $self->access_allowed( $c, $data, $params, $param_msid_checks );
+    my $machine_id = $self->access_allowed( $c, $data, $params, $param_msid_checks );
 
     my $cmd_ret_code = undef;
-    if ( $access_ok ) {
+    if ( $machine_id ) {
         if ( $action eq 'mscreate' ) {
-            $cmd_ret_code = $self->cmd_mscreate( $c, $data, $params );
+            $cmd_ret_code = $self->cmd_mscreate( $c, $machine_id, $data, $params );
 
         } elsif ( $action eq 'mspcreate' ) {
             $cmd_ret_code = $self->cmd_mspcreate( $c, $data, $params );
@@ -1406,16 +1435,16 @@ sub process_action {
             $cmd_ret_code = $self->cmd_msdestroy( $c, $data, $params );
 
         } elsif ( $action eq 'cget' ) {
-            $cmd_ret_code = $self->cmd_cget( $c, $data, $params );
+            $cmd_ret_code = $self->cmd_cget( $c, $machine_id, $data, $params );
 
         } elsif ( $action eq 'sset' ) {
             $cmd_ret_code = $self->cmd_sset( $c, $data, $params, $c->request->upload );
 
         } elsif ( $action eq 'rciget' ) {
-            $cmd_ret_code = $self->cmd_rciget( $c, $data, $params );
+            $cmd_ret_code = $self->cmd_rciget( $c, $machine_id, $data, $params );
 
         } elsif ( $action eq 'mevent' ) {
-            $cmd_ret_code = $self->cmd_mevent( $c, $data, $params );
+            $cmd_ret_code = $self->cmd_mevent( $c, $machine_id, $data, $params );
 
         }
     }

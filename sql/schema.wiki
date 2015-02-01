@@ -54,10 +54,10 @@ CREATE TABLE user_roles (
 <source lang=sql>
 CREATE TABLE machine (
     machine_id      INT UNSIGNED NOT NULL AUTO_INCREMENT PRIMARY KEY,
-    user_id         INT UNSIGNED NOT NULL,
-    name            VARCHAR(20) NOT NULL,
-    passwd          VARCHAR(20) NOT NULL,
+    token           VARCHAR(8) NOT NULL,
+    name            VARCHAR(20) DEFAULT NULL,
     descr           TEXT DEFAULT NULL COMMENT 'Description.',
+    user_id         INT UNSIGNED DEFAULT NULL,
     ip              VARCHAR(15) DEFAULT NULL,
     cpuarch         VARCHAR(50) DEFAULT NULL,
     osname          VARCHAR(50) DEFAULT NULL,
@@ -66,6 +66,8 @@ CREATE TABLE machine (
     created         DATETIME NOT NULL,
     prev_machine_id INT UNSIGNED DEFAULT NULL,
     farm_id         INT UNSIGNED DEFAULT NULL,
+    UNIQUE KEY machine_token (token),
+    INDEX i_token (token),
     CONSTRAINT fk_machine_user_id FOREIGN KEY (user_id) REFERENCES user (user_id),
     CONSTRAINT fk_machine_prev_machine_id FOREIGN KEY (prev_machine_id) REFERENCES machine (machine_id),
     CONSTRAINT fk_machine_farm_id FOREIGN KEY (farm_id) REFERENCES farm (farm_id)

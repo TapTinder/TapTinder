@@ -2422,31 +2422,22 @@ __PACKAGE__->add_columns(
       'is_nullable' => 0,
       'size' => '10'
     },
-    'user_id' => {
-      'data_type' => 'int',
+    'token' => {
+      'data_type' => 'VARCHAR',
       'is_auto_increment' => 0,
       'default_value' => undef,
-      'is_foreign_key' => 1,
-      'name' => 'user_id',
+      'is_foreign_key' => 0,
+      'name' => 'token',
       'is_nullable' => 0,
-      'size' => '10'
+      'size' => '20'
     },
     'name' => {
       'data_type' => 'VARCHAR',
       'is_auto_increment' => 0,
-      'default_value' => undef,
+      'default_value' => 'NULL',
       'is_foreign_key' => 0,
       'name' => 'name',
-      'is_nullable' => 0,
-      'size' => '20'
-    },
-    'passwd' => {
-      'data_type' => 'VARCHAR',
-      'is_auto_increment' => 0,
-      'default_value' => undef,
-      'is_foreign_key' => 0,
-      'name' => 'passwd',
-      'is_nullable' => 0,
+      'is_nullable' => 1,
       'size' => '20'
     },
     'descr' => {
@@ -2457,6 +2448,15 @@ __PACKAGE__->add_columns(
       'name' => 'descr',
       'is_nullable' => 1,
       'size' => '65535'
+    },
+    'user_id' => {
+      'data_type' => 'int',
+      'is_auto_increment' => 0,
+      'default_value' => 'NULL',
+      'is_foreign_key' => 1,
+      'name' => 'user_id',
+      'is_nullable' => 1,
+      'size' => '10'
     },
     'ip' => {
       'data_type' => 'VARCHAR',
@@ -3651,7 +3651,7 @@ __PACKAGE__->has_many('get_brun', 'TapTinder::DB::Schema::brun', 'msjobp_cmd_id'
 
 package TapTinder::DB::Schema::machine;
 
-__PACKAGE__->belongs_to('user_id','TapTinder::DB::Schema::user','user_id');
+__PACKAGE__->belongs_to('user_id','TapTinder::DB::Schema::user','user_id',{join_type => 'left'});
 
 __PACKAGE__->belongs_to('prev_machine_id','TapTinder::DB::Schema::machine','prev_machine_id',{join_type => 'left'});
 

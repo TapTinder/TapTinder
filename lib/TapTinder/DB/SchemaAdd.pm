@@ -88,7 +88,7 @@ TapTinder::DB::Schema->register_extra_source('ActiveRepPathList' => $new_source6
 package TapTinder::DB::Schema::machine;
 __PACKAGE__->cwm_conf( {
     auth => {
-        'passwd' => 'R',
+        'token' => 'R',
         'ip' => 'R',
     },
 } );
