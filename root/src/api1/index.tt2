@@ -5,9 +5,16 @@
 </div>
 
 <hr>
+
+<ul>
+[% FOREACH apii IN rest -%]
+	<li><a href="[% c.uri_for( apii.value.uri ) -%]">[% apii.value.uri -%]</a> - [% apii.value.info -%]</li>
+[% END -%]
+</ul>
+<hr>
+
 <pre>
 [% rest_html_dump(rest) %]
 </pre>
-<hr>
 
 [% INCLUDE 'inc/rest-ct.tt2' %]
