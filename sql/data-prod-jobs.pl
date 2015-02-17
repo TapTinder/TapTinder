@@ -16,8 +16,8 @@ return sub {
         $schema->resultset('msession')->delete_all();
     }
 
-    # Parrot, Rakudo
-    my $master_parrot_rref_rs = $schema->resultset('rref')->find(
+    # MoarVM, Rakudo
+    my $master_moarvm_rref_rs = $schema->resultset('rref')->find(
         {
             'me.name' => 'master',
             'rcommit_id.rep_id' => 4, # default repo for tt-tr3 project, see data-dev.pl
@@ -26,8 +26,8 @@ return sub {
             join => 'rcommit_id',
         }
     );
-    my $master_parrot_rref_id = undef;
-    $master_parrot_rref_id = $master_parrot_rref_rs->id if defined $master_parrot_rref_rs;
+    my $master_moarvm_rref_id = undef;
+    $master_moarvm_rref_id = $master_moarvm_rref_rs->id if defined $master_moarvm_rref_rs;
 
     my $master_rakudo_rref_rs = $schema->resultset('rref')->find(
         {
@@ -46,7 +46,7 @@ return sub {
     $schema->resultset('job')->delete_all() if $delete_all;
     $schema->resultset('job')->populate([
         [ qw/ job_id  client_min_ver  priority           name   descr / ],
-        [          1,            257,        1,      'Parrot',  undef    ],
+        [          1,            257,        1,      'MoarVM',  undef    ],
         [          2,            257,        2,      'Rakudo',  undef    ],
     ]);
 
@@ -55,7 +55,7 @@ return sub {
     $schema->resultset('jobp')->delete_all() if $delete_all;
     $schema->resultset('jobp')->populate([
         [ qw/ jobp_id  job_id  project_id    rorder             name    descr    max_age  depends_on_id  extends /  ],
-        [           1,      1,          4,       1,     'sole Parrot',  undef,      3*24,         undef,       0    ],
+        [           1,      1,          4,       1,     'sole MoarVM',  undef,      3*24,         undef,       0    ],
         [           2,      2,          5,       1,     'sole Rakudo',  undef,      3*24,         undef,       0    ],
     ]);
 
@@ -100,14 +100,14 @@ return sub {
     $schema->resultset('wconf_job')->delete_all() if $delete_all;
     $schema->resultset('wconf_job')->populate([
         [ qw/ wconf_job_id  wconf_session_id  rep_id                  rref_id  job_id  priority  / ],
-        [                1,                2,      4,  $master_parrot_rref_id,      1,        1    ],
-        [                2,                3,      4,  $master_parrot_rref_id,      1,        1    ],
-        [                3,                4,      4,  $master_parrot_rref_id,      1,        1    ],
-        [                4,                5,      4,  $master_parrot_rref_id,      1,        1    ],
-        [                5,                6,      4,  $master_parrot_rref_id,      1,        1    ],
-        [                6,                7,      4,  $master_parrot_rref_id,      1,        1    ],
-        [                7,                8,      4,  $master_parrot_rref_id,      1,        1    ],
-        [                8,                9,      4,  $master_parrot_rref_id,      1,        1    ],
+        [                1,                2,      4,  $master_moarvm_rref_id,      1,        1    ],
+        [                2,                3,      4,  $master_moarvm_rref_id,      1,        1    ],
+        [                3,                4,      4,  $master_moarvm_rref_id,      1,        1    ],
+        [                4,                5,      4,  $master_moarvm_rref_id,      1,        1    ],
+        [                5,                6,      4,  $master_moarvm_rref_id,      1,        1    ],
+        [                6,                7,      4,  $master_moarvm_rref_id,      1,        1    ],
+        [                7,                8,      4,  $master_moarvm_rref_id,      1,        1    ],
+        [                8,                9,      4,  $master_moarvm_rref_id,      1,        1    ],
        # ToDo Raduko
        #[                9,                2,      5,  $master_rakudo_rref_id,      2,        3    ],
     ]);
@@ -115,10 +115,10 @@ return sub {
 
     # table: wconf_rref
     $schema->resultset('wconf_rref')->delete_all() if $delete_all;
-    if ( $master_parrot_rref_id ) {
+    if ( $master_moarvm_rref_id ) {
         $schema->resultset('wconf_rref')->create({
             wconf_rref_id => 1,
-            rref_id => $master_parrot_rref_id,
+            rref_id => $master_moarvm_rref_id,
             priority => 1,
         });
     }

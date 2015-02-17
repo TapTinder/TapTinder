@@ -59,7 +59,7 @@ return sub {
         [ 1, 'tt-tr1', 'http://dev.taptinder.org/wiki/TapTinder-tr1', 'TapTinder test repository 1' ],
         [ 2, 'tt-tr2', 'http://dev.taptinder.org/wiki/TapTinder-tr2', 'TapTinder test repository 2' ],
         [ 3, 'tt-tr3', 'http://dev.taptinder.org/wiki/TapTinder-tr3', 'TapTinder test repository 3' ],
-        [ 4, 'Parrot', 'http://www.parrot.org/', 'Parrot' ],
+        [ 4, 'MoarVM', 'http://www.moarvm.org/', 'MoarVM' ],
         [ 5, 'Rakudo', 'http://www.rakudo.org/', 'Rakudo Perl 6' ],
     ]);
 
@@ -71,8 +71,8 @@ return sub {
         [         1,          1,       1, 'default',   'git://github.com/mj41/tt-tr1.git',   'https://github.com/mj41/tt-tr1', 'Default repository', ],
         [         2,          2,       1, 'default',   'git://github.com/mj41/tt-tr2.git',   'https://github.com/mj41/tt-tr2', 'Default repository', ],
         [         3,          3,       1, 'default',   'git://github.com/mj41/tt-tr3.git',   'https://github.com/mj41/tt-tr3', 'Default repository', ],
-        [         4,          4,       1, 'default', 'git://github.com/parrot/parrot.git', 'https://github.com/parrot/parrot', 'Default repository', ],
-        [         5,          5,       1, 'default', 'git://github.com/rakudo/rakudo.git', 'https://github.com/rakudo/rakudo', 'Default repository', ],
+        [         4,          4,       1, 'default',   'git://github.com/MoarVM/MoarVM.git', 'https://github.com/MoarVM/MoarVM', 'Default repository', ],
+        [         5,          5,       1, 'default',   'git://github.com/rakudo/rakudo.git', 'https://github.com/rakudo/rakudo', 'Default repository', ],
     ]);
 
 
@@ -114,7 +114,7 @@ return sub {
     $schema->resultset('ichannel')->delete_all() if $delete_all;
     $schema->resultset('ichannel')->populate([
         [ qw/ ichannel_id                  name  / ],
-        [               1,            '#parrot',   ],
+        [               1,            '#moarvm',   ],
     ]);
 
 

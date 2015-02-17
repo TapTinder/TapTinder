@@ -10,7 +10,7 @@ return sub {
     my ( $schema, $delete_all, $data ) = @_;
 
 
-    my $project_name = 'Parrot';
+    my $project_name = 'MoarVM';
     my $project_rs = $schema->resultset('project')->single({
         'me.name' => $project_name,
     });
@@ -50,8 +50,8 @@ return sub {
     my $job_rs = $schema->resultset('job')->create({
         'client_min_ver' => 257,
         'priority' => $job_priority,
-        'name' => 'Parrot trun',
-        'descr' => 'Parrot make test (upload Test::Harness::Archive).',
+        'name' => 'MoarVM trun',
+        'descr' => 'MoarVM make test (upload Test::Harness::Archive).',
     });
     my $job_id = $job_rs->id;
     print "job_id $job_id\n";
