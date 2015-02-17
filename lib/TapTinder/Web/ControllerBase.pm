@@ -432,17 +432,14 @@ Commit or rollback transaction.
 =cut
 
 sub txn_end {
-    my ( $self, $schema, $data, $do_commit ) = @_;
+	my ( $self, $schema, $do_commit ) = @_;
+	$do_commit //= 1;
 
     if ( $do_commit ) {
         # ToDo - commit finished ok?
         $schema->txn_commit();
         my $commit_ok = 1;
-        unless ( $commit_ok ) {
-            $data->{err} = 1;
-            $data->{err_msg} = "Error: Transaction commit failed.";
-            return 0;
-        }
+        return 0 unless $commit_ok;
         return 1;
     }
     $schema->txn_rollback();
@@ -458,7 +455,7 @@ Commit or rollback transaction.
 sub txn_end_c {
     my $self = shift;
     my $c = shift;
-    $self->txt_end( $c->model('WebDB')->schema, @_ );
+    $self->txn_end( $c->model('WebDB')->schema, @_ );
 }
 
 =head1 SEE ALSO

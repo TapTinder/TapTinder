@@ -50,6 +50,24 @@ sub release_lock_for_machine_action {
     return $ra_row->[0];
 }
 
+=method txn_end_c
+
+Commit or rollback transaction.
+
+=cut
+
+sub txn_end_c {
+	my ( $self, $c, $data, $do_commit ) = @_;
+
+	my $ret_val = $self->SUPER::txn_end_c( $c, $do_commit );
+
+	return 1 if $ret_val;
+
+	$data->{err} = 1;
+	$data->{err_msg} = "Error: Transaction commit failed.";
+	return 0;
+}
+
 =method token2md5
 
 Return md5 for token provided.
