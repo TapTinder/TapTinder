@@ -1246,7 +1246,7 @@ Get info for rep_path_id an rev_id.
 =cut
 
 sub cmd_rciget {
-    my ( $self, $c, $data, $params, $upload ) = @_;
+    my ( $self, $c, $machine_id, $data, $params, $upload ) = @_;
 
     # $params->{msid} - already checked
     my $msession_id = $params->{msid};
@@ -1281,7 +1281,7 @@ Machine event occured.
 =cut
 
 sub cmd_mevent {
-    my ( $self, $c, $data, $params ) = @_;
+    my ( $self, $c, $machine_id, $data, $params ) = @_;
 
     # $params->{msid} - already checked
     my $msession_id = $params->{msid};
