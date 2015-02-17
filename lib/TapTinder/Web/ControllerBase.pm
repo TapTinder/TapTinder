@@ -52,6 +52,11 @@ sub dumper {
             $new_ot .= DBIx::Dumper::dump_row( $val );
         } else {
             #$new_ot .= "normal dumper: \n";
+            local $Data::Dumper::Quotekeys = 0;
+            local $Data::Dumper::Terse     = 1;
+            local $Data::Dumper::Deepcopy  = 1;
+            local $Data::Dumper::Useqq     = 1;
+            local $Data::Dumper::Sortkeys  = 1;
             $new_ot .= Data::Dumper::Dumper( $val );
         }
     }
