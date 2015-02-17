@@ -37,17 +37,10 @@ return sub {
 
 
 
-    # table: wconf_session
-    $schema->resultset('wconf_session')->populate([
-        [ qw/ wconf_session_id machine_id processes_num / ],
-        [ 10, 10, 1  ],
-    ]);
-
-
     # table: wconf_job
     $schema->resultset('wconf_job')->populate([
-        [ qw/ wconf_job_id  wconf_session_id  rep_id                  rref_id  job_id  priority  / ],
-        [               10,               10,      4,  $master_parrot_rref_id,      1,        1    ],
+        [ qw/ wconf_job_id  rep_id                  rref_id  job_id  machine_id priority  / ],
+        [               10,      4,  $master_parrot_rref_id,      1,         10,       1    ],
     ]);
 
     return 1;

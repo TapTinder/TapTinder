@@ -474,9 +474,7 @@ sub get_new_job {
                    wcj.priority as wcj_priority,
                    wcr.priority as wcr_priority,
                    jp.jobp_id
-              from wconf_session wcs
-              join wconf_job wcj
-                on wcj.wconf_session_id = wcs.wconf_session_id
+              from wconf_job wcj
               join jobp jp
                 on jp.job_id = wcj.job_id
                and jp.rorder = 1
@@ -486,7 +484,7 @@ sub get_new_job {
                 on rr.rref_id = wcr.rref_id
               join rcommit rc
                 on rc.rcommit_id = rr.rcommit_id
-             where wcs.machine_id = ?
+             where wcj.machine_id = ?
 
              union all
 
@@ -497,10 +495,7 @@ sub get_new_job {
                    wcj.priority as wcj_priority,
                    wcr.priority as wcr_priority,
                    jp.jobp_id
-              from wconf_session as wcs
-              join wconf_job as wcj
-                on wcj.wconf_session_id = wcs.wconf_session_id
-               and wcj.rref_id is null
+              from wconf_job as wcj
               join jobp jp
                 on jp.job_id = wcj.job_id
                and jp.rorder = 1
@@ -512,7 +507,8 @@ sub get_new_job {
               join rcommit as rc
                 on rc.rcommit_id = rr.rcommit_id
                and rc.rep_id = r.rep_id
-             where wcs.machine_id = ?
+             where wcj.machine_id = ?
+               and wcj.rref_id is null
         ) al
       order by wcj_priority, wcr_priority
    "; # end sql
