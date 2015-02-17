@@ -385,6 +385,82 @@ sub get_fspath_select_row {
     return $row_data;
 }
 
+
+=method dump_rs
+
+Dump result set.
+
+=cut
+
+sub dump_rs {
+    my ( $self, $c, $rs ) = @_;
+
+    while ( my $row = $rs->next ) {
+        my $row_data = { $row->get_columns };
+        $self->dumper( $c, $row_data );
+    }
+    return 1;
+}
+
+=method txn_begin
+
+Start transaction.
+
+=cut
+
+sub txn_begin {
+    my ( $self, $schema ) = @_;
+    return $schema->storage->txn_begin();
+}
+
+=method txn_begin_c
+
+Start transaction.
+
+=cut
+
+sub txn_begin_c {
+    my ( $self, $c ) = @_;
+    return $self->txn_begin( $c->model('WebDB')->schema );
+}
+
+
+=method txn_end
+
+Commit or rollback transaction.
+
+=cut
+
+sub txn_end {
+    my ( $self, $schema, $data, $do_commit ) = @_;
+
+    if ( $do_commit ) {
+        # ToDo - commit finished ok?
+        $schema->txn_commit();
+        my $commit_ok = 1;
+        unless ( $commit_ok ) {
+            $data->{err} = 1;
+            $data->{err_msg} = "Error: Transaction commit failed.";
+            return 0;
+        }
+        return 1;
+    }
+    $schema->txn_rollback();
+    return 0;
+}
+
+=method txn_end_c
+
+Commit or rollback transaction.
+
+=cut
+
+sub txn_end_c {
+    my $self = shift;
+    my $c = shift;
+    $self->txt_end( $c->model('WebDB')->schema, @_ );
+}
+
 =head1 SEE ALSO
 
 L<TapTinder::Web>, L<Catalyst::Controller>
