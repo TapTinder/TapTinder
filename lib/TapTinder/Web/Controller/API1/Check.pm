@@ -1,6 +1,6 @@
 package TapTinder::Web::Controller::API1::Check;
 
-# ABSTRACT: TapTinder::Web status controller.
+# ABSTRACT: TapTinder::Web API installation check controller.
 
 use base 'TapTinder::Web::ControllerAPI1';
 

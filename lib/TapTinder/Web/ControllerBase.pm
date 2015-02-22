@@ -385,6 +385,36 @@ sub get_fspath_select_row {
     return $row_data;
 }
 
+sub ok_message {
+	my ( $self, $text ) = @_;
+	return {
+		type => 'ok',
+		text => $text,
+	};
+}
+
+sub err_message {
+	my ( $self, $text ) = @_;
+	return {
+		type => 'err',
+		text => $text,
+	};
+}
+
+sub invalid_input_name {
+	my ( $self, $pkey ) = @_;
+	return $self->err_message(
+		"Invalid form parameter '$pkey'.\n"
+	);
+}
+
+sub preprocess_ids_input_name {
+	my ( $self, $pkey ) = @_;
+
+	return $self->invalid_input_name( $pkey ) unless $pkey =~ /^(\d+)(;\d+)*$/;
+	my @ids = split( ';', $pkey );
+	return ( undef, @ids );
+}
 
 =method dump_rs
 

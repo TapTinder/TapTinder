@@ -1,0 +1,36 @@
+[% DEFAULT title = 'WConf job configuration' -%]
+
+<div class=nav><a href="javascript:history.back();">Back</a>, <a href="[% c.uri_for('/') %]">homepage</a>.</div>
+
+[% IF message -%]
+  <div><span class="[% message.type %]_bg">[% message.text %]</span></div>
+[% END -%]
+
+<form method=POST name=wconfjob action="[% c.uri_for() -%]">
+<table class=data>
+[% FOREACH table_row IN table -%]
+	[% IF table_row.0.type == "th" -%]
+		<tr>
+		[% FOREACH data IN table_row -%]
+			<th[% IF data.colspan %] colspan=[% data.colspan %][% END %][% IF data.long %] title="[% data.long %]"[% END %]>[% data.short %]</th>
+		[% END -%]
+		</tr>
+	[% ELSE -%]
+		<tr>
+		[% FOREACH data IN table_row -%]
+			[% IF loop.index() == 0 -%]
+				<th>[% data.short %]</th>
+			[% ELSE -%]
+				<td><input type=checkbox name="[% data.id %]" [% IF data.checked -%]checked[% END -%] >
+			[% END -%]
+		[% END -%]
+		</tr>
+	[% END -%]
+[% END %]
+</tr>
+<tr><td colspan=[% table.1.size -%] align=right>
+  <input type=submit name=submit value="Set" />
+</td></tr>
+</table>
+</form>
+
