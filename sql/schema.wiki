@@ -276,32 +276,21 @@ CREATE TABLE jobp_cmd (
 ) TYPE=InnoDB COMMENT='Job part command. Tag: jobs.';
 </source>
 
-==== Table wconf_session ====
-<source lang=sql>
-CREATE TABLE wconf_session (
-    wconf_session_id    INT UNSIGNED NOT NULL AUTO_INCREMENT PRIMARY KEY,
-    machine_id          INT UNSIGNED NOT NULL,
-    processes_num       INT UNSIGNED NOT NULL,
-    INDEX i_machine_id (machine_id),
-    CONSTRAINT fk_wconf_session_machine_id FOREIGN KEY (machine_id) REFERENCES machine (machine_id)
-) TYPE=InnoDB COMMENT='Machine session configuration. Tag: wconfA.';
-</source>
-
 ==== Table wconf_job ====
 <source lang=sql>
 CREATE TABLE wconf_job (
     wconf_job_id        INT UNSIGNED NOT NULL AUTO_INCREMENT PRIMARY KEY,
-    wconf_session_id    INT UNSIGNED NOT NULL,
     rep_id              INT UNSIGNED NOT NULL,
     rref_id             INT UNSIGNED DEFAULT NULL,
     job_id              INT UNSIGNED DEFAULT NULL,
+    machine_id          INT UNSIGNED NOT NULL,
     priority            INT UNSIGNED NOT NULL DEFAULT 1,
-    INDEX i_wconf_session_id (wconf_session_id),
-    CONSTRAINT fk_wconf_job_wconf_session_id FOREIGN KEY (wconf_session_id) REFERENCES wconf_session (wconf_session_id),
+    INDEX i_machine_id (machine_id),
     CONSTRAINT fk_wconf_job_rep_id FOREIGN KEY (rep_id) REFERENCES rep (rep_id),
     CONSTRAINT fk_wconf_job_rep_id FOREIGN KEY (rep_id) REFERENCES rep (rep_id),
     CONSTRAINT fk_wconf_job_rref_id FOREIGN KEY (rref_id) REFERENCES rref (rref_id),
-    CONSTRAINT fk_wconf_job_job_id FOREIGN KEY (job_id) REFERENCES job (job_id)
+    CONSTRAINT fk_wconf_job_job_id FOREIGN KEY (job_id) REFERENCES job (job_id),
+    CONSTRAINT fk_wconf_job_machine_id FOREIGN KEY (machine_id) REFERENCES machine (machine_id)
 ) TYPE=InnoDB COMMENT='Machine jobs configuration. Tag: wconfA.';
 </source>
 

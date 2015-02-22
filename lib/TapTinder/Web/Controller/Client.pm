@@ -19,60 +19,6 @@ use constant SUPPORTED_REVISION => 400;
 
 Catalyst controller for TapTinder client services.
 
-=method dump_rs
-
-Dump result set.
-
-=cut
-
-sub dump_rs {
-    my ( $self, $c, $rs ) = @_;
-
-    while ( my $row = $rs->next ) {
-        my $row_data = { $row->get_columns };
-        $self->dumper( $c, $row_data );
-    }
-    return 1;
-}
-
-
-=method txn_begin
-
-Start transaction.
-
-=cut
-
-sub txn_begin {
-    my ( $self, $c ) = @_;
-    return $c->model('WebDB')->schema->storage->txn_begin();
-}
-
-
-=method txn_end
-
-Commit or rollback transaction.
-
-=cut
-
-sub txn_end {
-    my ( $self, $c, $data, $do_commit ) = @_;
-
-    if ( $do_commit ) {
-        # ToDo - commit finished ok?
-        $c->model('WebDB')->schema->txn_commit();
-        my $commit_ok = 1;
-        unless ( $commit_ok ) {
-            $data->{err} = 1;
-            $data->{err_msg} = "Error: Transaction commit failed.";
-            return 0;
-        }
-        return 1;
-    }
-    $c->model('WebDB')->schema->txn_rollback();
-    return 0;
-}
-
-
 =method get_lock_for_machine_action
 
 Try to obtain lock for $machine_id and $action_name.
@@ -102,6 +48,24 @@ sub release_lock_for_machine_action {
     my $lock_name = $db_name.'-m'.$machine_id.'-'.$action_name;
     my $ra_row = $dbh->selectrow_arrayref("SELECT RELEASE_LOCK(?) as ret_code;", undef, $lock_name );
     return $ra_row->[0];
+}
+
+=method txn_end_c
+
+Commit or rollback transaction.
+
+=cut
+
+sub txn_end_c {
+	my ( $self, $c, $data, $do_commit ) = @_;
+
+	my $ret_val = $self->SUPER::txn_end_c( $c, $do_commit );
+
+	return 1 if $ret_val;
+
+	$data->{err} = 1;
+	$data->{err_msg} = "Error: Transaction commit failed.";
+	return 0;
 }
 
 =method token2md5
@@ -510,9 +474,7 @@ sub get_new_job {
                    wcj.priority as wcj_priority,
                    wcr.priority as wcr_priority,
                    jp.jobp_id
-              from wconf_session wcs
-              join wconf_job wcj
-                on wcj.wconf_session_id = wcs.wconf_session_id
+              from wconf_job wcj
               join jobp jp
                 on jp.job_id = wcj.job_id
                and jp.rorder = 1
@@ -522,7 +484,7 @@ sub get_new_job {
                 on rr.rref_id = wcr.rref_id
               join rcommit rc
                 on rc.rcommit_id = rr.rcommit_id
-             where wcs.machine_id = ?
+             where wcj.machine_id = ?
 
              union all
 
@@ -533,10 +495,7 @@ sub get_new_job {
                    wcj.priority as wcj_priority,
                    wcr.priority as wcr_priority,
                    jp.jobp_id
-              from wconf_session as wcs
-              join wconf_job as wcj
-                on wcj.wconf_session_id = wcs.wconf_session_id
-               and wcj.rref_id is null
+              from wconf_job as wcj
               join jobp jp
                 on jp.job_id = wcj.job_id
                and jp.rorder = 1
@@ -548,7 +507,8 @@ sub get_new_job {
               join rcommit as rc
                 on rc.rcommit_id = rr.rcommit_id
                and rc.rep_id = r.rep_id
-             where wcs.machine_id = ?
+             where wcj.machine_id = ?
+               and wcj.rref_id is null
         ) al
       order by wcj_priority, wcr_priority
    "; # end sql
@@ -927,7 +887,7 @@ sub cmd_cget {
     } else {
         # check if previous command wasn't last one in job
         # pmcid - previous msjobp_cmd_id
-        $self->txn_begin( $c );
+        $self->txn_begin_c( $c );
         my $cmds_data = $self->get_next_cmd_pmcid( $c, $data, $msproc_id, $params->{pmcid} );
         # next command in job found (in same jop part or new job part)
         if ( $cmds_data && $cmds_data->{new}->{jobp_cmd_id} ) {
@@ -947,13 +907,13 @@ sub cmd_cget {
 
                 # find new rcommit_id
                 my $rcommit_id = $self->get_jobp_master_ref_rcommit_id( $c, $data, $jobp_id );
-                return $self->txn_end( $c, $data, 0 ) unless $rcommit_id;
+                return $self->txn_end_c( $c, $data, 0 ) unless $rcommit_id;
 
                 # ToDo #issue/17 - get not tested rcommit_id
-                return $self->txn_end( $c, $data, 0 );
+                return $self->txn_end_c( $c, $data, 0 );
 
                 $msjobp_id = $self->create_msjobp( $c, $data, $msjob_id, $jobp_id, $rcommit_id );
-                return $self->txn_end( $c, $data, 0 ) unless $msjobp_id;
+                return $self->txn_end_c( $c, $data, 0 ) unless $msjobp_id;
 
                 # need to be in sync with start_new_job
                 $data->{msjob_id} = $msjob_id;
@@ -962,7 +922,7 @@ sub cmd_cget {
             }
 
             my $msjobp_cmd_id = $self->create_msjobp_cmd( $c, $data, $msjobp_id, $jobp_cmd_id );
-            return $self->txn_end( $c, $data, 0 ) unless $msjobp_cmd_id;
+            return $self->txn_end_c( $c, $data, 0 ) unless $msjobp_cmd_id;
 
             #$self->dumper( $c, "jobp_cmd_id: $jobp_cmd_id, msjobp_id: $msjobp_id, msjobp_cmd_id: $msjobp_cmd_id" );
             $data->{msjobp_cmd_id} = $msjobp_cmd_id;
@@ -972,7 +932,7 @@ sub cmd_cget {
         } else {
             $start_new_job = 1;
         }
-        $self->txn_end( $c, $data, 1 ) || return 0;
+        $self->txn_end_c( $c, $data, 1 ) || return 0;
     }
 
     if ( $start_new_job ) {
@@ -982,9 +942,9 @@ sub cmd_cget {
             $data->{err_msg} = "Error: cmd_get Can't obtain 'get_new_job' lock.";
             return 0;
         }
-        $self->txn_begin( $c );
+        $self->txn_begin_c( $c );
         my $ret_val = $self->start_new_job( $c, $data, $machine_id, $msession_id, $msproc_id );
-        $self->txn_end( $c, $data, 1 ); # without return
+        $self->txn_end_c( $c, $data, 1 ); # without return
         $self->release_lock_for_machine_action( $c, $machine_id, 'get_new_job' );
         unless ( defined $ret_val ) {
             # create msproc_log
@@ -1286,7 +1246,7 @@ Get info for rep_path_id an rev_id.
 =cut
 
 sub cmd_rciget {
-    my ( $self, $c, $data, $params, $upload ) = @_;
+    my ( $self, $c, $machine_id, $data, $params, $upload ) = @_;
 
     # $params->{msid} - already checked
     my $msession_id = $params->{msid};
@@ -1321,7 +1281,7 @@ Machine event occured.
 =cut
 
 sub cmd_mevent {
-    my ( $self, $c, $data, $params ) = @_;
+    my ( $self, $c, $machine_id, $data, $params ) = @_;
 
     # $params->{msid} - already checked
     my $msession_id = $params->{msid};

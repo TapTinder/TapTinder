@@ -23,6 +23,10 @@ sub index_GET : Private {
 		check => {
 			uri => $c->uri_for('check') . "",
 			info => 'TapTinder environment checks.',
+		},
+		wconfjob => {
+			uri => $c->uri_for('wconfjob') . "",
+			info => 'Jobs - clients mapping.',
 		}
 	};
 

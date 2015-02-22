@@ -49,7 +49,7 @@ sub index : PathPart('') Chained('index_setup') Args(0) {
 
     my $commit_time_from = $rcommits[-1]->{date};
     my $commit_time_to = $rcommits[0]->{date};
-    $self->dadd( $c, "Commit time from $commit_time_from to $commit_time_to.\n" );
+    #$self->dadd( $c, "Commit time from $commit_time_from to $commit_time_to.\n" );
 
     my $cols = [ qw/
         machine_id
@@ -94,7 +94,7 @@ sub index : PathPart('') Chained('index_setup') Args(0) {
     ) a_f
    "; # end sql
 
-    $self->dadd( $c, "jobp_id: $jobp_id\n" );
+    #$self->dadd( $c, "jobp_id: $jobp_id\n" );
     my $ba = [
         $prref_info->{rref_id},
         $commit_time_from,
@@ -118,7 +118,7 @@ sub index : PathPart('') Chained('index_setup') Args(0) {
     $c->stash->{machines} = \%machines;
 
 
-    if ( 1 ) {
+    if ( 0 && $c->log->is_debug ) {
         $self->dumper( $c, \%machines );
         $self->dumper( $c, \@rcommits );
         #$self->dumper( $c, $rev_num_from );

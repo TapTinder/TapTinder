@@ -7,7 +7,7 @@
 =head1 Relevant tables
 
  wconf_job
- * wconf_session_id ---> wconf_session.machine_id
+ * machine_id
  * rref_id ... ---> 1x rcommit.super_rline_id
  * rep_id ... wconf_rref -> rcommit -> rep ---> Nx rcommit.super_rline_id
  * job_id 

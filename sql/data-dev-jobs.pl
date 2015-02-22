@@ -154,22 +154,14 @@ return sub {
     ]);
 
 
-    # table: wconf_session
-    $schema->resultset('wconf_session')->delete_all() if $delete_all;
-    $schema->resultset('wconf_session')->populate([
-        [ qw/ wconf_session_id machine_id processes_num / ],
-        [ 1, 1, 1  ], # docker1
-    ]);
-
-
     # table: wconf_job
     $schema->resultset('wconf_job')->delete_all() if $delete_all;
     $schema->resultset('wconf_job')->populate([
-        [ qw/ wconf_job_id  wconf_session_id  rep_id               rref_id  job_id  priority  / ],
-        [                1,                1,      1,  $master_tr1_rref_id,      1,        1    ], # docker1
-       #[                2,                1,      1,  $master_tr1_rref_id,      2,        2    ], # docker1 - ToDo #issue/17
-       #[                3,                1,      1,  $master_tr1_rref_id,      3,        3    ], # docker1 - ToDo #issue/17
-        [                4,                1,      1,  $master_tr1_rref_id,      4,        4    ], # docker1
+        [ qw/ wconf_job_id   rep_id               rref_id  job_id  machine_id priority  / ],
+        [                1,       1,  $master_tr1_rref_id,      1,         1,        1    ], # docker1
+       #[                2,       1,  $master_tr1_rref_id,      2,         1,        2    ], # docker1 - ToDo #issue/17
+       #[                3,       1,  $master_tr1_rref_id,      3,         1,        3    ], # docker1 - ToDo #issue/17
+        [                4,       1,  $master_tr1_rref_id,      4,         1,        4    ], # docker1
     ]);
 
 

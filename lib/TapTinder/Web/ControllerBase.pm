@@ -52,6 +52,11 @@ sub dumper {
             $new_ot .= DBIx::Dumper::dump_row( $val );
         } else {
             #$new_ot .= "normal dumper: \n";
+            local $Data::Dumper::Quotekeys = 0;
+            local $Data::Dumper::Terse     = 1;
+            local $Data::Dumper::Deepcopy  = 1;
+            local $Data::Dumper::Useqq     = 1;
+            local $Data::Dumper::Sortkeys  = 1;
             $new_ot .= Data::Dumper::Dumper( $val );
         }
     }
@@ -378,6 +383,109 @@ sub get_fspath_select_row {
     return undef unless $row;
     my $row_data = { $row->get_columns() };
     return $row_data;
+}
+
+sub ok_message {
+	my ( $self, $text ) = @_;
+	return {
+		type => 'ok',
+		text => $text,
+	};
+}
+
+sub err_message {
+	my ( $self, $text ) = @_;
+	return {
+		type => 'err',
+		text => $text,
+	};
+}
+
+sub invalid_input_name {
+	my ( $self, $pkey ) = @_;
+	return $self->err_message(
+		"Invalid form parameter '$pkey'.\n"
+	);
+}
+
+sub preprocess_ids_input_name {
+	my ( $self, $pkey ) = @_;
+
+	return $self->invalid_input_name( $pkey ) unless $pkey =~ /^(\d+)(;\d+)*$/;
+	my @ids = split( ';', $pkey );
+	return ( undef, @ids );
+}
+
+=method dump_rs
+
+Dump result set.
+
+=cut
+
+sub dump_rs {
+    my ( $self, $c, $rs ) = @_;
+
+    while ( my $row = $rs->next ) {
+        my $row_data = { $row->get_columns };
+        $self->dumper( $c, $row_data );
+    }
+    return 1;
+}
+
+=method txn_begin
+
+Start transaction.
+
+=cut
+
+sub txn_begin {
+    my ( $self, $schema ) = @_;
+    return $schema->storage->txn_begin();
+}
+
+=method txn_begin_c
+
+Start transaction.
+
+=cut
+
+sub txn_begin_c {
+    my ( $self, $c ) = @_;
+    return $self->txn_begin( $c->model('WebDB')->schema );
+}
+
+
+=method txn_end
+
+Commit or rollback transaction.
+
+=cut
+
+sub txn_end {
+	my ( $self, $schema, $do_commit ) = @_;
+	$do_commit //= 1;
+
+    if ( $do_commit ) {
+        # ToDo - commit finished ok?
+        $schema->txn_commit();
+        my $commit_ok = 1;
+        return 0 unless $commit_ok;
+        return 1;
+    }
+    $schema->txn_rollback();
+    return 0;
+}
+
+=method txn_end_c
+
+Commit or rollback transaction.
+
+=cut
+
+sub txn_end_c {
+    my $self = shift;
+    my $c = shift;
+    $self->txn_end( $c->model('WebDB')->schema, @_ );
 }
 
 =head1 SEE ALSO
