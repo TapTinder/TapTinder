@@ -1,9 +1,10 @@
 package TapTinder::Web::Data::Job;
 
-# ABSTRACT: TapTinder::Web API job.
+# ABSTRACT: TapTinder::Web data for jobs.
 
 use strict;
 use warnings;
+use base 'TapTinder::Web::Data::Base';
 
 =method get_jobs
 
@@ -113,22 +114,6 @@ sub get_wconf_jobs {
 			project_id => $rc{project_id},
 			project_name => $rc{project_name},
 		} unless exists $data{rep_detail}{ $rc{rep_id} }{ $rc{machine_id} };
-	}
-	return %data;
-}
-
-=method rs2data_by_id
-
-Return hash with id as key and hash with data as key.
-
-=cut
-
-sub rs2data_by_id {
-	my ( $self, $rs ) = @_;
-	my %data;
-	while ( my $row = $rs->next ) {
-		my %rc = $row->get_columns();
-		$data{ $rc{id} } = \%rc;
 	}
 	return %data;
 }
