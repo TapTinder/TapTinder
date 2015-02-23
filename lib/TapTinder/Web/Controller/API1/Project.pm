@@ -20,11 +20,13 @@ Return project_data.
 =cut
 
 sub project_GET : Private {
-    my ( $self, $c ) = @_;
-    $self->status_ok(
-        $c,
-        entity => $self->get_projects( $c->model('WebDB')->schema ),
-    );
+	my ( $self, $c ) = @_;
+	$self->status_ok(
+		$c,
+		entity => {
+			projects => $self->projects_data( $c->model('WebDB')->schema ),
+		},
+	);
 }
 
 =head1 SEE ALSO

@@ -6,13 +6,13 @@ use strict;
 use warnings;
 use base 'TapTinder::Web::Data::Base';
 
-=method get_projects
+=method projects_data
 
 Return proejects data.
 
 =cut
 
-sub get_projects {
+sub projects_data {
 	my ( $self, $schema ) = @_;
 
 	my $rs = $schema->resultset('project')->search(

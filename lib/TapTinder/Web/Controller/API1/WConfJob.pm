@@ -20,11 +20,13 @@ Return wconfjob_data.
 =cut
 
 sub wconfjob_GET : Private {
-    my ( $self, $c ) = @_;
-    $self->status_ok(
-        $c,
-        entity => $self->wconfjob_data( $c->model('WebDB')->schema ),
-    );
+	my ( $self, $c ) = @_;
+	$self->status_ok(
+		$c,
+		entity => {
+			wconfjobs => $self->wconfjob_data( $c->model('WebDB')->schema ),
+		},
+	);
 }
 
 =head1 SEE ALSO

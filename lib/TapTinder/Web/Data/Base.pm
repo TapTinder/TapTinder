@@ -18,7 +18,7 @@ sub rs2data_by_id {
 		my %rc = $row->get_columns();
 		$data{ $rc{id} } = \%rc;
 	}
-	return %data;
+	return \%data;
 }
 
 =head1 SEE ALSO

@@ -39,7 +39,9 @@ sub check_GET : Private {
 
     $self->status_ok(
         $c,
-        entity => $data,
+        entity => {
+            checks => $data,
+        },
     );
 }
 

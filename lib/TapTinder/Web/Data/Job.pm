@@ -68,7 +68,7 @@ sub get_jobs {
         }
         push @{ $data{$job_id}{jobp} }, \%rc;
     }
-    return %data;
+    return \%data;
 }
 
 =method get_wconf_jobs
@@ -115,7 +115,7 @@ sub get_wconf_jobs {
 			project_name => $rc{project_name},
 		} unless exists $data{rep_detail}{ $rc{rep_id} }{ $rc{machine_id} };
 	}
-	return %data;
+	return \%data;
 }
 
 =method get_reps
@@ -166,10 +166,10 @@ Return jobs, wconfs and machines data all in one.
 sub wconfjob_data {
     my ( $self, $schema ) = @_;
     return {
-		jobs     => { $self->get_jobs($schema) },
-		wconfs   => { $self->get_wconf_jobs($schema) },
-		machines => { $self->get_machines($schema) },
-		reps => { $self->get_reps($schema) },
+		jobs     => $self->get_jobs($schema),
+		wconfs   => $self->get_wconf_jobs($schema),
+		machines => $self->get_machines($schema),
+		reps     => $self->get_reps($schema),
 	};
 }
 
