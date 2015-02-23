@@ -53,6 +53,7 @@ sub begin : Private {
 
     # ToDo - only for text/html (TT)
     $c->stash->{rest_html_dump} = \&html_dumper;
+    $c->stash->{template} = 'api1/default.tt2';
 
     return $self->SUPER::begin( $c );
 }

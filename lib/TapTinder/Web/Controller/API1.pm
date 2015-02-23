@@ -34,6 +34,7 @@ sub index_GET : Private {
 		},
 	};
 
+	$c->stash->{template} = 'api1/index.tt2';
 	$self->status_ok(
 		$c,
 		entity => $data,

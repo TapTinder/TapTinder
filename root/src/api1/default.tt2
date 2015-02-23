@@ -1,4 +1,4 @@
-[% DEFAULT title = 'Check' -%]
+[% DEFAULT title = 'API' -%]
 
 <div class=nav>
   <a href="[% c.uri_for('/api1') %]">API root</a>.
