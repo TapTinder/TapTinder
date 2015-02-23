@@ -195,10 +195,8 @@ sub edbi_run_dbh_do {
         };
     }
 
-    if ( 0 ) {
-        $rh->{sql} = $sql;
-        $self->dumper( $c, $rh );
-    }
+    $rh->{sql} = $sql;
+    #$self->dumper( $c, $rh );
 
     return $rh;
 }
@@ -300,8 +298,8 @@ sub get_projname_params {
         $params = $par2 if $par2;
     }
 
-    $self->dumper( $c, { p_project => $p_project, par1 => $par1, par2 => $par2, } );
-    $self->dumper( $c, { is_index => $is_index, project_name => $project_name, params => $params, } );
+    #$self->dumper( $c, { p_project => $p_project, par1 => $par1, par2 => $par2, } );
+    #$self->dumper( $c, { is_index => $is_index, project_name => $project_name, params => $params, } );
 
     return ( $is_index, $project_name, $params );
 }
@@ -318,7 +316,7 @@ sub process_projec_ref_url {
     $ref_name =~ s{--}{\/}g; # ToDo
     $c->stash->{ref_name} = $ref_name;
 
-    $self->dumper( $c, { project_name => $project_name, ref_name => $ref_name } );
+    #$self->dumper( $c, { project_name => $project_name, ref_name => $ref_name } );
     return ( $project_name, $ref_name );
 }
 
@@ -427,7 +425,7 @@ sub dump_rs {
 
     while ( my $row = $rs->next ) {
         my $row_data = { $row->get_columns };
-        $self->dumper( $c, $row_data );
+        #$self->dumper( $c, $row_data );
     }
     return 1;
 }

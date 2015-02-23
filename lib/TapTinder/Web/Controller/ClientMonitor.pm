@@ -137,7 +137,7 @@ sub index : Path Args(0) {
 
     my $ba = [ $date_from_str ];
     my $all_rows = $self->edbi_selectall_arrayref_slice( $c, $cols, $sql, $ba );
-    $self->dumper( $c, $all_rows );
+    #$self->dumper( $c, $all_rows );
 
     $c->stash->{states} = $all_rows;
 }

@@ -194,8 +194,8 @@ sub index : PathPart('cr') Chained('/') Args(1) {
     }
     $c->stash->{cmds} = \@cmds;
 
-    $self->dumper( $c, \@cmds );
-    $self->dumper( $c, $info );
+    #$self->dumper( $c, \@cmds );
+    #$self->dumper( $c, $info );
    
 }
 

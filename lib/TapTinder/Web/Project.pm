@@ -25,7 +25,7 @@ sub get_project_ref_info {
         'rep_id.active' => 1,
         'project_id.name' => $project_name,
     };
-    $self->dumper( $c, { project_name => $project_name, ref_name => $ref_name } );
+    #$self->dumper( $c, { project_name => $project_name, ref_name => $ref_name } );
     my $prref_rs = $c->model('WebDB::rref')->search( $search,
         {
             join => { 'rcommit_id' => { 'rep_id' => 'project_id', }, },
@@ -38,7 +38,7 @@ sub get_project_ref_info {
 
     my $prref_info = { $prref_row->get_columns };
     $c->stash->{prref_info} = $prref_info;
-    $self->dumper( $c, $prref_info );
+    #$self->dumper( $c, $prref_info );
 
     return $prref_info;
 }
@@ -52,7 +52,7 @@ Return RecordSet to rcommits info for provided rref_id.
 sub get_rcommits_rs {
     my ( $self, $c, $rref_id ) = @_;
 
-    $self->dadd( $c, "get_rcommits_rs for rref_id: $rref_id\n" );
+    #$self->dadd( $c, "get_rcommits_rs for rref_id: $rref_id\n" );
 
     my $rs_rcommits = $c->model('WebDB::rref_rcommit')->search( {
         'me.rref_id' => $rref_id,

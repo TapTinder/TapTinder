@@ -1360,8 +1360,6 @@ sub process_action {
 
     if ( $params->{ot} eq 'html' && $c->log->is_debug ) {
         $self->dumper( $c, $params );
-
-        # [% dumper(data) | html %]
         $c->stash->{dumper} = sub { DBIx::Dumper::Dumper( $_[0] ); };
     }
 

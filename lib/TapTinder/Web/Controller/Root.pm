@@ -48,7 +48,7 @@ sub homepage :Path :Args(0) {
 
     $c->stash->{projects} = \@projects;
     $c->stash->{rref} = \@rref;
-    $self->dumper( $c, $c->stash );
+    #$self->dumper( $c, $c->stash );
 
     $c->stash->{template} =  'index.tt2';
 }

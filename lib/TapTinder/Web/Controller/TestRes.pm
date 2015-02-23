@@ -17,7 +17,7 @@ Catalyst controller for TapTinder::Web to show test results and to allow compari
 sub action_do {
     my ( $self, $c ) = @_;
 
-    $self->dumper( $c, $c->request->params );
+    #$self->dumper( $c, $c->request->params );
     my @selected_trun_ids = grep { defined $_; } map { $_ =~ /^trun-(\d+)/; $1; } keys %{$c->request->params};
     #$self->dumper( $c, \@selected_trun_ids );
     unless ( scalar @selected_trun_ids ) {
@@ -169,7 +169,7 @@ sub action_do_one {
         };
     }
 
-    $self->dumper( $c, \@ress );
+    #$self->dumper( $c, \@ress );
     $c->stash->{ress} = \@ress;
 
     my %trest_infos = $self->get_trest_infos( $c ) ;
@@ -292,8 +292,8 @@ sub action_do_many {
 
     } # TTEST_NEXT: while ( 1 ) {
 
-    $self->dumper( $c, \@trun_infos );
-    $self->dumper( $c, \@ress );
+    #$self->dumper( $c, \@trun_infos );
+    #$self->dumper( $c, \@ress );
     $c->stash->{same_rpath_id} = $same_rpath_id;
     $c->stash->{ress} = \@ress;
 
@@ -333,7 +333,7 @@ sub list_pr : PathPart('') Chained('list_pr_setup') Args(0) {
     my @rcommits = TapTinder::Web::Project::get_rcommits( $self, $c, $rref_id, {rows=>10} );
     return 1 unless scalar @rcommits;
 
-    $self->dumper( $c, \@rcommits );
+    #$self->dumper( $c, \@rcommits );
     $c->stash->{rcommits} = \@rcommits;
 
     my $trun_search = {
@@ -401,7 +401,7 @@ sub list_pr : PathPart('') Chained('list_pr_setup') Args(0) {
         push @{$builds->{ $trun_rows{rcommit_id} }}, \%trun_rows;
     }
 
-    $self->dumper( $c, $builds );
+    #$self->dumper( $c, $builds );
     $c->stash->{builds} = $builds;
 }
 

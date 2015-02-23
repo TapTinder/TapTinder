@@ -195,9 +195,9 @@ sub index : PathPart('') Chained('index_setup') Args(0) {
 	my $table = $self->wconfjob_data2table( $data, $on );
     $c->stash->{table} = $table;
 
-    $self->dumper( $c, $data );
-    $self->dumper( $c, $c->stash->{message} );
-    $self->dumper( $c, $table );
+    #$self->dumper( $c, $data );
+    #$self->dumper( $c, $c->stash->{message} );
+    #$self->dumper( $c, $table );
 }
 
 

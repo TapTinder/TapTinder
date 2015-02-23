@@ -118,13 +118,10 @@ sub index : PathPart('') Chained('index_setup') Args(0) {
     $c->stash->{machines} = \%machines;
 
 
-    if ( 0 && $c->log->is_debug ) {
-        $self->dumper( $c, \%machines );
-        $self->dumper( $c, \@rcommits );
-        #$self->dumper( $c, $rev_num_from );
-        $self->dumper( $c, \%ress );
-    }
-
+    #$self->dumper( $c, \%machines );
+    #$self->dumper( $c, \@rcommits );
+    #$self->dumper( $c, $rev_num_from );
+    #$self->dumper( $c, \%ress );
 }
 
 
