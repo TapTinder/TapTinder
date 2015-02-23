@@ -20,11 +20,12 @@
 
 <br>
 <ul style="margin:10px; padding:5px;">
-<li><a href="/clientmonitor">Client monitor</a> - status of clients (slow)</li>
-<li><a href="/api1">API1</a> - TapTinder API</li>
+<li><a href="/clientmonitor">Client monitor</a> - status of clients</li>
+<li><a href="/ui/wconfjob">Machines-Jobs</a> - Assign jobs to clients</li>
 </ul>
 
 <ul style="margin:10px; padding:5px;">
+<li><a href="/api1">API1</a> - TapTinder API</li>
 <li><a href="/cwm">See web magic</a> - browse tables</li>
 <li><a href="/dbdoc">DBdoc</a> - database schema images</li>
 </ul>
