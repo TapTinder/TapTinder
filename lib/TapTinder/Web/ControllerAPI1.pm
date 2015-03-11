@@ -52,10 +52,10 @@ sub auto : Private {
     my ( $self, $c ) = @_;
 
     # ToDo - only for text/html (TT)
-    if ( $c->response->content_type eq 'text/html' ) {
+    #if ( $c->response->content_type eq 'text/html' ) {
         $c->stash->{rest_html_dump} = \&html_dumper;
         $c->stash->{template} = 'api1/default.tt2';
-    }
+    #}
     return 1;
 }
 
