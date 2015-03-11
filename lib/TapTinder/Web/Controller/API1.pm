@@ -2,12 +2,16 @@ package TapTinder::Web::Controller::API1;
 
 # ABSTRACT: TapTinder::Web API1 base controller.
 
-use base 'TapTinder::Web::ControllerAPI1';
-
 use strict;
 use warnings;
 
-sub index :Path :Args(0) :ActionClass('REST') {}
+use Moose;
+use namespace::autoclean;
+BEGIN { extends 'TapTinder::Web::ControllerAPI1' }
+
+sub api1_base : Chained('/') PathPart('api1') CaptureArgs(0) {}
+
+sub api1_index : Chained('api1_base') PathPart('') Args(0) ActionClass('REST') {}
 
 =method index
 
@@ -15,8 +19,7 @@ Base index method.
 
 =cut
 
-
-sub index_GET : Private {
+sub api1_index_GET : Private {
     my ( $self, $c ) = @_;
 
 	my $data = {
@@ -41,6 +44,7 @@ sub index_GET : Private {
 	);
 }
 
+__PACKAGE__->meta->make_immutable;
 
 =head1 SEE ALSO
 

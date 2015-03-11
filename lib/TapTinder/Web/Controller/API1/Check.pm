@@ -2,7 +2,9 @@ package TapTinder::Web::Controller::API1::Check;
 
 # ABSTRACT: TapTinder::Web API installation check controller.
 
-use base 'TapTinder::Web::ControllerAPI1';
+use Moose;
+use namespace::autoclean;
+BEGIN { extends 'TapTinder::Web::ControllerAPI1' }
 
 use strict;
 use warnings;
@@ -15,8 +17,7 @@ use TapTinder::Web::Check::DB;
 use TapTinder::Web::Check::Path;
 
 
-sub check :Path :Args(0) :ActionClass('REST') {}
-
+sub check_index : Chained('/') PathPart('api1/check') Args(0) ActionClass('REST') {}
 
 =method check_GET
 
@@ -24,7 +25,7 @@ Base method.
 
 =cut
 
-sub check_GET : Private {
+sub check_index_GET : Private {
     my ( $self, $c ) = @_;
 
     my $data = {};
@@ -44,6 +45,8 @@ sub check_GET : Private {
         },
     );
 }
+
+__PACKAGE__->meta->make_immutable;
 
 =head1 SEE ALSO
 
