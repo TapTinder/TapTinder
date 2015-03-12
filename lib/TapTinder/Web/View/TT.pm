@@ -27,6 +27,7 @@ __PACKAGE__->config({
     TIMER        => 0,
     TEMPLATE_EXTENSION => '.tt2',
     #COMPILE_DIR => '/tmp/taptinder/cache',
+    render_die => 0,
 });
 
 

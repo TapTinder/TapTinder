@@ -48,15 +48,50 @@ sub html_dumper {
 }
 
 
-sub begin : Private {
-    my ($self, $c) = @_;
+sub auto : Private {
+    my ( $self, $c ) = @_;
 
     # ToDo - only for text/html (TT)
-    $c->stash->{rest_html_dump} = \&html_dumper;
-    $c->stash->{template} = 'api1/default.tt2';
-
-    return $self->SUPER::begin( $c );
+    #if ( $c->response->content_type eq 'text/html' ) {
+        $c->stash->{rest_html_dump} = \&html_dumper;
+        $c->stash->{template} = 'api1/default.tt2';
+    #}
+    return 1;
 }
 
+
+sub PUT2table_row {
+	my ( $self, $c, $table_name ) = @_;
+
+    # ToDo - dependency on Data::Base?
+	my ( $id, $data ) = $self->create_new_table_row(
+		$c->model('WebDB')->schema,
+		$table_name,
+		$c->req->data
+	);
+	return $self->status_created( $c,
+		location => $c->req->uri . '/' . $id,
+		entity => $data,
+	);
+}
+
+
+sub DELETE_table_rows {
+	my ( $self, $c, $table_name, $what ) = @_;
+    $what //= $c->req->data;
+
+    my $schema = $c->model('WebDB')->schema;
+    my $rows = $schema->resultset($table_name)->search( $what );
+
+    return $self->status_not_found(
+        $c,
+        message => "Error when deleting row from table '$table_name'.",
+    ) unless $rows;
+
+    $rows->delete_all;
+	return $self->status_accepted( $c,
+		entity => { status => 'deleted' },
+	);
+}
 
 1;

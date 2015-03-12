@@ -118,13 +118,13 @@ sub get_wconf_jobs {
 	return \%data;
 }
 
-=method get_reps
+=method get_projects_reps
 
 Return reps data.
 
 =cut
 
-sub get_reps {
+sub get_projects_reps {
 	my ( $self, $schema ) = @_;
 
 	my $rs = $schema->resultset('rep')->search(
@@ -135,7 +135,7 @@ sub get_reps {
 			as     => [qw/ id        name    github_url    repo_url    project_id    project_name    /],
 		}
 	);
-	return $self->rs2data_by_id( $rs );
+	return $self->rs2data_by_ids( $rs );
 }
 
 =method get_machines
@@ -154,7 +154,7 @@ sub get_machines {
 			as     => [qw/ id            name    /],
 		}
 	);
-	return $self->rs2data_by_id( $rs );
+	return $self->rs2data_by_ids( $rs );
 }
 
 =method wconfjob_data
@@ -169,7 +169,7 @@ sub wconfjob_data {
 		jobs     => $self->get_jobs($schema),
 		wconfs   => $self->get_wconf_jobs($schema),
 		machines => $self->get_machines($schema),
-		reps     => $self->get_reps($schema),
+		reps     => $self->get_projects_reps($schema),
 	};
 }
 

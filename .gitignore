@@ -12,6 +12,7 @@
 /blib/*
 /inc/*
 /local/*
+/third-party/*
 META.yml
 MYMETA.json
 MYMETA.yml
