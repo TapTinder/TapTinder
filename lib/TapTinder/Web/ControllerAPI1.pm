@@ -60,4 +60,38 @@ sub auto : Private {
 }
 
 
+sub PUT2table_row {
+	my ( $self, $c, $table_name ) = @_;
+
+    # ToDo - dependency on Data::Base?
+	my ( $id, $data ) = $self->create_new_table_row(
+		$c->model('WebDB')->schema,
+		$table_name,
+		$c->req->data
+	);
+	return $self->status_created( $c,
+		location => $c->req->uri . '/' . $id,
+		entity => $data,
+	);
+}
+
+
+sub DELETE_table_rows {
+	my ( $self, $c, $table_name, $what ) = @_;
+    $what //= $c->req->data;
+
+    my $schema = $c->model('WebDB')->schema;
+    my $rows = $schema->resultset($table_name)->search( $what );
+
+    return $self->status_not_found(
+        $c,
+        message => "Error when deleting row from table '$table_name'.",
+    ) unless $rows;
+
+    $rows->delete_all;
+	return $self->status_accepted( $c,
+		entity => { status => 'deleted' },
+	);
+}
+
 1;
