@@ -56,9 +56,9 @@ return sub {
     $schema->resultset('project')->delete_all() if $delete_all;
     $schema->resultset('project')->populate([
         [ qw/ project_id name url descr / ],
-        [ 1, 'tt-tr1', 'http://dev.taptinder.org/wiki/TapTinder-tr1', 'TapTinder test repository 1' ],
-        [ 2, 'tt-tr2', 'http://dev.taptinder.org/wiki/TapTinder-tr2', 'TapTinder test repository 2' ],
-        [ 3, 'tt-tr3', 'http://dev.taptinder.org/wiki/TapTinder-tr3', 'TapTinder test repository 3' ],
+        [ 1, 'tt-tr1', 'https://github.com/TapTinder/TapTinder-tr1', 'TapTinder test repository 1' ],
+        [ 2, 'tt-tr2', 'https://github.com/TapTinder/TapTinder-tr2', 'TapTinder test repository 2' ],
+        [ 3, 'tt-tr3', 'https://github.com/TapTinder/TapTinder-tr3', 'TapTinder test repository 3' ],
         [ 4, 'MoarVM', 'http://www.moarvm.org/', 'MoarVM' ],
         [ 5, 'Rakudo', 'http://www.rakudo.org/', 'Rakudo Perl 6' ],
     ]);
