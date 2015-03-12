@@ -29,7 +29,7 @@ sub project_index_GET : Private {
 	$self->status_ok(
 		$c,
 		entity => {
-			projects => $self->projects_data(
+			projects => $self->project_data(
 				$c->model('WebDB')->schema
 			),
 		},
@@ -64,7 +64,7 @@ sub project_id_GET : Private {
 	my ( $self, $c ) = @_;
 	$self->status_ok( $c,
 		entity => {
-			project => $self->projects_data(
+			project => $self->project_data(
 				$c->model('WebDB')->schema,
 				$c->stash->{project_id}
 			),

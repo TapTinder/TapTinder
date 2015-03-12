@@ -12,11 +12,12 @@ Return proejects data.
 
 =cut
 
-sub projects_data {
-	my ( $self, $schema, $id ) = @_;
+sub project_data {
+	my ( $self, $schema, $id, $search ) = @_;
 
-	my $search = undef;
-	$search = { project_id => $id } if $id;
+	$search = {} unless defined $search;
+	$search->{project_id} = $id if $id;
+
 	my $rs = $schema->resultset('project')->search(
 		$search,
 		{

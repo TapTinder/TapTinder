@@ -13,13 +13,14 @@ Return proejects data.
 =cut
 
 sub rep_data {
-	my ( $self, $schema, $project_id, $id ) = @_;
+	my ( $self, $schema, $project_id, $id, $search ) = @_;
 
-	my $search = {
+	$search = {
 		active => 1,
-		project_id => $project_id,
-	};
+	} unless defined $search;
+	$search->{project_id} = $project_id if $project_id;
 	$search->{rep_id} = $id if $id;
+
 	my $rs = $schema->resultset('rep')->search(
 		$search,
 		{
